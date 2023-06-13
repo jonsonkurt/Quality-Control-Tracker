@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "939177880837",
+    "firebase_url": "https://quality-control-tracker-389614-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "quality-control-tracker-389614",
+    "storage_bucket": "quality-control-tracker-389614.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939177880837:android:c00aa1092bd01c76a15b6c",
+        "android_client_info": {
+          "package_name": "com.example.quality_control_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939177880837-tb8qeiiajqgu03g0f821g4kk81u8rebk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-OVbdpGtSO48Uq0kfbgPMW1SQZxa_kFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939177880837-tb8qeiiajqgu03g0f821g4kk81u8rebk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

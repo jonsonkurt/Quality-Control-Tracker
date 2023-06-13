@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>939177880837-qeql8cl1lesus9l2tl97qkjfuknlg7sv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.939177880837-qeql8cl1lesus9l2tl97qkjfuknlg7sv</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAUgxOSYS0GnTU4eOxnF29TTXjeOx3Lm-o</string>
+	<key>GCM_SENDER_ID</key>
+	<string>939177880837</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.qualityControlTracker.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>quality-control-tracker-389614</string>
+	<key>STORAGE_BUCKET</key>
+	<string>quality-control-tracker-389614.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:939177880837:ios:a19062f7765616d1a15b6c</string>
+	<key>DATABASE_URL</key>
+	<string>https://quality-control-tracker-389614-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+</dict>
+</plist>
