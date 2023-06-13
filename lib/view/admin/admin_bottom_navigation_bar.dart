@@ -54,6 +54,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
       body: AnimatedContainer(
         duration: const Duration(seconds: 1),
         child: PageView(
+          physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
           children: _pages,
         ),
