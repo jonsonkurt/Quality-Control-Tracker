@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class InspectorHomePage extends StatelessWidget {
-  const InspectorHomePage({Key? key}) : super(key: key);
+class InspectorHomePage extends StatefulWidget {
+  const InspectorHomePage({super.key});
 
+  @override
+  State<InspectorHomePage> createState() => _InspectorHomePageState();
+}
+
+class _InspectorHomePageState extends State<InspectorHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,12 +15,12 @@ class InspectorHomePage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: const Text(
-            'Dashboard',
+            'Information',
             style: TextStyle(
               color: Color(0xFF221540),
             ),
           ),
         ),
-        body: const Text('Inspector Home'));
+        body: const Text('Inspector information'));
   }
 }

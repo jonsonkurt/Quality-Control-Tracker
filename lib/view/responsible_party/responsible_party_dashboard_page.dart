@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:quality_control_tracker/view/admin/admin_profile_page.dart';
+import 'responsible_party_profile_page.dart';
 
-class AdminHomePage extends StatefulWidget {
-  const AdminHomePage({super.key});
+class ResponsiblePartyDashboardPage extends StatefulWidget {
+  const ResponsiblePartyDashboardPage({super.key});
 
   @override
-  State<AdminHomePage> createState() => _AdminHomePageState();
+  State<ResponsiblePartyDashboardPage> createState() =>
+      _ResponsiblePartyDashboardPageState();
 }
 
-class _AdminHomePageState extends State<AdminHomePage> {
+class _ResponsiblePartyDashboardPageState
+    extends State<ResponsiblePartyDashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +30,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
               Navigator.push<void>(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const AdminProfilePage()));
+                      builder: (context) =>
+                          const ResponsiblePartyProfilePage()));
             },
             icon: const Icon(
               Icons.account_circle,
@@ -37,7 +40,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
           ),
         ],
       ),
-      body: const Text('Admin Dashboard'),
+      body: const Text('Responsible Party Dashboard'),
     );
   }
 }

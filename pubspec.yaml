@@ -41,6 +41,7 @@ dependencies:
   firebase_storage: ^11.2.2
   logger: ^1.4.0
   flutter_snake_navigationbar: ^0.6.1
+  encrypt: ^5.0.1
 
 dev_dependencies:
   flutter_test:

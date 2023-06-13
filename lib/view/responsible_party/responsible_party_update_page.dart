@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
-class ResponsiblePartyUpdatePage extends StatelessWidget {
-  const ResponsiblePartyUpdatePage({Key? key}) : super(key: key);
+class ResponsiblePartyUpdatePage extends StatefulWidget {
+  const ResponsiblePartyUpdatePage({super.key});
 
+  @override
+  State<ResponsiblePartyUpdatePage> createState() =>
+      _ResponsiblePartyUpdatePageState();
+}
+
+class _ResponsiblePartyUpdatePageState
+    extends State<ResponsiblePartyUpdatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

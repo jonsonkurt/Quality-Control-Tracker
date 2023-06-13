@@ -5,9 +5,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:quality_control_tracker/view/admin/admin_bottom_navigation_bar.dart';
-import 'package:quality_control_tracker/view/inspector/inspector_bottom_navigation_bar.dart';
-import 'package:quality_control_tracker/view/responsible_party/responsible_party_bottom_navigation_bar.dart';
+import 'package:quality_control_tracker/sign_in_page.dart';
+import 'package:quality_control_tracker/view/inspector/inspector_dashboard_page.dart';
+import 'package:quality_control_tracker/view/responsible_party/responsible_party_dashboard_page.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -29,8 +29,7 @@ class WelcomePage extends StatelessWidget {
             'https://quality-control-tracker-389614-default-rtdb.asia-southeast1.firebasedatabase.app/',
       );
 
-      DatabaseReference nameRef =
-          rtdb.ref().child('inspectors/$userID/designation');
+      DatabaseReference nameRef = rtdb.ref().child('inspectors/$userID/role');
       userSubscription = nameRef.onValue.listen((event) {
         try {
           account = event.snapshot.value.toString();
@@ -41,7 +40,7 @@ class WelcomePage extends StatelessWidget {
               PageRouteBuilder(
                 transitionDuration: const Duration(milliseconds: 1),
                 pageBuilder: (context, animation, secondaryAnimation) =>
-                    const InspectorBottomNavigation(),
+                    const InspectorDashboardPage(),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   var begin = const Offset(0.0, 1.0);
@@ -64,7 +63,7 @@ class WelcomePage extends StatelessWidget {
               PageRouteBuilder(
                 transitionDuration: const Duration(milliseconds: 1),
                 pageBuilder: (context, animation, secondaryAnimation) =>
-                    const ResponsiblePartyBottomNavigation(),
+                    const ResponsiblePartyDashboardPage(),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   var begin = const Offset(0.0, 1.0);
@@ -89,6 +88,31 @@ class WelcomePage extends StatelessWidget {
       });
     }
 
-    return const AdminBottomNavigation();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Welcome'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Quality Control Tracker',
+              style: TextStyle(fontSize: 24),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              child: const Text('Sign In'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignInPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

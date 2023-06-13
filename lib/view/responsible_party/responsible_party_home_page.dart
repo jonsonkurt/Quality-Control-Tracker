@@ -10,12 +10,12 @@ class ResponsiblePartyHomePage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: const Text(
-            'Dashboard',
+            'Information',
             style: TextStyle(
               color: Color(0xFF221540),
             ),
           ),
         ),
-        body: const Text('Responsible Party Home'));
+        body: const Text('Responsible Party information'));
   }
 }

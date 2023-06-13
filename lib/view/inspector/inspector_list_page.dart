@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class InspectorListPage extends StatelessWidget {
-  const InspectorListPage({Key? key}) : super(key: key);
+class InspectorListPage extends StatefulWidget {
+  const InspectorListPage({super.key});
 
+  @override
+  State<InspectorListPage> createState() => _InspectorListPageState();
+}
+
+class _InspectorListPageState extends State<InspectorListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
