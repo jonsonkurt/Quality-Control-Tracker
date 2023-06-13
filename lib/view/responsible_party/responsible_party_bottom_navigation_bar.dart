@@ -54,6 +54,7 @@ class _ResponsiblePartyBottomNavigationState
         duration: const Duration(seconds: 1),
         child: PageView(
           controller: _pageController,
+          physics: const NeverScrollableScrollPhysics(), // Disable swiping
           children: _pages,
         ),
       ),
