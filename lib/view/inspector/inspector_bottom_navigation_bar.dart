@@ -56,6 +56,7 @@ class _InspectorBottomNavigationState extends State<InspectorBottomNavigation> {
         duration: const Duration(seconds: 1),
         child: PageView(
           controller: _pageController,
+          physics: const NeverScrollableScrollPhysics(),
           children: _pages,
         ),
       ),
