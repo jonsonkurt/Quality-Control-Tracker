@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:quality_control_tracker/sign_in_page.dart';
 import 'package:quality_control_tracker/view/inspector/inspector_dashboard_page.dart';
-import 'package:quality_control_tracker/view/responsible_party/responsible_party_bottom_navigation_bar.dart';
 import 'package:quality_control_tracker/view/responsible_party/responsible_party_dashboard_page.dart';
 
 class WelcomePage extends StatelessWidget {
