@@ -155,11 +155,6 @@ class _SignInPageState extends State<SignInPage> {
                       alignment: Alignment.center,
                       child: GestureDetector(
                         onTap: () {
-                          // _emailController.clear();
-                          // _passwordController
-                          //     .clear(); // Handle forgot password
-                          // ignore: use_build_context_synchronously
-                          print("Forgot");
                           Navigator.push(
                             context,
                             PageRouteBuilder(
