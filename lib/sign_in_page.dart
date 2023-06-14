@@ -4,6 +4,7 @@ import 'package:quality_control_tracker/forgot_password_page.dart';
 import 'package:quality_control_tracker/loading_page.dart';
 import 'package:quality_control_tracker/view/admin/admin_bottom_navigation_bar.dart';
 import 'package:quality_control_tracker/view/admin/admin_cred.dart';
+import 'package:quality_control_tracker/welcome_page.dart';
 import 'sign_up_page.dart';
 
 class SignInPage extends StatefulWidget {
@@ -22,10 +23,23 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFDCE4E9),
       appBar: AppBar(
         title: const Text(''),
         elevation: 0,
         backgroundColor: const Color(0xFFDCE4E9),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const WelcomePage()),
+            );
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Color(0xFF221540),
+          ),
+        ),
       ),
       body: Container(
         color: const Color(0xFFDCE4E9),
@@ -33,7 +47,8 @@ class _SignInPageState extends State<SignInPage> {
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
-            child: SingleChildScrollView( // Wrap Column with SingleChildScrollView
+            child: SingleChildScrollView(
+              // Wrap Column with SingleChildScrollView
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
@@ -62,7 +77,8 @@ class _SignInPageState extends State<SignInPage> {
                     Card(
                       elevation: 5,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0), ),
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
                       child: TextFormField(
                         controller: _emailController,
                         style: const TextStyle(color: Colors.black),
@@ -93,7 +109,8 @@ class _SignInPageState extends State<SignInPage> {
                     Card(
                       elevation: 5,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0), ),
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
                       child: TextFormField(
                         controller: _passwordController,
                         style: const TextStyle(color: Colors.black),
@@ -146,9 +163,9 @@ class _SignInPageState extends State<SignInPage> {
                           Navigator.push(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation,
-                                      secondaryAnimation) =>
-                                  const ForgotPasswordPage(),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      const ForgotPasswordPage(),
                               transitionsBuilder: (context, animation,
                                   secondaryAnimation, child) {
                                 var begin = const Offset(0.0, 1.0);
