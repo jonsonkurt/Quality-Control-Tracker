@@ -30,6 +30,13 @@
             {
               "client_id": "939177880837-tb8qeiiajqgu03g0f821g4kk81u8rebk.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "939177880837-6q8c8c4j0sd2r4n7vqu67mmkmkntt9gk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.qualityControlTracker"
+              }
             }
           ]
         }
