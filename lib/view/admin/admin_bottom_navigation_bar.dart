@@ -48,6 +48,19 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: _selectedItemPosition == 0
+          ? FloatingActionButton(
+              onPressed: () {
+                print("add project");
+              },
+            )
+          : _selectedItemPosition == 1
+              ? FloatingActionButton(
+                  onPressed: () {
+                    print("add inspection");
+                  },
+                )
+              : null,
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
       extendBody: true,

@@ -52,6 +52,7 @@ class _AdminInspectorCreationPageState
           "mobileNumber": "-",
           "profilePicStatus": "None",
           "inspectorID": userID,
+          "fcmToken": "-",
         });
         // Reset form fields after successful sign up
         _resetFields();
