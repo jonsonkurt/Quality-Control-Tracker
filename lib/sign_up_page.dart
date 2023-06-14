@@ -65,6 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
           "mobileNumber": "-",
           "profilePicStatus": "None",
           "responsiblePartyID": userID,
+          "fcmToken": "-",
         });
         // Reset form fields after successful sign up
         _resetFields();
