@@ -26,12 +26,26 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Admin'),
+        backgroundColor: Color(0xFF221540),
       ),
-      body: const Placeholder(),
+      body: SafeArea(child: 
+      Container(
+        padding: EdgeInsets.only(top: 30, left: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text(
+              "Admin", style: TextStyle(fontSize: 25,),
+            ),
+          
+          ],
+        ),
+      )
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _logout,
-        child: const Icon(Icons.logout),
+        child: const Icon(Icons.logout,),
       ),
     );
   }
