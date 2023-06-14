@@ -89,27 +89,48 @@ class WelcomePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Welcome'),
-      ),
+      appBar: null,
+      backgroundColor: const Color(0xffDCE4E9),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'Quality Control Tracker',
-              style: TextStyle(fontSize: 24),
+            
+            SizedBox(
+              child: Image.asset('assets/images/welcome.png'),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
+            const Text(
+              'Welcome',
+              style: TextStyle(
+                fontFamily: 'Rubik', 
+                fontSize: 40),
+            ),
+            const SizedBox(
+              height: 20,
+              ),
+            const Text(
+              'Track construction projects with ease!',
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(
+              height: 40,
+              ),
             ElevatedButton(
-              child: const Text('Sign In'),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SignInPage()),
                 );
               },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xff221540),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              minimumSize: const Size(160, 50),
+              
             ),
+              child: const Text('Get Started!'),
+              ),
           ],
         ),
       ),
