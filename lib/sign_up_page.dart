@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:quality_control_tracker/loading_page.dart';
@@ -27,7 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
     'Landscaper',
     'HVAC Technician'
   ];
-  
+
   String? _selectedRole;
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -45,12 +44,6 @@ class _SignUpPageState extends State<SignUpPage> {
       final email = _emailController.text;
       final password = _passwordController.text;
 
-      final firebaseApp = Firebase.app();
-      final rtdb = FirebaseDatabase.instanceFor(
-          app: firebaseApp,
-          databaseURL:
-              'https://quality-control-tracker-389614-default-rtdb.asia-southeast1.firebasedatabase.app/');
-
       try {
         // ignore: unused_local_variable
         final credential =
@@ -61,7 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
         String? userID = FirebaseAuth.instance.currentUser?.uid;
 
-        await rtdb.ref("responsibleParties/$userID").set({
+        await FirebaseDatabase.instance.ref("responsibleParties/$userID").set({
           "firstName": firstName,
           "lastName": lastName,
           "role": _selectedRole,
@@ -126,6 +119,18 @@ class _SignUpPageState extends State<SignUpPage> {
         title: const Text(''),
         elevation: 0,
         backgroundColor: const Color(0xFFDCE4E9),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SignInPage()),
+            );
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Color(0xFF221540),
+          ),
+        ),
       ),
       body: Container(
         color: const Color(0xFFDCE4E9),
@@ -136,26 +141,26 @@ class _SignUpPageState extends State<SignUpPage> {
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children:[
-                    const Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        fontFamily: "Rubik-Bold",
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF221540),
-                      ),
+                children: [
+                  const Text(
+                    "Sign Up",
+                    style: TextStyle(
+                      fontFamily: "Rubik-Bold",
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF221540),
                     ),
-                    const Text(
-                      "Sign In",
-                      style: TextStyle(
-                        fontFamily: "Rubik-Bold",
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                  ),
+                  const Text(
+                    "Sign In",
+                    style: TextStyle(
+                      fontFamily: "Rubik-Bold",
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                  const SizedBox(height: 30),  
+                  ),
+                  const SizedBox(height: 30),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Card(
@@ -169,8 +174,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         decoration: InputDecoration(
                           hintText: 'First Name',
                           labelStyle: const TextStyle(
-                              fontFamily: "Karla-Regular",
-                              fontSize: 16,
+                            fontFamily: "Karla-Regular",
+                            fontSize: 16,
                             fontWeight: FontWeight.normal,
                             color: Colors.black,
                           ),
@@ -178,7 +183,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           fillColor: Colors.white,
                           contentPadding: const EdgeInsets.symmetric(
                             vertical: 16, // Adjust the vertical padding here
-                            horizontal: 24, // Adjust the horizontal padding here
+                            horizontal:
+                                24, // Adjust the horizontal padding here
                           ),
                           border: OutlineInputBorder(
                             borderSide: BorderSide.none,
@@ -193,37 +199,38 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       ),
                     ),
-                    
                   ),
                   const SizedBox(height: 10),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Card(
                       elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0), ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                       child: TextFormField(
                         controller: _lastNameController,
                         style: const TextStyle(color: Colors.black),
-                        decoration:  InputDecoration(
+                        decoration: InputDecoration(
                           hintText: 'Last Name',
                           labelStyle: const TextStyle(
-                              fontFamily: "Karla-Regular",
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black,
-                            ),
+                            fontFamily: "Karla-Regular",
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black,
+                          ),
                           filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.symmetric(
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(
                             vertical: 16, // Adjust the vertical padding here
-                            horizontal: 24, // Adjust the horizontal padding here
+                            horizontal:
+                                24, // Adjust the horizontal padding here
                           ),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),  
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(25.0),
                           ),
+                        ),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter your last name';
@@ -238,34 +245,38 @@ class _SignUpPageState extends State<SignUpPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Card(
                       elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0), ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                       child: DropdownButtonFormField<String>(
                         value: _selectedRole,
                         style: const TextStyle(color: Colors.black),
-                        decoration:  InputDecoration(
+                        decoration: InputDecoration(
                           hintText: 'Role',
                           labelStyle: const TextStyle(
-                              fontFamily: "Karla-Regular",
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black,
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.symmetric(
+                            fontFamily: "Karla-Regular",
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(
                             vertical: 13, // Adjust the vertical padding here
-                            horizontal: 24, // Adjust the horizontal padding here
+                            horizontal:
+                                24, // Adjust the horizontal padding here
                           ),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(25.0),
                           ),
+                        ),
                         items: _roles.map((String role) {
                           return DropdownMenuItem<String>(
                             value: role,
-                            child: Text(role,),
+                            child: Text(
+                              role,
+                            ),
                           );
                         }).toList(),
                         validator: (value) {
@@ -274,7 +285,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           }
                           return null;
                         },
-                        onChanged: (value) => setState(() => _selectedRole = value),
+                        onChanged: (value) =>
+                            setState(() => _selectedRole = value),
                       ),
                     ),
                   ),
@@ -283,29 +295,32 @@ class _SignUpPageState extends State<SignUpPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Card(
                       elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0), ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                       child: TextFormField(
                         controller: _emailController,
                         style: const TextStyle(color: Colors.black),
-                        decoration:  InputDecoration(
+                        decoration: InputDecoration(
                           hintText: 'Email',
                           labelStyle: const TextStyle(
-                              fontFamily: "Karla-Regular",
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black,
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.symmetric(
-                            vertical: 16, // Adjust the vertical padding here
-                            horizontal: 24, // Adjust the horizontal padding here
+                            fontFamily: "Karla-Regular",
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black,
                           ),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16, // Adjust the vertical padding here
+                            horizontal:
+                                24, // Adjust the horizontal padding here
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                        ),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter your email';
@@ -321,30 +336,32 @@ class _SignUpPageState extends State<SignUpPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Card(
                       elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0), ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                       child: TextFormField(
                         controller: _passwordController,
                         style: const TextStyle(color: Colors.black),
-                        decoration:  InputDecoration(
-                         hintText: 'Password',
-                         labelStyle: const TextStyle(
-                              fontFamily: "Karla-Regular",
-                              fontSize: 16,
+                        decoration: InputDecoration(
+                          hintText: 'Password',
+                          labelStyle: const TextStyle(
+                            fontFamily: "Karla-Regular",
+                            fontSize: 16,
                             fontWeight: FontWeight.normal,
-                              color: Colors.black,
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.symmetric(
-                            vertical: 16, // Adjust the vertical padding here
-                            horizontal: 24, // Adjust the horizontal padding here
+                            color: Colors.black,
                           ),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            suffixIcon: IconButton(
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16, // Adjust the vertical padding here
+                            horizontal:
+                                24, // Adjust the horizontal padding here
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          suffixIcon: IconButton(
                             color: const Color(0xFF221540),
                             icon: Icon(_isPasswordVisible
                                 ? Icons.visibility
@@ -355,7 +372,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               });
                             },
                           ),
-                         ),
+                        ),
                         obscureText: !_isPasswordVisible,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -371,31 +388,32 @@ class _SignUpPageState extends State<SignUpPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Card(
                       elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0), ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                       child: TextFormField(
                         controller: _confirmPasswordController,
                         style: const TextStyle(color: Colors.black),
-                        decoration:
-                             InputDecoration(
-                              hintText: 'Confirm Password',
-                              labelStyle: const TextStyle(
-                              fontFamily: "Karla-Regular",
-                              fontSize: 16,
+                        decoration: InputDecoration(
+                          hintText: 'Confirm Password',
+                          labelStyle: const TextStyle(
+                            fontFamily: "Karla-Regular",
+                            fontSize: 16,
                             fontWeight: FontWeight.normal,
-                              color: Colors.black,
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.symmetric(
-                            vertical: 16, // Adjust the vertical padding here
-                            horizontal: 24, // Adjust the horizontal padding here
+                            color: Colors.black,
                           ),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            suffixIcon: IconButton(
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16, // Adjust the vertical padding here
+                            horizontal:
+                                24, // Adjust the horizontal padding here
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          suffixIcon: IconButton(
                             color: const Color(0xFF221540),
                             icon: Icon(_isPasswordVisible
                                 ? Icons.visibility
@@ -406,7 +424,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               });
                             },
                           ),
-                              ),
+                        ),
                         obscureText: !_isconPasswordVisible,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -425,23 +443,23 @@ class _SignUpPageState extends State<SignUpPage> {
                     alignment: Alignment.center,
                     child: ElevatedButton(
                       onPressed: _signUp,
-                          style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(164, 50),
-                          backgroundColor: const Color(0xFF221540),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                30), // Adjust the radius as needed
-                          ),
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(164, 50),
+                        backgroundColor: const Color(0xFF221540),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              30), // Adjust the radius as needed
                         ),
+                      ),
                       child: const Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            fontFamily: "Karla-Bold",
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        'Sign Up',
+                        style: TextStyle(
+                          fontFamily: "Karla-Bold",
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 60.0),
