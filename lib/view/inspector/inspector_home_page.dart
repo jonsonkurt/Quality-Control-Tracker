@@ -14,6 +14,15 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
         backgroundColor: const Color(0xFFDCE4E9),
         appBar: AppBar(
           backgroundColor: Colors.white,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.purple,
+            ),
+          ),
           title: const Text(
             'Information',
             style: TextStyle(
