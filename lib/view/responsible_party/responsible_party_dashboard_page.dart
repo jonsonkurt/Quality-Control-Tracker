@@ -137,32 +137,44 @@ class _ResponsiblePartyDashboardPageState
 
     return Scaffold(
       backgroundColor: const Color(0xFFDCE4E9),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        title: const Text(
-          'Dashboard',
-          style: TextStyle(
-            color: Color(0xFF221540),
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              // ignore: use_build_context_synchronously
-              Navigator.push<void>(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ResponsiblePartyProfilePage(),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: AppBar(
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          title: const Padding(
+            padding: EdgeInsets.fromLTRB(5, 25, 0, 0),
+            child: Text(
+                      'Dashboard',
+                      style: TextStyle(
+                        fontFamily: 'Rubik Bold',
+                        fontSize: 32,
+                        color: Color(0xFF221540),
+                      ),
+                    ),
+                  ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                // ignore: use_build_context_synchronously
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ResponsiblePartyProfilePage(),
+                  ),
+                );
+              },
+              icon: const Padding(
+                padding: EdgeInsets.fromLTRB(0, 10, 25, 0),
+                child: Icon(
+                  Icons.account_circle,
+                  size: 40,
+                  color: Color(0xFF221540),
                 ),
-              );
-            },
-            icon: const Icon(
-              Icons.account_circle,
-              color: Colors.purple,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       body: FirebaseAnimatedList(
         query: FirebaseDatabase.instance
