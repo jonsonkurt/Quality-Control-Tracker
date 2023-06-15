@@ -72,7 +72,28 @@ flutter:
 
   assets:
     - assets/images/
-    
+  
+  fonts:
+    - family: Rubik Medium
+      fonts:
+        - asset: assets/fonts/Rubik-Medium.ttf
+
+    - family: Rubik Light
+      fonts:
+      - asset: assets/fonts/Rubik-Light.ttf
+
+    - family: Rubik Regular
+      fonts:
+      - asset: assets/fonts/Rubik-Regular.ttf
+
+    - family: Karla Regular
+      fonts:
+      - asset: assets/fonts/Karla-Regular.ttf
+
+    - family: Karla Light
+      fonts:
+      - asset: assets/fonts/Karla-Light.ttf
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

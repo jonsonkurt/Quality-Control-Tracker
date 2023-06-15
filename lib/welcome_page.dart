@@ -95,26 +95,29 @@ class WelcomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            
             SizedBox(
               child: Image.asset('assets/images/welcome.png'),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 80),
             const Text(
-              'Welcome',
+              'Welcome!',
               style: TextStyle(
-                fontFamily: 'Rubik', 
-                fontSize: 40),
+                fontFamily: 'Rubik Regular', 
+                fontSize: 40,
+                fontWeight: FontWeight.w300
+                ),
             ),
             const SizedBox(
               height: 20,
               ),
             const Text(
               'Track construction projects with ease!',
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(
+                fontFamily: 'Karla Regular',
+                fontSize: 16),
             ),
             const SizedBox(
-              height: 40,
+              height: 60,
               ),
             ElevatedButton(
               onPressed: () {
@@ -126,10 +129,15 @@ class WelcomePage extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xff221540),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-              minimumSize: const Size(160, 50),
-              
+              minimumSize: const Size(200, 60),
             ),
-              child: const Text('Get Started!'),
+              child: const Text(
+                'Get Started!',
+                style: TextStyle(
+                  fontFamily: 'Rubik Medium',
+                  fontSize: 20
+                ),
+              ),
               ),
           ],
         ),
