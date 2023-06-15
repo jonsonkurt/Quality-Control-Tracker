@@ -60,28 +60,41 @@ class OnBoarding extends StatelessWidget {
               ),
             );
           } else {
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                transitionDuration: const Duration(milliseconds: 1),
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    const ResponsiblePartyDashboardPage(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  var begin = const Offset(0.0, 1.0);
-                  var end = Offset.zero;
-                  var curve = Curves.ease;
+            DatabaseReference nameRef = FirebaseDatabase.instance
+                .ref()
+                .child('responsibleParties/$userID/role');
+            userSubscription = nameRef.onValue.listen((event) {
+              try {
+                account = event.snapshot.value.toString();
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    transitionDuration: const Duration(milliseconds: 1),
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        ResponsiblePartyDashboardPage(
+                      role: account,
+                    ),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
 
-                  var tween = Tween(begin: begin, end: end)
-                      .chain(CurveTween(curve: curve));
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
 
-                  return SlideTransition(
-                    position: animation.drive(tween),
-                    child: child,
-                  );
-                },
-              ),
-            );
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              } catch (error, stackTrace) {
+                logger.d('Error occurred: $error');
+                logger.d('Stack trace: $stackTrace');
+              }
+            });
           }
         } catch (error, stackTrace) {
           logger.d('Error occurred: $error');

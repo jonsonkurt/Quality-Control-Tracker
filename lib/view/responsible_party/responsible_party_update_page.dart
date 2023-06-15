@@ -16,6 +16,7 @@ class _ResponsiblePartyUpdatePageState
         backgroundColor: const Color(0xFFDCE4E9),
         appBar: AppBar(
           backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
           title: const Text(
             'Updates',
             style: TextStyle(
