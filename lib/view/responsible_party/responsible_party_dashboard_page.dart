@@ -26,6 +26,7 @@ class _ResponsiblePartyDashboardPageState
   final TextEditingController _projectIdController = TextEditingController();
   StreamSubscription<DatabaseEvent>? getRole;
   StreamSubscription<DatabaseEvent>? userSubscription;
+  StreamSubscription<DatabaseEvent>? projectSubscription;
   String? userID = FirebaseAuth.instance.currentUser?.uid;
   String name = '';
   var logger = Logger();
