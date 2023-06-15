@@ -26,6 +26,7 @@ class _ResponsiblePartyDashboardPageState
   final TextEditingController _projectIdController = TextEditingController();
   StreamSubscription<DatabaseEvent>? getRole;
   StreamSubscription<DatabaseEvent>? userSubscription;
+  StreamSubscription<DatabaseEvent>? projectSubscription;
   String? userID = FirebaseAuth.instance.currentUser?.uid;
   String name = '';
   var logger = Logger();
@@ -82,15 +83,37 @@ class _ResponsiblePartyDashboardPageState
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 String projectId = _projectIdController.text;
 
                 // Updates database
-                DatabaseReference projectsRef =
-                    FirebaseDatabase.instance.ref('projects/$projectId');
-                projectsRef.update({
-                  rpRole: name,
-                  rpRoleQuery: userID,
+                // DatabaseReference projectsRef =
+                //     FirebaseDatabase.instance.ref('projects/$projectId');
+                // projectsRef.update({
+                //   rpRole: name,
+                //   rpRoleQuery: userID,
+                // });
+                DatabaseReference projectsRef = FirebaseDatabase.instance
+                    .ref()
+                    .child('projects/$projectId');
+
+                projectSubscription = projectsRef.onValue.listen((event) {
+                  try {
+                    if (event.snapshot.value != null) {
+                      projectsRef.update({
+                        rpRole: name,
+                        rpRoleQuery: userID,
+                      });
+                    } else {
+                      // Project does not exist, show SnackBar
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Project does not exist")),
+                      );
+                    }
+                  } catch (error, stackTrace) {
+                    logger.d('Error occurred: $error');
+                    logger.d('Stack trace: $stackTrace');
+                  }
                 });
                 Navigator.of(context).pop();
               },
