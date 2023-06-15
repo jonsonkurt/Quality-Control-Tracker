@@ -68,33 +68,72 @@ class _ResponsiblePartyDashboardPageState
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Add Project'),
+          backgroundColor: const Color(0xffDCE4E9),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            ),
+          title: const Text(
+            'Add Project',
+            style: TextStyle(
+              fontFamily: 'Rubik Bold',
+              fontSize: 20,
+              color: Color(0xFF221540)
+            ),),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
                 controller: _projectIdController,
-                decoration: const InputDecoration(
-                  labelText: 'Project ID',
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide.none
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Project ID',
+                  labelStyle: const TextStyle(
+                    fontFamily: 'Karla Regular',
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ],
           ),
           actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                String projectId = _projectIdController.text;
-
-                // Updates database
-                DatabaseReference projectsRef =
-                    FirebaseDatabase.instance.ref('projects/$projectId');
-                projectsRef.update({
-                  rpRole: name,
-                  rpRoleQuery: userID,
-                });
-                Navigator.of(context).pop();
-              },
-              child: const Text('Submit'),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+              child: Center(
+                child: TextButton(
+                  onPressed: () {
+                    String projectId = _projectIdController.text;
+              
+                    // Updates database
+                    DatabaseReference projectsRef =
+                        FirebaseDatabase.instance.ref('projects/$projectId');
+                    projectsRef.update({
+                      rpRole: name,
+                      rpRoleQuery: userID,
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff221540),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)
+                    ),
+                    minimumSize: const Size(150, 50)
+                  ),
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(
+                      fontFamily: 'Rubik Bold',
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                    ),
+                ),
+              ),
             ),
           ],
         );
