@@ -23,9 +23,11 @@ class ResponsiblePartyDashboardPage extends StatefulWidget {
 
 class _ResponsiblePartyDashboardPageState
     extends State<ResponsiblePartyDashboardPage> {
-  TextEditingController _projectIdController = TextEditingController();
+  final TextEditingController _projectIdController = TextEditingController();
   StreamSubscription<DatabaseEvent>? getRole;
+  StreamSubscription<DatabaseEvent>? userSubscription;
   String? userID = FirebaseAuth.instance.currentUser?.uid;
+  String name = '';
   var logger = Logger();
   bool isLoading = true;
 
@@ -36,6 +38,32 @@ class _ResponsiblePartyDashboardPageState
   }
 
   void _showDialog() {
+    // Getting the RP's role and roleQuery
+    String rpRole = "";
+    String rpRoleQuery = "";
+
+    if (widget.role == "Project Manager") {
+      rpRole = "projectManager";
+      rpRoleQuery = "projectManagerQuery";
+    } else {
+      rpRole = widget.role.toLowerCase();
+      rpRoleQuery = "${widget.role.toLowerCase()}Query";
+    }
+
+    // Getting the RP's full name
+    DatabaseReference nameRef =
+        FirebaseDatabase.instance.ref().child('responsibleParties/$userID/');
+    userSubscription = nameRef.onValue.listen((event) {
+      try {
+        String firstName = event.snapshot.child("firstName").value.toString();
+        String lastName = event.snapshot.child("lastName").value.toString();
+        name = "$firstName $lastName";
+      } catch (error, stackTrace) {
+        logger.d('Error occurred: $error');
+        logger.d('Stack trace: $stackTrace');
+      }
+    });
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -56,8 +84,14 @@ class _ResponsiblePartyDashboardPageState
             TextButton(
               onPressed: () {
                 String projectId = _projectIdController.text;
-                // TODO: Perform action with the project ID
-                print('Project ID: $projectId');
+
+                // Updates database
+                DatabaseReference projectsRef =
+                    FirebaseDatabase.instance.ref('projects/$projectId');
+                projectsRef.update({
+                  rpRole: name,
+                  rpRoleQuery: userID,
+                });
                 Navigator.of(context).pop();
               },
               child: const Text('Submit'),
