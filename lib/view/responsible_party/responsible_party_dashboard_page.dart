@@ -104,8 +104,10 @@ class _ResponsiblePartyDashboardPageState
                         rpRole: name,
                         rpRoleQuery: userID,
                       });
+                      _projectIdController.text = "";
                     } else {
                       // Project does not exist, show SnackBar
+                      _projectIdController.text = "";
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text("Project does not exist")),
                       );
@@ -145,14 +147,14 @@ class _ResponsiblePartyDashboardPageState
           title: const Padding(
             padding: EdgeInsets.fromLTRB(5, 25, 0, 0),
             child: Text(
-                      'Dashboard',
-                      style: TextStyle(
-                        fontFamily: 'Rubik Bold',
-                        fontSize: 32,
-                        color: Color(0xFF221540),
-                      ),
-                    ),
-                  ),
+              'Dashboard',
+              style: TextStyle(
+                fontFamily: 'Rubik Bold',
+                fontSize: 32,
+                color: Color(0xFF221540),
+              ),
+            ),
+          ),
           actions: [
             IconButton(
               onPressed: () {
@@ -201,8 +203,9 @@ class _ResponsiblePartyDashboardPageState
                 Navigator.push<void>(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        const ResponsiblePartyBottomNavigation(),
+                    builder: (context) => ResponsiblePartyBottomNavigation(
+                      projectID: snapshot.child('projectID').value.toString(),
+                    ),
                   ),
                 );
               },
