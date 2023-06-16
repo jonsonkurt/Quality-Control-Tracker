@@ -69,57 +69,69 @@ class _ResponsiblePartyDashboardPageState
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Add Project'),
+          backgroundColor: const Color(0xffDCE4E9),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text(
+            'Add Project',
+            style: TextStyle(
+                fontFamily: 'Rubik Bold',
+                fontSize: 20,
+                color: Color(0xFF221540)),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
                 controller: _projectIdController,
-                decoration: const InputDecoration(
-                  labelText: 'Project ID',
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide.none),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Project ID',
+                  labelStyle: const TextStyle(
+                    fontFamily: 'Karla Regular',
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ],
           ),
           actions: <Widget>[
-            TextButton(
-              onPressed: () async {
-                String projectId = _projectIdController.text;
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+              child: Center(
+                child: TextButton(
+                  onPressed: () {
+                    String projectId = _projectIdController.text;
 
-                // Updates database
-                // DatabaseReference projectsRef =
-                //     FirebaseDatabase.instance.ref('projects/$projectId');
-                // projectsRef.update({
-                //   rpRole: name,
-                //   rpRoleQuery: userID,
-                // });
-                DatabaseReference projectsRef = FirebaseDatabase.instance
-                    .ref()
-                    .child('projects/$projectId');
-
-                projectSubscription = projectsRef.onValue.listen((event) {
-                  try {
-                    if (event.snapshot.value != null) {
-                      projectsRef.update({
-                        rpRole: name,
-                        rpRoleQuery: userID,
-                      });
-                      _projectIdController.text = "";
-                    } else {
-                      // Project does not exist, show SnackBar
-                      _projectIdController.text = "";
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Project does not exist")),
-                      );
-                    }
-                  } catch (error, stackTrace) {
-                    logger.d('Error occurred: $error');
-                    logger.d('Stack trace: $stackTrace');
-                  }
-                });
-                Navigator.of(context).pop();
-              },
-              child: const Text('Submit'),
+                    // Updates database
+                    DatabaseReference projectsRef =
+                        FirebaseDatabase.instance.ref('projects/$projectId');
+                    projectsRef.update({
+                      rpRole: name,
+                      rpRoleQuery: userID,
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff221540),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      minimumSize: const Size(150, 50)),
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(
+                      fontFamily: 'Rubik Bold',
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         );
