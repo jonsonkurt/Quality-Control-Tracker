@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ResponsiblePartyUpdatePage extends StatefulWidget {
-  const ResponsiblePartyUpdatePage({super.key});
+  final String projectIDQuery;
+
+  const ResponsiblePartyUpdatePage({
+    Key? key,
+    required this.projectIDQuery,
+  }) : super(key: key);
 
   @override
   State<ResponsiblePartyUpdatePage> createState() =>

@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 
-class ResponsiblePartyHomePage extends StatelessWidget {
-  const ResponsiblePartyHomePage({Key? key}) : super(key: key);
+class ResponsiblePartyHomePage extends StatefulWidget {
+  final String projectIDQuery;
 
+  const ResponsiblePartyHomePage({
+    Key? key,
+    required this.projectIDQuery,
+  }) : super(key: key);
+
+  @override
+  State<ResponsiblePartyHomePage> createState() =>
+      _ResponsiblePartyHomePageState();
+}
+
+class _ResponsiblePartyHomePageState extends State<ResponsiblePartyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +36,6 @@ class ResponsiblePartyHomePage extends StatelessWidget {
             ),
           ),
         ),
-        body: const Text('Responsible Party information'));
+        body: const Text('Party information'));
   }
 }

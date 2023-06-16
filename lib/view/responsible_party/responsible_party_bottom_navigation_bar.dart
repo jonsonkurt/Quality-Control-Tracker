@@ -4,7 +4,12 @@ import 'responsible_party_home_page.dart';
 import 'responsible_party_update_page.dart';
 
 class ResponsiblePartyBottomNavigation extends StatefulWidget {
-  const ResponsiblePartyBottomNavigation({Key? key}) : super(key: key);
+  final String projectID;
+
+  const ResponsiblePartyBottomNavigation({
+    Key? key,
+    required this.projectID,
+  }) : super(key: key);
 
   @override
   State<ResponsiblePartyBottomNavigation> createState() =>
@@ -25,18 +30,19 @@ class _ResponsiblePartyBottomNavigationState
   Color selectedColor = const Color(0xFF221540);
   Color unselectedColor = const Color(0xFF221540);
 
-  final List<Widget> _pages = [
-    const ResponsiblePartyHomePage(),
-    const ResponsiblePartyUpdatePage(),
-  ];
-
-  late PageController _pageController;
+  List<Widget> _pages = [];
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: _selectedItemPosition);
+    _pages = [
+      ResponsiblePartyHomePage(projectIDQuery: widget.projectID),
+      ResponsiblePartyUpdatePage(projectIDQuery: widget.projectID),
+    ];
   }
+
+  late PageController _pageController;
 
   @override
   void dispose() {
