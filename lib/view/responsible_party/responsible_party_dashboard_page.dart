@@ -101,37 +101,38 @@ class _ResponsiblePartyDashboardPageState
             ],
           ),
           actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-              child: Center(
-                child: TextButton(
-                  onPressed: () {
-                    String projectId = _projectIdController.text;
+            TextButton(
+              onPressed: () async {
+                String projectId = _projectIdController.text;
 
-                    // Updates database
-                    DatabaseReference projectsRef =
-                        FirebaseDatabase.instance.ref('projects/$projectId');
-                    projectsRef.update({
-                      rpRole: name,
-                      rpRoleQuery: userID,
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff221540),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      minimumSize: const Size(150, 50)),
-                  child: const Text(
-                    'Submit',
-                    style: TextStyle(
-                      fontFamily: 'Rubik Bold',
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+                // Updates database
+                DatabaseReference projectsRef = FirebaseDatabase.instance
+                    .ref()
+                    .child('projects/$projectId');
+
+                projectSubscription = projectsRef.onValue.listen((event) {
+                  try {
+                    if (event.snapshot.value != null) {
+                      projectsRef.update({
+                        rpRole: name,
+                        rpRoleQuery: userID,
+                      });
+                      _projectIdController.text = "";
+                    } else {
+                      // Project does not exist, show SnackBar
+                      _projectIdController.text = "";
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Project does not exist")),
+                      );
+                    }
+                  } catch (error, stackTrace) {
+                    logger.d('Error occurred: $error');
+                    logger.d('Stack trace: $stackTrace');
+                  }
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text('Submit'),
             ),
           ],
         );
