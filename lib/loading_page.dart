@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -30,14 +29,9 @@ class OnBoarding extends StatelessWidget {
 
     if (FirebaseAuth.instance.currentUser != null) {
       // Redirect the user to the homepage
-      final firebaseApp = Firebase.app();
-      final rtdb = FirebaseDatabase.instanceFor(
-        app: firebaseApp,
-        databaseURL:
-            'https://quality-control-tracker-389614-default-rtdb.asia-southeast1.firebasedatabase.app/',
-      );
 
-      DatabaseReference nameRef = rtdb.ref().child('inspectors/$userID/role');
+      DatabaseReference nameRef =
+          FirebaseDatabase.instance.ref().child('inspectors/$userID/role');
       userSubscription = nameRef.onValue.listen((event) {
         try {
           account = event.snapshot.value.toString();
@@ -66,28 +60,41 @@ class OnBoarding extends StatelessWidget {
               ),
             );
           } else {
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                transitionDuration: const Duration(milliseconds: 1),
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    const ResponsiblePartyDashboardPage(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  var begin = const Offset(0.0, 1.0);
-                  var end = Offset.zero;
-                  var curve = Curves.ease;
+            DatabaseReference nameRef = FirebaseDatabase.instance
+                .ref()
+                .child('responsibleParties/$userID/role');
+            userSubscription = nameRef.onValue.listen((event) {
+              try {
+                account = event.snapshot.value.toString();
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    transitionDuration: const Duration(milliseconds: 1),
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        ResponsiblePartyDashboardPage(
+                      role: account,
+                    ),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
 
-                  var tween = Tween(begin: begin, end: end)
-                      .chain(CurveTween(curve: curve));
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
 
-                  return SlideTransition(
-                    position: animation.drive(tween),
-                    child: child,
-                  );
-                },
-              ),
-            );
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              } catch (error, stackTrace) {
+                logger.d('Error occurred: $error');
+                logger.d('Stack trace: $stackTrace');
+              }
+            });
           }
         } catch (error, stackTrace) {
           logger.d('Error occurred: $error');

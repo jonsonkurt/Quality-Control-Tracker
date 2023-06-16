@@ -14,6 +14,7 @@ class _InspectorListPageState extends State<InspectorListPage> {
         backgroundColor: const Color(0xFFDCE4E9),
         appBar: AppBar(
           backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
           title: const Text(
             'For Inspection',
             style: TextStyle(

@@ -14,35 +14,45 @@ class _AdminListPageState extends State<AdminListPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFDCE4E9),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: const Text(
           'Inspectors',
           style: TextStyle(
             color: Color(0xFF221540),
+            fontSize: 30,
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          const Center(child: Text('List of Inspectors')),
-          Positioned(
-            top: 450,
-            right: 20,
-            child: FloatingActionButton(
-              onPressed: () {
-                // ignore: use_build_context_synchronously
-                Navigator.push<void>(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const AdminInspectorCreationPage()));
-              },
-              backgroundColor: Colors.purple,
-              child: const Icon(Icons.add),
-            ),
-          ),
-        ],
+      body: SafeArea(child:
+      Card(
+        shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        ),
+        margin:EdgeInsets.all(15),
+        elevation: 8,
+        color: Colors.blue,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.account_box_outlined, size: 60,),
+            Padding(
+              padding: EdgeInsets.fromLTRB(5, 10, 0, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Giova Guava", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                  Text("Shabu Packer", style: TextStyle(fontSize: 13)),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
+      )
     );
   }
 }
