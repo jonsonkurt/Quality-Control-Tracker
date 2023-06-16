@@ -18,92 +18,97 @@ class _InspectorDashboardPageState extends State<InspectorDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFDCE4E9),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        title: const Text(
-          'Dashboard',
-          style: TextStyle(
-            color: Color(0xFF221540),
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              // ignore: use_build_context_synchronously
-              Navigator.push<void>(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const InspectorProfilePage(),
-                ),
-              );
-            },
-            icon: const Icon(
-              Icons.account_circle,
-              color: Colors.purple,
+    return WillPopScope(
+      onWillPop: () async {
+        return false; // Disable back button
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFDCE4E9),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          title: const Text(
+            'Dashboard',
+            style: TextStyle(
+              color: Color(0xFF221540),
             ),
           ),
-        ],
-      ),
-      body: FirebaseAnimatedList(
-        query: FirebaseDatabase.instance
-            .ref()
-            .child('projects/')
-            .orderByChild('inspectorQuery')
-            .equalTo(userID),
-        itemBuilder: (context, snapshot, animation, index) {
-          // Extract project details from the snapshot
-          String projectName = snapshot.child('projectName').value.toString();
-          String projectLocation =
-              snapshot.child('projectLocation').value.toString();
-          String projectDeadline =
-              snapshot.child('projectDeadline').value.toString();
-          String projectStatus =
-              snapshot.child('projectStatus').value.toString();
-
-          return Padding(
-            padding:
-                const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
-            child: GestureDetector(
-              onTap: () {
+          actions: [
+            IconButton(
+              onPressed: () {
                 // ignore: use_build_context_synchronously
                 Navigator.push<void>(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => InspectorBottomNavigation(
-                      projectID: snapshot.child('projectID').value.toString(),
-                    ),
+                    builder: (context) => const InspectorProfilePage(),
                   ),
                 );
               },
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Project Name: $projectName',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+              icon: const Icon(
+                Icons.account_circle,
+                color: Colors.purple,
+              ),
+            ),
+          ],
+        ),
+        body: FirebaseAnimatedList(
+          query: FirebaseDatabase.instance
+              .ref()
+              .child('projects/')
+              .orderByChild('inspectorQuery')
+              .equalTo(userID),
+          itemBuilder: (context, snapshot, animation, index) {
+            // Extract project details from the snapshot
+            String projectName = snapshot.child('projectName').value.toString();
+            String projectLocation =
+                snapshot.child('projectLocation').value.toString();
+            String projectDeadline =
+                snapshot.child('projectDeadline').value.toString();
+            String projectStatus =
+                snapshot.child('projectStatus').value.toString();
+
+            return Padding(
+              padding: const EdgeInsets.only(
+                  top: 20, bottom: 20, left: 10, right: 10),
+              child: GestureDetector(
+                onTap: () {
+                  // ignore: use_build_context_synchronously
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InspectorBottomNavigation(
+                        projectID: snapshot.child('projectID').value.toString(),
                       ),
-                      const SizedBox(height: 8.0),
-                      Text('Location: $projectLocation'),
-                      const SizedBox(height: 8.0),
-                      Text('Deadline: $projectDeadline'),
-                      const SizedBox(height: 8.0),
-                      Text('Status: $projectStatus'),
-                    ],
+                    ),
+                  );
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Project Name: $projectName',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text('Location: $projectLocation'),
+                        const SizedBox(height: 8.0),
+                        Text('Deadline: $projectDeadline'),
+                        const SizedBox(height: 8.0),
+                        Text('Status: $projectStatus'),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
