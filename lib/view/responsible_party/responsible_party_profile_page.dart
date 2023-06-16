@@ -27,8 +27,27 @@ class _ResponsiblePartyProfilePageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+              }, 
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Color(0xFF221540),),
+                ),
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          title: const Text(
+            'Profile',
+            style: TextStyle(
+              fontFamily: 'Rubik Bold',
+              fontSize: 32,
+              color: Color(0xFF221540),
+            ),),
+        ),
       ),
       body: const Placeholder(),
       floatingActionButton: FloatingActionButton(

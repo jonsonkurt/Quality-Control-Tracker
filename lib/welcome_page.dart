@@ -94,6 +94,7 @@ class WelcomePage extends StatelessWidget {
         }
       });
     }
+    final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
       appBar: null,
@@ -105,23 +106,26 @@ class WelcomePage extends StatelessWidget {
             SizedBox(
               child: Image.asset('assets/images/welcome.png'),
             ),
-            const SizedBox(height: 80),
-            const Text(
+            SizedBox(height: mediaQuery.size.height * 0.04),
+            Text(
               'Welcome!',
               style: TextStyle(
                   fontFamily: 'Rubik Regular',
-                  fontSize: 40,
+                  fontSize: mediaQuery.size.height * 0.05,
                   fontWeight: FontWeight.w300),
             ),
             const SizedBox(
               height: 20,
             ),
-            const Text(
+            Text(
               'Track construction projects with ease!',
-              style: TextStyle(fontFamily: 'Karla Regular', fontSize: 16),
+              style: TextStyle(
+                fontFamily: 'Karla Regular', 
+                fontSize: mediaQuery.size.height * 0.02,
+                ),
             ),
-            const SizedBox(
-              height: 60,
+            SizedBox(
+              height: mediaQuery.size.height * 0.07,
             ),
             ElevatedButton(
               onPressed: () {
@@ -134,11 +138,15 @@ class WelcomePage extends StatelessWidget {
                 backgroundColor: const Color(0xff221540),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
-                minimumSize: const Size(200, 60),
+                minimumSize: Size(
+                  mediaQuery.size.height * 0.25, 
+                  mediaQuery.size.width * 0.15),
               ),
-              child: const Text(
+              child: Text(
                 'Get Started!',
-                style: TextStyle(fontFamily: 'Rubik Medium', fontSize: 20),
+                style: TextStyle(
+                  fontFamily: 'Rubik Medium', 
+                  fontSize: mediaQuery.size.height * 0.025),
               ),
             ),
           ],
