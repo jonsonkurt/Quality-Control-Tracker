@@ -45,7 +45,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
       TextEditingController();
   final TextEditingController _inspectorController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
-  String nameSubscription1 = "";
+  Map<String, dynamic>? nameSubscription1;
 
   var logger = Logger();
 
@@ -72,261 +72,257 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
     super.dispose();
   }
 
-  Map<String, dynamic> parseStringToMap(String input) {
-    Map<String, dynamic> result = {};
-
-    // Remove the leading and trailing braces
-    input = input.substring(1, input.length - 1);
-
-    // Split the input by commas
-    List<String> entries = input.split(',');
-
-    for (String entry in entries) {
-      // Split the entry by the colon to get key and value
-      List<String> keyValue = entry.split(':');
-
-      // Remove any leading or trailing whitespace from the key
-      String key = keyValue[0].trim();
-
-      // Remove any leading or trailing whitespace from the value
-      String value = keyValue[1].trim();
-
-      // Check if the value is a nested dictionary or a simple value
-      if (value.startsWith('{') && value.endsWith('}')) {
-        // If the value is a nested dictionary, recursively parse it
-        Map<String, dynamic> nestedValue = parseStringToMap(value);
-        result[key] = nestedValue;
-      } else {
-        // If the value is a simple value, add it directly to the result map
-        result[key] = value;
-      }
-    }
-
-    return result;
-  }
-
   @override
   Widget build(BuildContext context) {
     DatabaseReference ref = FirebaseDatabase.instance.ref().child('projects');
-    DatabaseReference inspector =
-        FirebaseDatabase.instance.ref().child('inspectors/');
+    DatabaseReference ref1 =
+        FirebaseDatabase.instance.ref().child('inspectors');
 
-    nameSubscription = inspector.onValue.listen((event) async {
-      try {
-        nameSubscription1 = event.snapshot.value.toString();
+    return StreamBuilder(
+        stream: ref1.orderByChild('role').equalTo('Inspector').onValue,
+        builder: (context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasData) {
+            List<dynamic> dataList = [];
+            DataSnapshot dataSnapshot = snapshot.data!.snapshot;
 
-        Map<String, dynamic> dictionary = parseStringToMap(nameSubscription1);
+            if (dataSnapshot.value != null) {
+              dynamic values = dataSnapshot.value;
+              values.forEach((key, data) {
+                dataList.add(data);
+              });
+            }
+            print(dataList);
+            // DITO GIOVS
+            return Scaffold(
+              floatingActionButton: _selectedItemPosition == 0
+                  ? FloatingActionButton(
+                      onPressed: () async {
+                        // ignore: use_build_context_synchronously
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            final screenHeight =
+                                MediaQuery.of(context).size.height;
+                            const desiredHeightFactor =
+                                0.8; // Set the desired height factor (80%)
+                            final desiredHeight =
+                                screenHeight * desiredHeightFactor;
 
-        print("DICTIONARY - $dictionary");
-      } catch (error, stacktrace) {
-        //print("ERROR - - - $error");
-      }
-    });
+                            return Container(
+                              height: desiredHeight,
+                              padding: const EdgeInsets.all(16),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    const Text(
+                                      "Add project",
+                                      style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextField(
+                                      controller: _projectNameController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Project Name',
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    TextField(
+                                      controller: _projectLocationController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Project Description',
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    DropdownSearch<String>(
+                                      dropdownDecoratorProps:
+                                          const DropDownDecoratorProps(
+                                              dropdownSearchDecoration:
+                                                  InputDecoration(
+                                                      hintText:
+                                                          "Inspector in-charge")),
+                                      items: [],
+                                      popupProps: const PopupProps.menu(
+                                        searchFieldProps: TextFieldProps(
+                                            decoration: InputDecoration(
+                                                labelText: "Search Here")),
+                                        showSearchBox: true,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    // const TextField(
+                                    //   decoration: InputDecoration(
+                                    //     labelText: 'Project Deadline',
+                                    //   ),
+                                    // ),
+                                    TextfieldDatePicker(
+                                      cupertinoDatePickerBackgroundColor:
+                                          Colors.white,
+                                      cupertinoDatePickerMaximumDate:
+                                          DateTime(2099),
+                                      cupertinoDatePickerMaximumYear: 2099,
+                                      cupertinoDatePickerMinimumYear: 1990,
+                                      cupertinoDatePickerMinimumDate:
+                                          DateTime(1990),
+                                      cupertinoDateInitialDateTime:
+                                          DateTime.now(),
+                                      materialDatePickerFirstDate:
+                                          DateTime.now(),
+                                      materialDatePickerInitialDate:
+                                          DateTime.now(),
+                                      materialDatePickerLastDate:
+                                          DateTime(2099),
+                                      preferredDateFormat:
+                                          DateFormat('dd-MMMM-' 'yyyy'),
+                                      textfieldDatePickerController:
+                                          _dateController,
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                      ),
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      cursorColor: Colors.black,
+                                      decoration: InputDecoration(
+                                        //errorText: errorTextValue,
+                                        helperStyle: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.grey),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Colors.white, width: 0),
+                                            borderRadius:
+                                                BorderRadius.circular(2)),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(2),
+                                            borderSide: const BorderSide(
+                                              width: 0,
+                                              color: Colors.white,
+                                            )),
+                                        hintText: 'Select Date',
+                                        hintStyle: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.normal),
+                                        filled: true,
+                                        fillColor: Colors.grey[300],
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        final String projectID =
+                                            randomAlphaNumeric(8);
 
-    return Scaffold(
-      floatingActionButton: _selectedItemPosition == 0
-          ? FloatingActionButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (BuildContext context) {
-                    final screenHeight = MediaQuery.of(context).size.height;
-                    const desiredHeightFactor =
-                        0.8; // Set the desired height factor (80%)
-                    final desiredHeight = screenHeight * desiredHeightFactor;
-
-                    return Container(
-                      height: desiredHeight,
-                      padding: const EdgeInsets.all(16),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            const Text(
-                              "Add project",
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            TextField(
-                              controller: _projectNameController,
-                              decoration: const InputDecoration(
-                                labelText: 'Project Name',
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            TextField(
-                              controller: _projectLocationController,
-                              decoration: const InputDecoration(
-                                labelText: 'Project Description',
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            DropdownSearch<String>(
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                      dropdownSearchDecoration: InputDecoration(
-                                          hintText: "Inspector in-charge")),
-                              items: const [""],
-                              popupProps: const PopupProps.menu(
-                                searchFieldProps: TextFieldProps(
-                                    decoration: InputDecoration(
-                                        labelText: "Search Here")),
-                                showSearchBox: true,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            // const TextField(
-                            //   decoration: InputDecoration(
-                            //     labelText: 'Project Deadline',
-                            //   ),
-                            // ),
-                            TextfieldDatePicker(
-                              cupertinoDatePickerBackgroundColor: Colors.white,
-                              cupertinoDatePickerMaximumDate: DateTime(2099),
-                              cupertinoDatePickerMaximumYear: 2099,
-                              cupertinoDatePickerMinimumYear: 1990,
-                              cupertinoDatePickerMinimumDate: DateTime(1990),
-                              cupertinoDateInitialDateTime: DateTime.now(),
-                              materialDatePickerFirstDate: DateTime.now(),
-                              materialDatePickerInitialDate: DateTime.now(),
-                              materialDatePickerLastDate: DateTime(2099),
-                              preferredDateFormat:
-                                  DateFormat('dd-MMMM-' 'yyyy'),
-                              textfieldDatePickerController: _dateController,
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: Colors.black,
-                              ),
-                              textCapitalization: TextCapitalization.sentences,
-                              cursorColor: Colors.black,
-                              decoration: InputDecoration(
-                                //errorText: errorTextValue,
-                                helperStyle: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.grey),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.white, width: 0),
-                                    borderRadius: BorderRadius.circular(2)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(2),
-                                    borderSide: const BorderSide(
-                                      width: 0,
-                                      color: Colors.white,
-                                    )),
-                                hintText: 'Select Date',
-                                hintStyle: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal),
-                                filled: true,
-                                fillColor: Colors.grey[300],
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
+                                        await ref.child(projectID).update({
+                                          "HVAC": "-",
+                                          "HVACQuery": "-",
+                                          "carpenter": "-",
+                                          "carpenterQuery": "-",
+                                          "electrician": "-",
+                                          "electricianQuery": "-",
+                                          "inspector": "-",
+                                          "inspectorQuery": "-",
+                                          "laborer": "-",
+                                          "laborerQuery": "-",
+                                          "landscaper": "-",
+                                          "landscaperQuery": "-",
+                                          "mason": "-",
+                                          "masonQuery": "-",
+                                          "owner": "-",
+                                          "ownerQuery": "-",
+                                          "painter": "-",
+                                          "painterQuery": "-",
+                                          "plumber": "-",
+                                          "plumberQuery": "-",
+                                          "projectDeadline": "-",
+                                          "projectID": projectID,
+                                          "projectImage": "None",
+                                          "projectLocation": "-",
+                                          "projectManager": "-",
+                                          "projectManagerQuery": "-",
+                                          "projectName": "-",
+                                          "projectStatus": "ON-GOING",
+                                          "technician": "-",
+                                          "technicianQuery": "-",
+                                          "welder": "-",
+                                          "welderQuery": "-"
+                                        });
+                                        // Perform the desired action when the button is pressed
+                                      },
+                                      child: const Text('Submit'),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 16),
-                            ElevatedButton(
-                              onPressed: () async {
-                                final String projectID = randomAlphaNumeric(8);
-
-                                await ref.child(projectID).update({
-                                  "HVAC": "-",
-                                  "HVACQuery": "-",
-                                  "carpenter": "-",
-                                  "carpenterQuery": "-",
-                                  "electrician": "-",
-                                  "electricianQuery": "-",
-                                  "inspector": "-",
-                                  "inspectorQuery": "-",
-                                  "laborer": "-",
-                                  "laborerQuery": "-",
-                                  "landscaper": "-",
-                                  "landscaperQuery": "-",
-                                  "mason": "-",
-                                  "masonQuery": "-",
-                                  "owner": "-",
-                                  "ownerQuery": "-",
-                                  "painter": "-",
-                                  "painterQuery": "-",
-                                  "plumber": "-",
-                                  "plumberQuery": "-",
-                                  "projectDeadline": "-",
-                                  "projectID": projectID,
-                                  "projectImage": "None",
-                                  "projectLocation": "-",
-                                  "projectManager": "-",
-                                  "projectManagerQuery": "-",
-                                  "projectName": "-",
-                                  "projectStatus": "ON-GOING",
-                                  "technician": "-",
-                                  "technicianQuery": "-",
-                                  "welder": "-",
-                                  "welderQuery": "-"
-                                });
-                                // Perform the desired action when the button is pressed
-                              },
-                              child: const Text('Submit'),
-                            ),
-                          ],
-                        ),
-                      ),
+                            );
+                          },
+                        );
+                      },
+                    )
+                  : _selectedItemPosition == 1
+                      ? FloatingActionButton(
+                          onPressed: () {
+                            print("add inspection");
+                            Navigator.push<void>(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AdminInspectorCreationPage()));
+                          },
+                        )
+                      : null,
+              extendBodyBehindAppBar: true,
+              resizeToAvoidBottomInset: true,
+              extendBody: true,
+              body: AnimatedContainer(
+                duration: const Duration(seconds: 1),
+                child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: _pageController,
+                  children: _pages,
+                ),
+              ),
+              bottomNavigationBar: SnakeNavigationBar.color(
+                behaviour: snakeBarStyle,
+                snakeShape: snakeShape,
+                shape: bottomBarShape,
+                padding: padding,
+                snakeViewColor: selectedColor,
+                selectedItemColor:
+                    snakeShape == SnakeShape.indicator ? selectedColor : null,
+                unselectedItemColor: unselectedColor,
+                currentIndex: _selectedItemPosition,
+                onTap: (index) {
+                  setState(() {
+                    _selectedItemPosition = index;
+                    _pageController.animateToPage(
+                      index,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
                     );
-                  },
-                );
-              },
-            )
-          : _selectedItemPosition == 1
-              ? FloatingActionButton(
-                  onPressed: () {
-                    print("add inspection");
-                    Navigator.push<void>(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const AdminInspectorCreationPage()));
-                  },
-                )
-              : null,
-      extendBodyBehindAppBar: true,
-      resizeToAvoidBottomInset: true,
-      extendBody: true,
-      body: AnimatedContainer(
-        duration: const Duration(seconds: 1),
-        child: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          children: _pages,
-        ),
-      ),
-      bottomNavigationBar: SnakeNavigationBar.color(
-        behaviour: snakeBarStyle,
-        snakeShape: snakeShape,
-        shape: bottomBarShape,
-        padding: padding,
-        snakeViewColor: selectedColor,
-        selectedItemColor:
-            snakeShape == SnakeShape.indicator ? selectedColor : null,
-        unselectedItemColor: unselectedColor,
-        currentIndex: _selectedItemPosition,
-        onTap: (index) {
-          setState(() {
-            _selectedItemPosition = index;
-            _pageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
+                  });
+                },
+                items: const [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.home), label: 'Home'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.list), label: 'Inspection'),
+                ],
+              ),
             );
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Inspection'),
-        ],
-      ),
-    );
+          } else {
+            return const Center(child: Text('Something went wrong.'));
+          }
+        });
   }
 }
