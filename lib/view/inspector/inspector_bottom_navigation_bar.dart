@@ -4,7 +4,10 @@ import 'inspector_home_page.dart';
 import 'inspector_list_page.dart';
 
 class InspectorBottomNavigation extends StatefulWidget {
-  const InspectorBottomNavigation({Key? key}) : super(key: key);
+  final String projectID;
+
+  const InspectorBottomNavigation({Key? key, required this.projectID})
+      : super(key: key);
 
   @override
   State<InspectorBottomNavigation> createState() =>
@@ -27,18 +30,20 @@ class _InspectorBottomNavigationState extends State<InspectorBottomNavigation> {
   Color selectedColor = const Color(0xFF221540);
   Color unselectedColor = const Color(0xFF221540);
 
-  final List<Widget> _pages = [
-    const InspectorHomePage(),
-    const InspectorListPage(),
-  ];
-
-  late PageController _pageController;
+  List<Widget> _pages = [];
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: _selectedItemPosition);
+    _pages = [
+      InspectorHomePage(projectIDQuery: widget.projectID),
+      InspectorListPage(projectIDQuery: widget.projectID),
+    ];
+    _pageController = PageController(initialPage: _selectedItemPosition);
   }
+
+  late PageController _pageController;
 
   @override
   void dispose() {

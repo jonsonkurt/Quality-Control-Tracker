@@ -72,7 +72,9 @@ class _InspectorDashboardPageState extends State<InspectorDashboardPage> {
                 Navigator.push<void>(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const InspectorBottomNavigation(),
+                    builder: (context) => InspectorBottomNavigation(
+                      projectID: snapshot.child('projectID').value.toString(),
+                    ),
                   ),
                 );
               },

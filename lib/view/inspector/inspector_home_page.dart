@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class InspectorHomePage extends StatefulWidget {
-  const InspectorHomePage({super.key});
+  final String projectIDQuery;
+
+  const InspectorHomePage({
+    Key? key,
+    required this.projectIDQuery,
+  }) : super(key: key);
 
   @override
   State<InspectorHomePage> createState() => _InspectorHomePageState();

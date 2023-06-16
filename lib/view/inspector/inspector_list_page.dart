@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class InspectorListPage extends StatefulWidget {
-  const InspectorListPage({super.key});
+  final String projectIDQuery;
+
+  const InspectorListPage({
+    Key? key,
+    required this.projectIDQuery,
+  }) : super(key: key);
 
   @override
   State<InspectorListPage> createState() => _InspectorListPageState();
