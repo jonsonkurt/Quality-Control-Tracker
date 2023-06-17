@@ -24,7 +24,6 @@ class ResponsiblePartyDashboardPage extends StatefulWidget {
 class _ResponsiblePartyDashboardPageState
     extends State<ResponsiblePartyDashboardPage> {
   final TextEditingController _projectIdController = TextEditingController();
-  final TextEditingController _textFieldController = TextEditingController();
 
   StreamSubscription<DatabaseEvent>? getRole;
   StreamSubscription<DatabaseEvent>? userSubscription;
@@ -36,39 +35,12 @@ class _ResponsiblePartyDashboardPageState
 
   @override
   void dispose() {
+    getRole?.cancel();
+    userSubscription?.cancel();
+    projectSubscription?.cancel();
     _projectIdController.dispose();
     super.dispose();
   }
-
-  // void _showDialog() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('Enter Text'),
-  //         content: Column(
-  //           children: <Widget>[
-  //             TextField(
-  //               controller: _textFieldController,
-  //               decoration: InputDecoration(hintText: 'Type something'),
-  //             ),
-  //           ],
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () {
-  //               String enteredText = _textFieldController.text;
-  //               // Do something with the entered text, such as printing it
-  //               print('Entered Text: $enteredText');
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: Text('Submit'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   void _showDialog() {
     // Getting the RP's role and roleQuery
@@ -189,11 +161,8 @@ class _ResponsiblePartyDashboardPageState
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           title: Padding(
-            padding: EdgeInsets.fromLTRB(
-              0, 
-              mediaQuery.size.height * 0.035, 
-              mediaQuery.size.width * 0.06, 
-              0),
+            padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.035,
+                mediaQuery.size.width * 0.06, 0),
             child: Text(
               'Dashboard',
               style: TextStyle(
@@ -222,11 +191,11 @@ class _ResponsiblePartyDashboardPageState
                   );
                 },
                 icon: const Icon(
-                      Icons.account_circle,
-                      size: 40,
-                      color: Color(0xFF221540),
-                    ),
+                  Icons.account_circle,
+                  size: 40,
+                  color: Color(0xFF221540),
                 ),
+              ),
             ),
           ],
         ),

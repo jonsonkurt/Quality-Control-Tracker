@@ -8,26 +8,37 @@ import 'package:quality_control_tracker/sign_in_page.dart';
 import 'package:quality_control_tracker/view/inspector/inspector_dashboard_page.dart';
 import 'package:quality_control_tracker/view/responsible_party/responsible_party_dashboard_page.dart';
 
-class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
+class WelcomePage extends StatefulWidget {
+  const WelcomePage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  var logger = Logger();
+  String? userID = FirebaseAuth.instance.currentUser?.uid;
+  String account = '';
+  StreamSubscription<DatabaseEvent>? userSubscription;
+  StreamSubscription<DatabaseEvent>? userSubscription2;
+
+  @override
+  void dispose() {
+    userSubscription?.cancel();
+    userSubscription2?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var logger = Logger();
-    String? userID = FirebaseAuth.instance.currentUser?.uid;
-    String account = '';
-    // ignore: unused_local_variable
-    StreamSubscription<DatabaseEvent>? userSubscription;
-
     if (FirebaseAuth.instance.currentUser != null) {
-      // Redirect the user to the homepage
-
       DatabaseReference nameRef =
           FirebaseDatabase.instance.ref().child('inspectors/$userID/role');
       userSubscription = nameRef.onValue.listen((event) {
         try {
           account = event.snapshot.value.toString();
-          // ignore: unnecessary_null_comparison
           if (account == "Inspector") {
             Navigator.push(
               context,
@@ -52,10 +63,10 @@ class WelcomePage extends StatelessWidget {
               ),
             );
           } else {
-            DatabaseReference nameRef = FirebaseDatabase.instance
+            DatabaseReference nameRef2 = FirebaseDatabase.instance
                 .ref()
                 .child('responsibleParties/$userID/role');
-            userSubscription = nameRef.onValue.listen((event) {
+            userSubscription2 = nameRef2.onValue.listen((event) {
               try {
                 account = event.snapshot.value.toString();
                 Navigator.push(
@@ -93,7 +104,16 @@ class WelcomePage extends StatelessWidget {
           logger.d('Stack trace: $stackTrace');
         }
       });
+      return const Scaffold(
+        appBar: null,
+        backgroundColor: Color(0xffDCE4E9),
+        body: Center(
+          child:
+              CircularProgressIndicator(), // Show a loading indicator while checking Firebase
+        ),
+      );
     }
+
     final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(

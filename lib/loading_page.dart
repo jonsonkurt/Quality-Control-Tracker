@@ -7,35 +7,37 @@ import 'package:logger/logger.dart';
 import 'package:quality_control_tracker/view/inspector/inspector_dashboard_page.dart';
 import 'package:quality_control_tracker/view/responsible_party/responsible_party_dashboard_page.dart';
 
-class LoadingPage extends StatelessWidget {
-  const LoadingPage({Key? key}) : super(key: key);
+class LoadingPage extends StatefulWidget {
+  const LoadingPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(body: OnBoarding());
-  }
+  State<LoadingPage> createState() => _LoadingPageState();
 }
 
-class OnBoarding extends StatelessWidget {
-  const OnBoarding({Key? key}) : super(key: key);
+class _LoadingPageState extends State<LoadingPage> {
+  var logger = Logger();
+  String? userID = FirebaseAuth.instance.currentUser?.uid;
+  String account = '';
+  StreamSubscription<DatabaseEvent>? userSubscription;
+  StreamSubscription<DatabaseEvent>? userSubscription2;
+
+  @override
+  void dispose() {
+    userSubscription?.cancel();
+    userSubscription2?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var logger = Logger();
-    String? userID = FirebaseAuth.instance.currentUser?.uid;
-    String account = '';
-    // ignore: unused_local_variable
-    StreamSubscription<DatabaseEvent>? userSubscription;
-
     if (FirebaseAuth.instance.currentUser != null) {
-      // Redirect the user to the homepage
-
       DatabaseReference nameRef =
           FirebaseDatabase.instance.ref().child('inspectors/$userID/role');
       userSubscription = nameRef.onValue.listen((event) {
         try {
           account = event.snapshot.value.toString();
-          // ignore: unnecessary_null_comparison
           if (account == "Inspector") {
             Navigator.push(
               context,
@@ -60,10 +62,10 @@ class OnBoarding extends StatelessWidget {
               ),
             );
           } else {
-            DatabaseReference nameRef = FirebaseDatabase.instance
+            DatabaseReference nameRef2 = FirebaseDatabase.instance
                 .ref()
                 .child('responsibleParties/$userID/role');
-            userSubscription = nameRef.onValue.listen((event) {
+            userSubscription2 = nameRef2.onValue.listen((event) {
               try {
                 account = event.snapshot.value.toString();
                 Navigator.push(
@@ -101,6 +103,14 @@ class OnBoarding extends StatelessWidget {
           logger.d('Stack trace: $stackTrace');
         }
       });
+      return const Scaffold(
+        appBar: null,
+        backgroundColor: Color(0xffDCE4E9),
+        body: Center(
+          child:
+              CircularProgressIndicator(), // Show a loading indicator while checking Firebase
+        ),
+      );
     }
 
     return const Scaffold(
