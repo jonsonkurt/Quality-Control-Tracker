@@ -225,7 +225,6 @@ class _ResponsiblePartyDashboardPageState
 
                       return GestureDetector(
                         onTap: () {
-                          print(projectID);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
