@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:quality_control_tracker/view/responsible_party/responsible_party_bottom_navigation_bar.dart';
 import 'package:quality_control_tracker/view/responsible_party/responsible_party_profile_page.dart';
 
 class ResponsiblePartyDashboardPage extends StatefulWidget {
@@ -222,36 +223,51 @@ class _ResponsiblePartyDashboardPageState
                       String projectInspector = values[projectID]["inspector"];
                       String projectImage = values[projectID]["projectImage"];
 
-                      return Card(
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                if (projectImage == "None")
-                                  const Text(
-                                    "NO FUCKING \nIMAGE",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                else
-                                  Image.network(
-                                    projectImage,
-                                    width: 100,
-                                    height: 100,
-                                  ),
-                                Column(
-                                  children: [
-                                    Text('Project Name: $projectName'),
-                                    Text('Project Location: $projectLocation'),
-                                    Text(
-                                        'Project Inspector: $projectInspector'),
-                                    Text('Project ID: $projectID'),
-                                  ],
-                                ),
-                              ],
+                      return GestureDetector(
+                        onTap: () {
+                          print(projectID);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ResponsiblePartyBottomNavigation(
+                                projectID: projectID,
+                              ),
                             ),
-                          ],
+                          );
+                        },
+                        child: Card(
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  if (projectImage == "None")
+                                    const Text(
+                                      "NO FUCKING \nIMAGE",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  else
+                                    Image.network(
+                                      projectImage,
+                                      width: 100,
+                                      height: 100,
+                                    ),
+                                  Column(
+                                    children: [
+                                      Text('Project Name: $projectName'),
+                                      Text(
+                                          'Project Location: $projectLocation'),
+                                      Text(
+                                          'Project Inspector: $projectInspector'),
+                                      Text('Project ID: $projectID'),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     });
