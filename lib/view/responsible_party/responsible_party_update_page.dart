@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 class ResponsiblePartyUpdatePage extends StatefulWidget {
   final String projectIDQuery;
@@ -15,6 +18,12 @@ class ResponsiblePartyUpdatePage extends StatefulWidget {
 
 class _ResponsiblePartyUpdatePageState
     extends State<ResponsiblePartyUpdatePage> {
+  String? userID = FirebaseAuth.instance.currentUser?.uid;
+  var logger = Logger();
+  String? inspectorID;
+  String? rpFullName;
+  String? rpRole;
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
