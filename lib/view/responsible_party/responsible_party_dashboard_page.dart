@@ -24,7 +24,6 @@ class ResponsiblePartyDashboardPage extends StatefulWidget {
 class _ResponsiblePartyDashboardPageState
     extends State<ResponsiblePartyDashboardPage> {
   final TextEditingController _projectIdController = TextEditingController();
-  final TextEditingController _textFieldController = TextEditingController();
 
   StreamSubscription<DatabaseEvent>? getRole;
   StreamSubscription<DatabaseEvent>? userSubscription;
@@ -36,39 +35,12 @@ class _ResponsiblePartyDashboardPageState
 
   @override
   void dispose() {
+    getRole?.cancel();
+    userSubscription?.cancel();
+    projectSubscription?.cancel();
     _projectIdController.dispose();
     super.dispose();
   }
-
-  // void _showDialog() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('Enter Text'),
-  //         content: Column(
-  //           children: <Widget>[
-  //             TextField(
-  //               controller: _textFieldController,
-  //               decoration: InputDecoration(hintText: 'Type something'),
-  //             ),
-  //           ],
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () {
-  //               String enteredText = _textFieldController.text;
-  //               // Do something with the entered text, such as printing it
-  //               print('Entered Text: $enteredText');
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: Text('Submit'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   void _showDialog() {
     // Getting the RP's role and roleQuery
@@ -227,96 +199,94 @@ class _ResponsiblePartyDashboardPageState
                       color: const Color(0xFF221540),
                     ),
                 ),
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
-      ),
-      body: FirebaseAnimatedList(
-        query: FirebaseDatabase.instance
-            .ref()
-            .child('projects/')
-            .orderByChild(rpRole) // Try getting the role upon sign in
-            .equalTo(userID),
-        itemBuilder: (context, snapshot, animation, index) {
-          // Extract project details from the snapshot
-          String projectName = snapshot.child('projectName').value.toString();
-          String projectLocation =
-              snapshot.child('projectLocation').value.toString();
-          String projectDeadline =
-              snapshot.child('projectDeadline').value.toString();
-          String projectStatus =
-              snapshot.child('projectStatus').value.toString();
+        body: FirebaseAnimatedList(
+          query: FirebaseDatabase.instance
+              .ref()
+              .child('projects/')
+              .orderByChild(rpRole) // Try getting the role upon sign in
+              .equalTo(userID),
+          itemBuilder: (context, snapshot, animation, index) {
+            // Extract project details from the snapshot
+            String projectName = snapshot.child('projectName').value.toString();
+            String projectLocation =
+                snapshot.child('projectLocation').value.toString();
+            String projectDeadline =
+                snapshot.child('projectDeadline').value.toString();
+            String projectStatus =
+                snapshot.child('projectStatus').value.toString();
 
-          return Padding(
-            padding:
-                const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
-            child: GestureDetector(
-              onTap: () {
-                // ignore: use_build_context_synchronously
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ResponsiblePartyBottomNavigation(
-                      projectID: snapshot.child('projectID').value.toString(),
-                    ),
-                  ),
-                );
-              },
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Project Name: $projectName',
-                        style: TextStyle(
-                          fontFamily: 'Rubik Bold',
-                          fontSize: mediaQuery.size.height * 0.02,
-                          color: const Color(0xFF221540)
-                          ),
+            return Padding(
+              padding: const EdgeInsets.only(
+                  top: 20, bottom: 20, left: 10, right: 10),
+              child: GestureDetector(
+                onTap: () {
+                  // ignore: use_build_context_synchronously
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ResponsiblePartyBottomNavigation(
+                        projectID: snapshot.child('projectID').value.toString(),
                       ),
-                      SizedBox(height: mediaQuery.size.height * 0.01),
-                      Text(
-                        'Location: $projectLocation',
-                        style: TextStyle(
-                          fontFamily: 'Karla Regular',
-                          fontSize: mediaQuery.size.height * 0.02,
-                          color: const Color(0xFF221540)
+                    ),
+                  );
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Project Name: $projectName',
+                          style: TextStyle(
+                              fontFamily: 'Rubik Bold',
+                              fontSize: mediaQuery.size.height * 0.02,
+                              color: const Color(0xFF221540)),
                         ),
+                        SizedBox(height: mediaQuery.size.height * 0.01),
+                        Text(
+                          'Location: $projectLocation',
+                          style: TextStyle(
+                              fontFamily: 'Karla Regular',
+                              fontSize: mediaQuery.size.height * 0.02,
+                              color: const Color(0xFF221540)),
                         ),
-                      SizedBox(height: mediaQuery.size.height * 0.01),
-                      Text(
-                        'Deadline: $projectDeadline',
-                        style: TextStyle(
-                          fontFamily: 'Karla Regular',
-                          fontSize: mediaQuery.size.height * 0.02,
-                          color: const Color(0xFF221540)
+                        SizedBox(height: mediaQuery.size.height * 0.01),
+                        Text(
+                          'Deadline: $projectDeadline',
+                          style: TextStyle(
+                              fontFamily: 'Karla Regular',
+                              fontSize: mediaQuery.size.height * 0.02,
+                              color: const Color(0xFF221540)),
                         ),
+                        SizedBox(height: mediaQuery.size.height * 0.01),
+                        Text(
+                          'Status: $projectStatus',
+                          style: TextStyle(
+                              fontFamily: 'Karla Regular',
+                              fontSize: mediaQuery.size.height * 0.02,
+                              color: const Color(0xFF221540)),
                         ),
-                      SizedBox(height: mediaQuery.size.height * 0.01),
-                      Text(
-                        'Status: $projectStatus',
-                        style: TextStyle(
-                          fontFamily: 'Karla Regular',
-                          fontSize: mediaQuery.size.height * 0.02,
-                          color: const Color(0xFF221540)
-                        ),),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showDialog,
-        backgroundColor: const Color(0xFF221540),
-        child: const Icon(Icons.add),
+            );
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _showDialog,
+          backgroundColor: const Color(0xFF221540),
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

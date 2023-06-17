@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -33,18 +32,15 @@ class _ResponsiblePartyUpdatePageState
         backgroundColor: const Color(0xFFDCE4E9),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(
-          mediaQuery.size.height * 0.1,
+            mediaQuery.size.height * 0.1,
           ),
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
             title: Padding(
-              padding: EdgeInsets.fromLTRB(
-                0, 
-                mediaQuery.size.height * 0.035, 
-                mediaQuery.size.width * 0.06, 
-                0),
-              child:  Text(
+              padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.035,
+                  mediaQuery.size.width * 0.06, 0),
+              child: Text(
                 'Updates',
                 style: TextStyle(
                   fontFamily: 'Rubik Bold',

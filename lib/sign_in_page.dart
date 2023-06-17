@@ -273,7 +273,7 @@ class _SignInPageState extends State<SignInPage> {
         _passwordController.clear();
 
         // ignore: use_build_context_synchronously
-        Navigator.push<void>(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const LoadingPage()));
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
