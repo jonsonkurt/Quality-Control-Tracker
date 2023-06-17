@@ -236,37 +236,84 @@ class _ResponsiblePartyDashboardPageState
                             ),
                           );
                         },
-                        child: Card(
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  if (projectImage == "None")
-                                    const Text(
-                                      "NO FUCKING \nIMAGE",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  else
-                                    Image.network(
-                                      projectImage,
-                                      width: 100,
-                                      height: 100,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(
+                            mediaQuery.size.width * 0.01, 
+                            mediaQuery.size.height * 0.001, 
+                            mediaQuery.size.width * 0.01, 
+                            mediaQuery.size.height * 0.001,
+                            ),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    if (projectImage == "None")
+                                      Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(15),
+                                          child: Image.asset(
+                                            'assets/images/no-image.png',
+                                            width: 100,
+                                            height: 100,
+                                          ),
+                                        ),
+                                      )
+                                    else
+                                      Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(15),
+                                          child: Image.network(
+                                            projectImage,
+                                            width: 100,
+                                            height: 100,
+                                          ),
+                                        ),
+                                      ),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Project Name: $projectName',
+                                              style: TextStyle(
+                                                fontFamily: 'Rubik Bold',
+                                                fontSize: mediaQuery.size.height * 0.02,
+                                                color: const Color(0xff221540),
+                                                ),
+                                                ),
+                                        SizedBox(height: mediaQuery.size.height * 0.002),
+                                        Text('Project Location: $projectLocation',
+                                              style: TextStyle(
+                                                fontFamily: 'Karla Regular',
+                                                fontSize: mediaQuery.size.height * 0.017,
+                                                color: const Color(0xff221540),
+                                                ),
+                                                ),
+                                        SizedBox(height: mediaQuery.size.height * 0.002),
+                                        Text('Project Inspector: $projectInspector',
+                                              style: TextStyle(
+                                                fontFamily: 'Karla Regular',
+                                                fontSize: mediaQuery.size.height * 0.017,
+                                                color: const Color(0xff221540),
+                                                ),
+                                                ),
+                                        SizedBox(height: mediaQuery.size.height * 0.002),
+                                        Text('Project ID: $projectID',
+                                              style: TextStyle(
+                                                fontFamily: 'Karla Regular',
+                                                fontSize: mediaQuery.size.height * 0.017,
+                                                color: const Color(0xff221540),
+                                                ),
+                                                ),
+                                      ],
                                     ),
-                                  Column(
-                                    children: [
-                                      Text('Project Name: $projectName'),
-                                      Text(
-                                          'Project Location: $projectLocation'),
-                                      Text(
-                                          'Project Inspector: $projectInspector'),
-                                      Text('Project ID: $projectID'),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
