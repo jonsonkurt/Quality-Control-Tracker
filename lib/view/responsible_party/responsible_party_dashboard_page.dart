@@ -276,30 +276,34 @@ class _ResponsiblePartyDashboardPageState
                         style: TextStyle(
                           fontFamily: 'Rubik Bold',
                           fontSize: mediaQuery.size.height * 0.02,
+                          color: const Color(0xFF221540)
                           ),
                       ),
-                      const SizedBox(height: 8.0),
+                      SizedBox(height: mediaQuery.size.height * 0.01),
                       Text(
                         'Location: $projectLocation',
                         style: TextStyle(
                           fontFamily: 'Karla Regular',
                           fontSize: mediaQuery.size.height * 0.02,
+                          color: const Color(0xFF221540)
                         ),
                         ),
-                      const SizedBox(height: 8.0),
+                      SizedBox(height: mediaQuery.size.height * 0.01),
                       Text(
                         'Deadline: $projectDeadline',
                         style: TextStyle(
                           fontFamily: 'Karla Regular',
                           fontSize: mediaQuery.size.height * 0.02,
+                          color: const Color(0xFF221540)
                         ),
                         ),
-                      const SizedBox(height: 8.0),
+                      SizedBox(height: mediaQuery.size.height * 0.01),
                       Text(
                         'Status: $projectStatus',
                         style: TextStyle(
                           fontFamily: 'Karla Regular',
                           fontSize: mediaQuery.size.height * 0.02,
+                          color: const Color(0xFF221540)
                         ),),
                     ],
                   ),
