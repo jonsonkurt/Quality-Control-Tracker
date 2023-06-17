@@ -2,10 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:quality_control_tracker/view/responsible_party/responsible_party_bottom_navigation_bar.dart';
 import 'package:quality_control_tracker/view/responsible_party/responsible_party_profile_page.dart';
 
 class ResponsiblePartyDashboardPage extends StatefulWidget {
@@ -142,6 +140,7 @@ class _ResponsiblePartyDashboardPageState
   @override
   Widget build(BuildContext context) {
     String rpRole = "";
+    DatabaseReference ref = FirebaseDatabase.instance.ref().child('projects');
 
     if (widget.role == "Project Manager") {
       rpRole = "projectManagerQuery";
@@ -200,85 +199,66 @@ class _ResponsiblePartyDashboardPageState
           ],
         ),
       ),
-      body: FirebaseAnimatedList(
-        query: FirebaseDatabase.instance
-            .ref()
-            .child('projects/')
-            .orderByChild(rpRole) // Try getting the role upon sign in
-            .equalTo(userID),
-        itemBuilder: (context, snapshot, animation, index) {
-          // Extract project details from the snapshot
-          String projectName = snapshot.child('projectName').value.toString();
-          String projectLocation =
-              snapshot.child('projectLocation').value.toString();
-          String projectDeadline =
-              snapshot.child('projectDeadline').value.toString();
-          String projectStatus =
-              snapshot.child('projectStatus').value.toString();
+      body: StreamBuilder(
+          stream: ref.orderByChild(rpRole).equalTo(userID).onValue,
+          builder: (context, AsyncSnapshot snapshot) {
+            dynamic values;
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasData) {
+              DataSnapshot dataSnapshot = snapshot.data!.snapshot;
 
-          return Padding(
-            padding:
-                const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
-            child: GestureDetector(
-              onTap: () {
-                // ignore: use_build_context_synchronously
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ResponsiblePartyBottomNavigation(
-                      projectID: snapshot.child('projectID').value.toString(),
-                    ),
-                  ),
-                );
-              },
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Project Name: $projectName',
-                        style: TextStyle(
-                            fontFamily: 'Rubik Bold',
-                            fontSize: mediaQuery.size.height * 0.02,
-                            color: const Color(0xFF221540)),
-                      ),
-                      SizedBox(height: mediaQuery.size.height * 0.01),
-                      Text(
-                        'Location: $projectLocation',
-                        style: TextStyle(
-                            fontFamily: 'Karla Regular',
-                            fontSize: mediaQuery.size.height * 0.02,
-                            color: const Color(0xFF221540)),
-                      ),
-                      SizedBox(height: mediaQuery.size.height * 0.01),
-                      Text(
-                        'Deadline: $projectDeadline',
-                        style: TextStyle(
-                            fontFamily: 'Karla Regular',
-                            fontSize: mediaQuery.size.height * 0.02,
-                            color: const Color(0xFF221540)),
-                      ),
-                      SizedBox(height: mediaQuery.size.height * 0.01),
-                      Text(
-                        'Status: $projectStatus',
-                        style: TextStyle(
-                            fontFamily: 'Karla Regular',
-                            fontSize: mediaQuery.size.height * 0.02,
-                            color: const Color(0xFF221540)),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+              if (dataSnapshot.value != null) {
+                values = dataSnapshot.value;
+
+                return ListView.builder(
+                    itemCount: values.length,
+                    itemBuilder: (context, index) {
+                      String projectID = values.keys.elementAt(index);
+
+                      String projectName = values[projectID]["projectName"];
+                      String projectLocation =
+                          values[projectID]["projectLocation"];
+                      String projectInspector = values[projectID]["inspector"];
+                      String projectImage = values[projectID]["projectImage"];
+
+                      return Card(
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                if (projectImage == "None")
+                                  const Text(
+                                    "NO FUCKING \nIMAGE",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                else
+                                  Image.network(
+                                    projectImage,
+                                    width: 100,
+                                    height: 100,
+                                  ),
+                                Column(
+                                  children: [
+                                    Text('Project Name: $projectName'),
+                                    Text('Project Location: $projectLocation'),
+                                    Text(
+                                        'Project Inspector: $projectInspector'),
+                                    Text('Project ID: $projectID'),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    });
+              }
+            }
+            return const Text("");
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: _showDialog,
         backgroundColor: const Color(0xFF221540),
