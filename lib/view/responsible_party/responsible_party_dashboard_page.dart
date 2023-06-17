@@ -273,14 +273,38 @@ class _ResponsiblePartyDashboardPageState
                     children: [
                       Text(
                         'Project Name: $projectName',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontFamily: 'Rubik Bold',
+                          fontSize: mediaQuery.size.height * 0.02,
+                          color: const Color(0xFF221540)
+                          ),
                       ),
-                      const SizedBox(height: 8.0),
-                      Text('Location: $projectLocation'),
-                      const SizedBox(height: 8.0),
-                      Text('Deadline: $projectDeadline'),
-                      const SizedBox(height: 8.0),
-                      Text('Status: $projectStatus'),
+                      SizedBox(height: mediaQuery.size.height * 0.01),
+                      Text(
+                        'Location: $projectLocation',
+                        style: TextStyle(
+                          fontFamily: 'Karla Regular',
+                          fontSize: mediaQuery.size.height * 0.02,
+                          color: const Color(0xFF221540)
+                        ),
+                        ),
+                      SizedBox(height: mediaQuery.size.height * 0.01),
+                      Text(
+                        'Deadline: $projectDeadline',
+                        style: TextStyle(
+                          fontFamily: 'Karla Regular',
+                          fontSize: mediaQuery.size.height * 0.02,
+                          color: const Color(0xFF221540)
+                        ),
+                        ),
+                      SizedBox(height: mediaQuery.size.height * 0.01),
+                      Text(
+                        'Status: $projectStatus',
+                        style: TextStyle(
+                          fontFamily: 'Karla Regular',
+                          fontSize: mediaQuery.size.height * 0.02,
+                          color: const Color(0xFF221540)
+                        ),),
                     ],
                   ),
                 ),
