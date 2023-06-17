@@ -46,6 +46,7 @@ dependencies:
   mirai_dropdown_menu: ^0.0.6+2
   dropdown_search: ^5.0.6
   textfield_datepicker: ^0.2.0
+  dio: ^5.2.1+1
 
 dev_dependencies:
   flutter_test:

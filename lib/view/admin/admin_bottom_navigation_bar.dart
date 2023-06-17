@@ -5,16 +5,11 @@ import 'admin_list_page.dart';
 import 'admin_inspector_creation_page.dart';
 import 'dart:async';
 import 'package:random_string/random_string.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:textfield_datepicker/textfield_datepicker.dart';
-import 'dart:convert';
 
 class AdminBottomNavigation extends StatefulWidget {
   const AdminBottomNavigation({Key? key}) : super(key: key);
@@ -44,7 +39,8 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
   final TextEditingController _projectLocationController =
       TextEditingController();
   final TextEditingController _inspectorController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _projectDeadlineController =
+      TextEditingController();
   Map<String, dynamic>? nameSubscription1;
 
   var logger = Logger();
@@ -68,8 +64,13 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
     _projectLocationController.dispose();
     _inspectorController.dispose();
     _pageController.dispose();
-    _dateController.dispose();
+    _projectDeadlineController.dispose();
+
     super.dispose();
+  }
+
+  void itemSelectionChanged(String? inspectorName) {
+    _inspectorController.text = inspectorName!;
   }
 
   @override
@@ -93,7 +94,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                 dataList.add(data);
               });
             }
-            print(dataList);
+
             // DITO GIOVS
             return Scaffold(
               floatingActionButton: _selectedItemPosition == 0
@@ -134,22 +135,29 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                     TextField(
                                       controller: _projectLocationController,
                                       decoration: const InputDecoration(
-                                        labelText: 'Project Description',
+                                        labelText: 'Project Location',
                                       ),
                                     ),
                                     const SizedBox(height: 16),
+
                                     DropdownSearch<String>(
+                                      onChanged: itemSelectionChanged,
                                       dropdownDecoratorProps:
                                           const DropDownDecoratorProps(
                                               dropdownSearchDecoration:
                                                   InputDecoration(
                                                       hintText:
                                                           "Inspector in-charge")),
-                                      items: [],
-                                      popupProps: const PopupProps.menu(
+                                      items: [
+                                        for (var item in dataList)
+                                          "${item["firstName"]} ${item["lastName"]}",
+                                      ],
+                                      popupProps: PopupProps.menu(
+                                        showSelectedItems: true,
                                         searchFieldProps: TextFieldProps(
-                                            decoration: InputDecoration(
-                                                labelText: "Search Here")),
+                                            controller: _inspectorController,
+                                            decoration: const InputDecoration(
+                                                hintText: "Search Here")),
                                         showSearchBox: true,
                                       ),
                                     ),
@@ -179,7 +187,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                       preferredDateFormat:
                                           DateFormat('dd-MMMM-' 'yyyy'),
                                       textfieldDatePickerController:
-                                          _dateController,
+                                          _projectDeadlineController,
                                       style: const TextStyle(
                                         fontSize: 13,
                                         color: Colors.black,
@@ -220,6 +228,25 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                     const SizedBox(height: 16),
                                     ElevatedButton(
                                       onPressed: () async {
+                                        String projName =
+                                            _projectNameController.text;
+                                        String projLocation =
+                                            _projectLocationController.text;
+                                        String inspectorName =
+                                            _inspectorController.text;
+                                        String projDeadline =
+                                            _projectDeadlineController.text;
+
+                                        String inspectorID = '';
+
+                                        for (var item in dataList) {
+                                          if (item['firstName'] == 'Giovanni' &&
+                                              item['lastName'] == 'De Vera') {
+                                            inspectorID = item['inspectorID'];
+                                            break;
+                                          }
+                                        }
+
                                         final String projectID =
                                             randomAlphaNumeric(8);
 
@@ -230,8 +257,8 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                           "carpenterQuery": "-",
                                           "electrician": "-",
                                           "electricianQuery": "-",
-                                          "inspector": "-",
-                                          "inspectorQuery": "-",
+                                          "inspector": inspectorName,
+                                          "inspectorQuery": inspectorID,
                                           "laborer": "-",
                                           "laborerQuery": "-",
                                           "landscaper": "-",
@@ -244,19 +271,24 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                           "painterQuery": "-",
                                           "plumber": "-",
                                           "plumberQuery": "-",
-                                          "projectDeadline": "-",
+                                          "projectDeadline": projDeadline,
                                           "projectID": projectID,
                                           "projectImage": "None",
-                                          "projectLocation": "-",
+                                          "projectLocation": projLocation,
                                           "projectManager": "-",
                                           "projectManagerQuery": "-",
-                                          "projectName": "-",
+                                          "projectName": projName,
                                           "projectStatus": "ON-GOING",
                                           "technician": "-",
                                           "technicianQuery": "-",
                                           "welder": "-",
                                           "welderQuery": "-"
                                         });
+
+                                        _projectNameController.clear();
+                                        _projectLocationController.clear();
+                                        _inspectorController.clear();
+                                        _projectDeadlineController.clear();
                                         // Perform the desired action when the button is pressed
                                       },
                                       child: const Text('Submit'),
@@ -272,7 +304,6 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                   : _selectedItemPosition == 1
                       ? FloatingActionButton(
                           onPressed: () {
-                            print("add inspection");
                             Navigator.push<void>(
                                 context,
                                 MaterialPageRoute(
