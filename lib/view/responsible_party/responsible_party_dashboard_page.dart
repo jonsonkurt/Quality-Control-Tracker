@@ -177,30 +177,41 @@ class _ResponsiblePartyDashboardPageState
       rpRole = "${widget.role.toLowerCase()}Query";
     }
 
-    return WillPopScope(
-      onWillPop: () async {
-        return false; // Disable back button
-      },
-      child: Scaffold(
-        backgroundColor: const Color(0xFFDCE4E9),
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(80),
-          child: AppBar(
-            backgroundColor: Colors.white,
-            automaticallyImplyLeading: false,
-            title: const Padding(
-              padding: EdgeInsets.fromLTRB(5, 25, 0, 0),
-              child: Text(
-                'Dashboard',
-                style: TextStyle(
-                  fontFamily: 'Rubik Bold',
-                  fontSize: 32,
-                  color: Color(0xFF221540),
-                ),
+    final mediaQuery = MediaQuery.of(context);
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFDCE4E9),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(
+          mediaQuery.size.height * 0.1,
+        ),
+        child: AppBar(
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(
+              0, 
+              mediaQuery.size.height * 0.035, 
+              mediaQuery.size.width * 0.06, 
+              0),
+            child: Text(
+              'Dashboard',
+              style: TextStyle(
+                fontFamily: 'Rubik Bold',
+                fontSize: mediaQuery.size.height * 0.04,
+                color: const Color(0xFF221540),
               ),
             ),
-            actions: [
-              IconButton(
+          ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                0,
+                mediaQuery.size.height * 0.015,
+                mediaQuery.size.width * 0.035,
+                0,
+              ),
+              child: IconButton(
                 onPressed: () {
                   // ignore: use_build_context_synchronously
                   Navigator.push<void>(
@@ -210,80 +221,78 @@ class _ResponsiblePartyDashboardPageState
                     ),
                   );
                 },
-                icon: const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10, 25, 0),
-                  child: Icon(
-                    Icons.account_circle,
-                    size: 40,
-                    color: Color(0xFF221540),
-                  ),
+                icon: const Icon(
+                      Icons.account_circle,
+                      size: 40,
+                      color: Color(0xFF221540),
+                    ),
                 ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-        body: FirebaseAnimatedList(
-          query: FirebaseDatabase.instance
-              .ref()
-              .child('projects/')
-              .orderByChild(rpRole) // Try getting the role upon sign in
-              .equalTo(userID),
-          itemBuilder: (context, snapshot, animation, index) {
-            // Extract project details from the snapshot
-            String projectName = snapshot.child('projectName').value.toString();
-            String projectLocation =
-                snapshot.child('projectLocation').value.toString();
-            String projectDeadline =
-                snapshot.child('projectDeadline').value.toString();
-            String projectStatus =
-                snapshot.child('projectStatus').value.toString();
+      ),
+      body: FirebaseAnimatedList(
+        query: FirebaseDatabase.instance
+            .ref()
+            .child('projects/')
+            .orderByChild(rpRole) // Try getting the role upon sign in
+            .equalTo(userID),
+        itemBuilder: (context, snapshot, animation, index) {
+          // Extract project details from the snapshot
+          String projectName = snapshot.child('projectName').value.toString();
+          String projectLocation =
+              snapshot.child('projectLocation').value.toString();
+          String projectDeadline =
+              snapshot.child('projectDeadline').value.toString();
+          String projectStatus =
+              snapshot.child('projectStatus').value.toString();
 
-            return Padding(
-              padding: const EdgeInsets.only(
-                  top: 20, bottom: 20, left: 10, right: 10),
-              child: GestureDetector(
-                onTap: () {
-                  // ignore: use_build_context_synchronously
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ResponsiblePartyBottomNavigation(
-                        projectID: snapshot.child('projectID').value.toString(),
-                      ),
+          return Padding(
+            padding:
+                const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
+            child: GestureDetector(
+              onTap: () {
+                // ignore: use_build_context_synchronously
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResponsiblePartyBottomNavigation(
+                      projectID: snapshot.child('projectID').value.toString(),
                     ),
-                  );
-                },
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Project Name: $projectName',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text('Location: $projectLocation'),
-                        const SizedBox(height: 8.0),
-                        Text('Deadline: $projectDeadline'),
-                        const SizedBox(height: 8.0),
-                        Text('Status: $projectStatus'),
-                      ],
-                    ),
+                );
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Project Name: $projectName',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text('Location: $projectLocation'),
+                      const SizedBox(height: 8.0),
+                      Text('Deadline: $projectDeadline'),
+                      const SizedBox(height: 8.0),
+                      Text('Status: $projectStatus'),
+                    ],
                   ),
                 ),
               ),
-            );
-          },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _showDialog,
-          child: const Icon(Icons.add),
-        ),
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showDialog,
+        backgroundColor: const Color(0xFF221540),
+        child: const Icon(Icons.add),
       ),
     );
   }

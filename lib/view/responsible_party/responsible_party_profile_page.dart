@@ -23,35 +23,54 @@ class _ResponsiblePartyProfilePageState
       MaterialPageRoute(builder: (context) => const SignInPage()),
     );
   }
-
+  
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return Scaffold(
+      backgroundColor: const Color(0xFFDCE4E9),
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
+        preferredSize:  Size.fromHeight(
+          mediaQuery.size.height * 0.1,
+        ),
         child: AppBar(
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
               }, 
-              icon: const Icon(
-                Icons.arrow_back_ios,
-                color: Color(0xFF221540),),
+              icon: Padding(
+                padding: EdgeInsets.fromLTRB(
+              0, 
+              mediaQuery.size.height * 0.025, 
+              0, 
+              0),
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Color(0xFF221540),),
+              ),
                 ),
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
-          title: const Text(
-            'Profile',
-            style: TextStyle(
-              fontFamily: 'Rubik Bold',
-              fontSize: 32,
-              color: Color(0xFF221540),
-            ),),
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(
+              0, 
+              mediaQuery.size.height * 0.035, 
+              0, 
+              0),
+            child: Text(
+              'Profile',
+              style: TextStyle(
+                fontFamily: 'Rubik Bold',
+                fontSize: mediaQuery.size.height * 0.04,
+                color: const Color(0xFF221540),
+              ),),
+          ),
         ),
       ),
       body: const Placeholder(),
       floatingActionButton: FloatingActionButton(
         onPressed: _logout,
+        backgroundColor: const Color(0xFF221540),
         child: const Icon(Icons.logout),
       ),
     );
