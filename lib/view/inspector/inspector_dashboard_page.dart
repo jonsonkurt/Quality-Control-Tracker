@@ -18,38 +18,63 @@ class _InspectorDashboardPageState extends State<InspectorDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return WillPopScope(
       onWillPop: () async {
         return false; // Disable back button
       },
+      
       child: Scaffold(
         backgroundColor: const Color(0xFFDCE4E9),
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          title: const Text(
-            'Dashboard',
-            style: TextStyle(
-              color: Color(0xFF221540),
-            ),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(
+            mediaQuery.size.height * 0.1
           ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                // ignore: use_build_context_synchronously
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const InspectorProfilePage(),
-                  ),
-                );
-              },
-              icon: const Icon(
-                Icons.account_circle,
-                color: Colors.purple,
+          child: AppBar(
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
+            title: Padding(
+            padding: EdgeInsets.fromLTRB(
+              0, 
+              mediaQuery.size.height * 0.035, 
+              mediaQuery.size.width * 0.06, 
+              0),
+            child: Text(
+              'Dashboard',
+              style: TextStyle(
+                fontFamily: 'Rubik Bold',
+                fontSize: mediaQuery.size.height * 0.04,
+                color: const Color(0xFF221540),
               ),
             ),
-          ],
+          ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                0,
+                mediaQuery.size.height * 0.017,
+                mediaQuery.size.width * 0.035,
+                0,
+              ),
+                child: IconButton(
+                  onPressed: () {
+                    // ignore: use_build_context_synchronously
+                    Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const InspectorProfilePage(),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.account_circle,
+                    size: mediaQuery.size.height * 0.045,
+                    color: const Color(0xFF221540),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         body: FirebaseAnimatedList(
           query: FirebaseDatabase.instance
@@ -93,14 +118,39 @@ class _InspectorDashboardPageState extends State<InspectorDashboardPage> {
                       children: [
                         Text(
                           'Project Name: $projectName',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontFamily: 'Rubik Bold',
+                            fontSize: mediaQuery.size.height * 0.02,
+                            color: const Color(0xFF221540)
+                            ),
                         ),
-                        const SizedBox(height: 8.0),
-                        Text('Location: $projectLocation'),
-                        const SizedBox(height: 8.0),
-                        Text('Deadline: $projectDeadline'),
-                        const SizedBox(height: 8.0),
-                        Text('Status: $projectStatus'),
+                        SizedBox(height: mediaQuery.size.height * 0.01),
+                        Text(
+                          'Location: $projectLocation',
+                          style: TextStyle(
+                            fontFamily: 'Karla Regular',
+                            fontSize: mediaQuery.size.height * 0.02,
+                            color: const Color(0xFF221540),
+                        ),
+                          ),
+                        SizedBox(height: mediaQuery.size.height * 0.01),
+                        Text(
+                          'Deadline: $projectDeadline',
+                          style: TextStyle(
+                            fontFamily: 'Karla Regular',
+                            fontSize: mediaQuery.size.height * 0.02,
+                            color: const Color(0xFF221540),
+                            ),
+                          ),
+                        SizedBox(height: mediaQuery.size.height * 0.01),
+                        Text(
+                          'Status: $projectStatus',
+                          style: TextStyle(
+                            fontFamily: 'Karla Regular',
+                            fontSize: mediaQuery.size.height * 0.02,
+                            color: const Color(0xFF221540)
+                              ),
+                            ),
                       ],
                     ),
                   ),

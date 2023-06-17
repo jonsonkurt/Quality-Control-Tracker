@@ -207,7 +207,7 @@ class _ResponsiblePartyDashboardPageState
             Padding(
               padding: EdgeInsets.fromLTRB(
                 0,
-                mediaQuery.size.height * 0.015,
+                mediaQuery.size.height * 0.017,
                 mediaQuery.size.width * 0.035,
                 0,
               ),
@@ -221,10 +221,10 @@ class _ResponsiblePartyDashboardPageState
                     ),
                   );
                 },
-                icon: const Icon(
+                icon: Icon(
                       Icons.account_circle,
-                      size: 40,
-                      color: Color(0xFF221540),
+                      size: mediaQuery.size.height * 0.045,
+                      color: const Color(0xFF221540),
                     ),
                 ),
             ),

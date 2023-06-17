@@ -26,7 +26,9 @@ class _ResponsiblePartyProfilePageState
   
   @override
   Widget build(BuildContext context) {
+
     final mediaQuery = MediaQuery.of(context);
+    
     return Scaffold(
       backgroundColor: const Color(0xFFDCE4E9),
       appBar: PreferredSize(
