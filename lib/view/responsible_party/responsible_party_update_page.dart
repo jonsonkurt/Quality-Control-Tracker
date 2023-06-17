@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
 class ResponsiblePartyUpdatePage extends StatefulWidget {
@@ -47,6 +48,13 @@ class _ResponsiblePartyUpdatePageState
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        // Getting the time and date
+        final now = DateTime.now();
+        final formattedDate = DateFormat('MM-dd-yyyy').format(now);
+        final formattedTime = DateFormat('HH:mm').format(now);
+        final combinedDateTime = "$formattedDate-$formattedTime";
+        print(combinedDateTime);
+
         return AlertDialog(
           backgroundColor: const Color(0xffDCE4E9),
           shape: RoundedRectangleBorder(
