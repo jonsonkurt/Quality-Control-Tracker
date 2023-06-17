@@ -24,6 +24,8 @@ class ResponsiblePartyDashboardPage extends StatefulWidget {
 class _ResponsiblePartyDashboardPageState
     extends State<ResponsiblePartyDashboardPage> {
   final TextEditingController _projectIdController = TextEditingController();
+  final TextEditingController _textFieldController = TextEditingController();
+
   StreamSubscription<DatabaseEvent>? getRole;
   StreamSubscription<DatabaseEvent>? userSubscription;
   StreamSubscription<DatabaseEvent>? projectSubscription;
@@ -37,6 +39,36 @@ class _ResponsiblePartyDashboardPageState
     _projectIdController.dispose();
     super.dispose();
   }
+
+  // void _showDialog() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text('Enter Text'),
+  //         content: Column(
+  //           children: <Widget>[
+  //             TextField(
+  //               controller: _textFieldController,
+  //               decoration: InputDecoration(hintText: 'Type something'),
+  //             ),
+  //           ],
+  //         ),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () {
+  //               String enteredText = _textFieldController.text;
+  //               // Do something with the entered text, such as printing it
+  //               print('Entered Text: $enteredText');
+  //               Navigator.of(context).pop();
+  //             },
+  //             child: Text('Submit'),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   void _showDialog() {
     // Getting the RP's role and roleQuery
@@ -80,25 +112,20 @@ class _ResponsiblePartyDashboardPageState
                 fontSize: 20,
                 color: Color(0xFF221540)),
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              TextField(
-                controller: _projectIdController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide.none),
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: 'Project ID',
-                  labelStyle: const TextStyle(
-                    fontFamily: 'Karla Regular',
-                    fontSize: 16,
-                  ),
-                ),
+          content: TextField(
+            controller: _projectIdController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide.none),
+              filled: true,
+              fillColor: Colors.white,
+              hintText: 'Project ID',
+              labelStyle: const TextStyle(
+                fontFamily: 'Karla Regular',
+                fontSize: 16,
               ),
-            ],
+            ),
           ),
           actions: <Widget>[
             TextButton(
