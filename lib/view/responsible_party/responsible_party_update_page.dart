@@ -55,60 +55,90 @@ class _ResponsiblePartyUpdatePageState
         final combinedDateTime = "$formattedDate-$formattedTime";
         print(combinedDateTime);
 
+        final mediaQuery = MediaQuery.of(context);
+
         return AlertDialog(
           backgroundColor: const Color(0xffDCE4E9),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          title: const Text(
+          title: Text(
             'Request Inspection',
             style: TextStyle(
                 fontFamily: 'Rubik Bold',
-                fontSize: 20,
-                color: Color(0xFF221540)),
+                fontSize: mediaQuery.size.height * 0.03,
+                color: const Color(0xFF221540)),
           ),
-          content: TextField(
-            controller: _rpNotesController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Notes',
-              labelStyle: const TextStyle(
-                fontFamily: 'Karla Regular',
-                fontSize: 16,
+          content: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5), // Set the shadow color
+                  spreadRadius: 0.5, // Set the spread radius
+                  blurRadius: 30, // Set the blur radius
+                  offset: const Offset(0, 10), // Set the offset
+                ),
+              ],
+            ),
+            child: TextField(
+              cursorColor: const Color(0xFF221540),
+              controller: _rpNotesController,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.fromLTRB(12, 4, 4, 0),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none),
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Notes',
+                labelStyle: TextStyle(
+                  fontFamily: 'Karla Regular',
+                  fontSize: mediaQuery.size.height * 0.02,
+                ),
               ),
             ),
           ),
           actions: <Widget>[
-            TextButton(
-              onPressed: () async {
-                String rpNotes = _rpNotesController.text;
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    backgroundColor: const Color(0xFF221540)),
+                onPressed: () async {
+                  String rpNotes = _rpNotesController.text;
 
-                // Updates database
-                DatabaseReference projectsRef = FirebaseDatabase.instance
-                    .ref()
-                    .child('projectUpdates/${widget.projectIDQuery}');
+                  // Updates database
+                  DatabaseReference projectsRef = FirebaseDatabase.instance
+                      .ref()
+                      .child('projectUpdates/${widget.projectIDQuery}');
 
-                projectsRef.set({
-                  "projectID": widget.projectIDQuery,
-                  "rpID": userID,
-                  "rpName": rpFullName,
-                  "rpRole": rpRole,
-                  "inspectorID": inspectorID,
-                  "rpProjectRemarks": "$userID-PENDING",
-                  "submissionDate": "-",
-                  "rpNotes": rpNotes,
-                  "inspectorProjectRemakrs": "-",
-                  "inspectorNotes": "-",
-                  "inspectionDate": "-",
-                });
+                  projectsRef.set({
+                    "projectID": widget.projectIDQuery,
+                    "rpID": userID,
+                    "rpName": rpFullName,
+                    "rpRole": rpRole,
+                    "inspectorID": inspectorID,
+                    "rpProjectRemarks": "$userID-PENDING",
+                    "submissionDate": "-",
+                    "rpNotes": rpNotes,
+                    "inspectorProjectRemakrs": "-",
+                    "inspectorNotes": "-",
+                    "inspectionDate": "-",
+                  });
 
-                Navigator.of(context).pop();
-              },
-              child: const Text('Submit'),
+                  Navigator.of(context).pop();
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(mediaQuery.size.height * 0.017),
+                  child: Text(
+                    'Request',
+                    style: TextStyle(
+                        fontFamily: 'Rubik Regular',
+                        fontSize: mediaQuery.size.height * 0.02),
+                  ),
+                ),
+              ),
             ),
           ],
         );
