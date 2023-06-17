@@ -82,7 +82,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             Row(
                               children: [
                                 if (projectImage == "None")
-                                  Text(
+                                  const Text(
                                     "NO FUCKING \nIMAGE",
                                     style: TextStyle(
                                         fontSize: 16,
