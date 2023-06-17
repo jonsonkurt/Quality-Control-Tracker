@@ -34,21 +34,22 @@ class _ResponsiblePartyProfilePageState
           mediaQuery.size.height * 0.1,
         ),
         child: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-              }, 
-              icon: Padding(
-                padding: EdgeInsets.fromLTRB(
-              0, 
-              mediaQuery.size.height * 0.025, 
-              0, 
-              0),
-                child: const Icon(
-                  Icons.arrow_back_ios,
-                  color: Color(0xFF221540),),
+          leading: Padding(
+            padding: EdgeInsets.fromLTRB(
+              mediaQuery.size.width * 0.035,
+              mediaQuery.size.height * 0.028,
+              0,
+              0,
               ),
-                ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+                }, 
+                icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Color(0xFF221540),),
+                  ),
+          ),
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           title: Padding(
