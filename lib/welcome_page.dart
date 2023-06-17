@@ -120,9 +120,9 @@ class WelcomePage extends StatelessWidget {
             Text(
               'Track construction projects with ease!',
               style: TextStyle(
-                fontFamily: 'Karla Regular', 
+                fontFamily: 'Karla Regular',
                 fontSize: mediaQuery.size.height * 0.02,
-                ),
+              ),
             ),
             SizedBox(
               height: mediaQuery.size.height * 0.07,
@@ -138,15 +138,14 @@ class WelcomePage extends StatelessWidget {
                 backgroundColor: const Color(0xff221540),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
-                minimumSize: Size(
-                  mediaQuery.size.height * 0.25, 
-                  mediaQuery.size.width * 0.15),
+                minimumSize: Size(mediaQuery.size.height * 0.25,
+                    mediaQuery.size.width * 0.15),
               ),
               child: Text(
                 'Get Started!',
                 style: TextStyle(
-                  fontFamily: 'Rubik Medium', 
-                  fontSize: mediaQuery.size.height * 0.025),
+                    fontFamily: 'Rubik Medium',
+                    fontSize: mediaQuery.size.height * 0.025),
               ),
             ),
           ],
