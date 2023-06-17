@@ -71,66 +71,96 @@ class _ResponsiblePartyDashboardPageState
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final mediaQuery = MediaQuery.of(context);
         return AlertDialog(
           backgroundColor: const Color(0xffDCE4E9),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          title: const Text(
+          title: Text(
             'Add Project',
             style: TextStyle(
                 fontFamily: 'Rubik Bold',
-                fontSize: 20,
-                color: Color(0xFF221540)),
+                fontSize: mediaQuery.size.height * 0.03,
+                color: const Color(0xFF221540)),
           ),
-          content: TextField(
-            controller: _projectIdController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Project ID',
-              labelStyle: const TextStyle(
-                fontFamily: 'Karla Regular',
-                fontSize: 16,
+          content: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5), // Set the shadow color
+                  spreadRadius: 0.5, // Set the spread radius
+                  blurRadius: 30, // Set the blur radius
+                  offset: const Offset(0, 10), // Set the offset
+                ),
+              ],),
+            child: TextField(
+              cursorColor: const Color(0xFF221540),
+              controller: _projectIdController,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.fromLTRB(12, 4, 4, 0),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none),
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Project ID',
+                labelStyle: TextStyle(
+                  fontFamily: 'Karla Regular',
+                  fontSize: mediaQuery.size.height * 0.02,
+                ),
               ),
             ),
           ),
           actions: <Widget>[
-            TextButton(
-              onPressed: () async {
-                String projectId = _projectIdController.text;
-
-                // Updates database
-                DatabaseReference projectsRef = FirebaseDatabase.instance
-                    .ref()
-                    .child('projects/$projectId');
-
-                projectSubscription = projectsRef.onValue.listen((event) {
-                  try {
-                    if (event.snapshot.value != null) {
-                      projectsRef.update({
-                        rpRole: name,
-                        rpRoleQuery: userID,
-                      });
-                      _projectIdController.text = "";
-                    } else {
-                      // Project does not exist, show SnackBar
-                      _projectIdController.text = "";
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Project does not exist")),
-                      );
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)
+                  ),
+                  backgroundColor: const Color(0xFF221540)
+                ),
+                onPressed: () async {
+                  String projectId = _projectIdController.text;
+            
+                  // Updates database
+                  DatabaseReference projectsRef = FirebaseDatabase.instance
+                      .ref()
+                      .child('projects/$projectId');
+            
+                  projectSubscription = projectsRef.onValue.listen((event) {
+                    try {
+                      if (event.snapshot.value != null) {
+                        projectsRef.update({
+                          rpRole: name,
+                          rpRoleQuery: userID,
+                        });
+                        _projectIdController.text = "";
+                      } else {
+                        // Project does not exist, show SnackBar
+                        _projectIdController.text = "";
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Project does not exist")),
+                        );
+                      }
+                    } catch (error, stackTrace) {
+                      logger.d('Error occurred: $error');
+                      logger.d('Stack trace: $stackTrace');
                     }
-                  } catch (error, stackTrace) {
-                    logger.d('Error occurred: $error');
-                    logger.d('Stack trace: $stackTrace');
-                  }
-                });
-                Navigator.of(context).pop();
-              },
-              child: const Text('Submit'),
+                  });
+                  Navigator.of(context).pop();
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(mediaQuery.size.height * 0.017),
+                  child: Text(
+                    'Add Project',
+                    style: TextStyle(
+                      fontFamily: 'Rubik Regular',
+                      fontSize: mediaQuery.size.height * 0.02
+                    ),),
+                ),
+              ),
             ),
           ],
         );
