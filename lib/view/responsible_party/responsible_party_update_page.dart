@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
 class ResponsiblePartyUpdatePage extends StatefulWidget {
@@ -47,6 +48,12 @@ class _ResponsiblePartyUpdatePageState
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        // Getting the time and date
+        final now = DateTime.now();
+        final formattedDate = DateFormat('MM-dd-yyyy').format(now);
+        final formattedTime = DateFormat('HH:mm').format(now);
+        final combinedDateTime = "$formattedDate-$formattedTime";
+        print(combinedDateTime);
 
         final mediaQuery = MediaQuery.of(context);
 
@@ -92,19 +99,17 @@ class _ResponsiblePartyUpdatePageState
             Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)
-                  ),
-                  backgroundColor: const Color(0xFF221540)
-                ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    backgroundColor: const Color(0xFF221540)),
                 onPressed: () async {
                   String rpNotes = _rpNotesController.text;
-            
+
                   // Updates database
                   DatabaseReference projectsRef = FirebaseDatabase.instance
                       .ref()
                       .child('projectUpdates/${widget.projectIDQuery}');
-            
+
                   projectsRef.set({
                     "projectID": widget.projectIDQuery,
                     "rpID": userID,
@@ -118,7 +123,7 @@ class _ResponsiblePartyUpdatePageState
                     "inspectorNotes": "-",
                     "inspectionDate": "-",
                   });
-            
+
                   Navigator.of(context).pop();
                 },
                 child: Padding(
@@ -126,9 +131,9 @@ class _ResponsiblePartyUpdatePageState
                   child: Text(
                     'Request',
                     style: TextStyle(
-                      fontFamily: 'Rubik Regular',
-                      fontSize: mediaQuery.size.height * 0.02
-                    ),),
+                        fontFamily: 'Rubik Regular',
+                        fontSize: mediaQuery.size.height * 0.02),
+                  ),
                 ),
               ),
             ),
