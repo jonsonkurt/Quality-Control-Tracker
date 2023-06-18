@@ -62,36 +62,32 @@ class _ResponsiblePartyUpdatePageState
                 fontSize: mediaQuery.size.height * 0.03,
                 color: const Color(0xFF221540)),
           ),
-          content: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5), // Set the shadow color
-                  spreadRadius: 0.5, // Set the spread radius
-                  blurRadius: 30, // Set the blur radius
-                  offset: const Offset(0, 10), // Set the offset
-                ),
-              ],),
+          content: Material(
+            borderRadius: BorderRadius.circular(30.0),
+            elevation: 5,
             child: TextField(
-              cursorColor: const Color(0xFF221540),
-              controller: _rpNotesController,
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.fromLTRB(12, 4, 4, 0),
-                border: OutlineInputBorder(
+                cursorColor: const Color(0xFF221540),
+                controller: _rpNotesController,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.fromLTRB(12, 4, 4, 0),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none),
-                    
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Notes',
-                labelStyle: TextStyle(
-                  fontFamily: 'Karla Regular',
-                  fontSize: mediaQuery.size.height * 0.02,
+                    borderSide: BorderSide.none),   
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Notes',
+                  labelStyle: TextStyle(
+                    fontFamily: 'Karla Regular',
+                    fontSize: mediaQuery.size.height * 0.02,
+                  ),
+                
                 ),
-              
               ),
-            ),
           ),
+          
           actions: <Widget>[
             Center(
               child: ElevatedButton(
