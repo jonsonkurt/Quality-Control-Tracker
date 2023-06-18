@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:quality_control_tracker/notification_controller.dart';
 import 'package:quality_control_tracker/welcome_page.dart';
 import 'firebase_options.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+    initFcm(context);
     return MaterialApp(
       title: 'Quality Control Tracker',
       theme: ThemeData(

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../../sign_in_page.dart';
@@ -12,8 +13,27 @@ class InspectorProfilePage extends StatefulWidget {
 
 class _InspectorProfilePageState extends State<InspectorProfilePage> {
   Future<void> _logout() async {
-    await FirebaseAuth.instance.signOut();
+    String? userID = FirebaseAuth.instance.currentUser?.uid;
 
+    if (FirebaseAuth.instance.currentUser != null) {
+      DatabaseReference ref =
+          FirebaseDatabase.instance.ref().child('inspectors');
+
+      // ignore: unnecessary_null_comparison
+
+      await ref.child(userID!).update({
+        'fcmInspectorToken': "-",
+      });
+
+      // ignore: use_build_context_synchronously
+
+      // ignore: empty_catches
+    }
+
+    // Note: This callback is fired at each app startup and whenever a new
+    // token is generated.
+
+    await FirebaseAuth.instance.signOut();
     // Redirect the user to the SignInPage after logging out
     // ignore: use_build_context_synchronously
     Navigator.pushReplacement(
@@ -24,7 +44,6 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-
     final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -35,9 +54,7 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
         ),
         child: AppBar(
           title: Padding(
-            padding: EdgeInsets.only(
-              top: mediaQuery.size.height * 0.035
-              ),
+            padding: EdgeInsets.only(top: mediaQuery.size.height * 0.035),
             child: Text(
               'Profile',
               style: TextStyle(
@@ -45,7 +62,7 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
                 fontSize: mediaQuery.size.height * 0.04,
                 color: const Color(0xFF221540),
               ),
-              ),
+            ),
           ),
           backgroundColor: Colors.white,
           leading: Padding(
@@ -54,16 +71,17 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
               mediaQuery.size.height * 0.028,
               0,
               0,
-              ),
-              child: IconButton(
+            ),
+            child: IconButton(
               onPressed: () {
                 Navigator.pop(context);
-                }, 
-                icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Color(0xFF221540),),
-                  ),
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Color(0xFF221540),
               ),
+            ),
+          ),
         ),
       ),
       body: const Placeholder(),

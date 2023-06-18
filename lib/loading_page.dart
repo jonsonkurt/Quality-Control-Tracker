@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:quality_control_tracker/view/inspector/inspector_dashboard_page.dart';
@@ -35,10 +36,21 @@ class _LoadingPageState extends State<LoadingPage> {
     if (FirebaseAuth.instance.currentUser != null) {
       DatabaseReference nameRef =
           FirebaseDatabase.instance.ref().child('inspectors/$userID/role');
-      userSubscription = nameRef.onValue.listen((event) {
+      DatabaseReference insRef =
+          FirebaseDatabase.instance.ref().child('inspectors');
+      DatabaseReference resRef =
+          FirebaseDatabase.instance.ref().child('responsibleParties');
+      userSubscription = nameRef.onValue.listen((event) async {
         try {
           account = event.snapshot.value.toString();
           if (account == "Inspector") {
+            final fcmToken = await FirebaseMessaging.instance.getToken();
+
+            await insRef.child(userID.toString()).update({
+              'fcmInspectorToken': fcmToken,
+            });
+
+            // ignore: use_build_context_synchronously
             Navigator.push(
               context,
               PageRouteBuilder(
@@ -65,9 +77,15 @@ class _LoadingPageState extends State<LoadingPage> {
             DatabaseReference nameRef2 = FirebaseDatabase.instance
                 .ref()
                 .child('responsibleParties/$userID/role');
-            userSubscription2 = nameRef2.onValue.listen((event) {
+            userSubscription2 = nameRef2.onValue.listen((event) async {
               try {
                 account = event.snapshot.value.toString();
+                final fcmToken = await FirebaseMessaging.instance.getToken();
+
+                await resRef.child(userID.toString()).update({
+                  'fcmToken': fcmToken,
+                });
+                // ignore: use_build_context_synchronously
                 Navigator.push(
                   context,
                   PageRouteBuilder(
