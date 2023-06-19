@@ -116,18 +116,13 @@ class _ResponsiblePartyDashboardPageState
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                     backgroundColor: const Color(0xFF221540)),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    backgroundColor: const Color(0xFF221540)),
                 onPressed: () async {
                   String projectId = _projectIdController.text;
-
 
                   // Updates database
                   DatabaseReference projectsRef = FirebaseDatabase.instance
                       .ref()
                       .child('projects/$projectId');
-
 
                   projectSubscription = projectsRef.onValue.listen((event) {
                     try {
@@ -141,8 +136,6 @@ class _ResponsiblePartyDashboardPageState
                         // Project does not exist, show SnackBar
                         _projectIdController.text = "";
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text("Project does not exist")),
                           const SnackBar(
                               content: Text("Project does not exist")),
                         );
@@ -159,9 +152,6 @@ class _ResponsiblePartyDashboardPageState
                   child: Text(
                     'Add Project',
                     style: TextStyle(
-                        fontFamily: 'Rubik Regular',
-                        fontSize: mediaQuery.size.height * 0.02),
-                  ),
                         fontFamily: 'Rubik Regular',
                         fontSize: mediaQuery.size.height * 0.02),
                   ),
@@ -265,125 +255,126 @@ class _ResponsiblePartyDashboardPageState
                             values[projectID]["inspector"];
                         String projectImage = values[projectID]["projectImage"];
 
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ResponsiblePartyBottomNavigation(
-                                projectID: projectID,
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ResponsiblePartyBottomNavigation(
+                                  projectID: projectID,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              mediaQuery.size.width * 0.01,
+                              mediaQuery.size.height * 0.001,
+                              mediaQuery.size.width * 0.01,
+                              mediaQuery.size.height * 0.001,
+                            ),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      if (projectImage == "None")
+                                        Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: Image.asset(
+                                              'assets/images/no-image.png',
+                                              width: 100,
+                                              height: 100,
+                                            ),
+                                          ),
+                                        )
+                                      else
+                                        Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: Image.network(
+                                              projectImage,
+                                              width: 100,
+                                              height: 100,
+                                            ),
+                                          ),
+                                        ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Project Name: $projectName',
+                                            style: TextStyle(
+                                              fontFamily: 'Rubik Bold',
+                                              fontSize:
+                                                  mediaQuery.size.height * 0.02,
+                                              color: const Color(0xff221540),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              height: mediaQuery.size.height *
+                                                  0.002),
+                                          Text(
+                                            'Project Location: $projectLocation',
+                                            style: TextStyle(
+                                              fontFamily: 'Karla Regular',
+                                              fontSize: mediaQuery.size.height *
+                                                  0.017,
+                                              color: const Color(0xff221540),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              height: mediaQuery.size.height *
+                                                  0.002),
+                                          Text(
+                                            'Project Inspector: $projectInspector',
+                                            style: TextStyle(
+                                              fontFamily: 'Karla Regular',
+                                              fontSize: mediaQuery.size.height *
+                                                  0.017,
+                                              color: const Color(0xff221540),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              height: mediaQuery.size.height *
+                                                  0.002),
+                                          Text(
+                                            'Project ID: $projectID',
+                                            style: TextStyle(
+                                              fontFamily: 'Karla Regular',
+                                              fontSize: mediaQuery.size.height *
+                                                  0.017,
+                                              color: const Color(0xff221540),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                          );
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(
-                            mediaQuery.size.width * 0.01,
-                            mediaQuery.size.height * 0.001,
-                            mediaQuery.size.width * 0.01,
-                            mediaQuery.size.height * 0.001,
                           ),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    if (projectImage == "None")
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          child: Image.asset(
-                                            'assets/images/no-image.png',
-                                            width: 100,
-                                            height: 100,
-                                          ),
-                                        ),
-                                      )
-                                    else
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          child: Image.network(
-                                            projectImage,
-                                            width: 100,
-                                            height: 100,
-                                          ),
-                                        ),
-                                      ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Project Name: $projectName',
-                                          style: TextStyle(
-                                            fontFamily: 'Rubik Bold',
-                                            fontSize:
-                                                mediaQuery.size.height * 0.02,
-                                            color: const Color(0xff221540),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height:
-                                                mediaQuery.size.height * 0.002),
-                                        Text(
-                                          'Project Location: $projectLocation',
-                                          style: TextStyle(
-                                            fontFamily: 'Karla Regular',
-                                            fontSize:
-                                                mediaQuery.size.height * 0.017,
-                                            color: const Color(0xff221540),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height:
-                                                mediaQuery.size.height * 0.002),
-                                        Text(
-                                          'Project Inspector: $projectInspector',
-                                          style: TextStyle(
-                                            fontFamily: 'Karla Regular',
-                                            fontSize:
-                                                mediaQuery.size.height * 0.017,
-                                            color: const Color(0xff221540),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height:
-                                                mediaQuery.size.height * 0.002),
-                                        Text(
-                                          'Project ID: $projectID',
-                                          style: TextStyle(
-                                            fontFamily: 'Karla Regular',
-                                            fontSize:
-                                                mediaQuery.size.height * 0.017,
-                                            color: const Color(0xff221540),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    });
+                        );
+                      });
+                }
               }
-            }
-            return const Text("");
-          }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showDialog,
-        backgroundColor: const Color(0xFF221540),
-        child: const Icon(Icons.add),
+              return const Text("");
+            }),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _showDialog,
+          backgroundColor: const Color(0xFF221540),
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
