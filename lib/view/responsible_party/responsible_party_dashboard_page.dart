@@ -113,19 +113,17 @@ class _ResponsiblePartyDashboardPageState
             Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)
-                  ),
-                  backgroundColor: const Color(0xFF221540)
-                ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    backgroundColor: const Color(0xFF221540)),
                 onPressed: () async {
                   String projectId = _projectIdController.text;
-            
+
                   // Updates database
                   DatabaseReference projectsRef = FirebaseDatabase.instance
                       .ref()
                       .child('projects/$projectId');
-            
+
                   projectSubscription = projectsRef.onValue.listen((event) {
                     try {
                       if (event.snapshot.value != null) {
@@ -138,7 +136,8 @@ class _ResponsiblePartyDashboardPageState
                         // Project does not exist, show SnackBar
                         _projectIdController.text = "";
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Project does not exist")),
+                          const SnackBar(
+                              content: Text("Project does not exist")),
                         );
                       }
                     } catch (error, stackTrace) {
@@ -153,9 +152,9 @@ class _ResponsiblePartyDashboardPageState
                   child: Text(
                     'Add Project',
                     style: TextStyle(
-                      fontFamily: 'Rubik Regular',
-                      fontSize: mediaQuery.size.height * 0.02
-                    ),),
+                        fontFamily: 'Rubik Regular',
+                        fontSize: mediaQuery.size.height * 0.02),
+                  ),
                 ),
               ),
             ),
@@ -178,180 +177,204 @@ class _ResponsiblePartyDashboardPageState
 
     final mediaQuery = MediaQuery.of(context);
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFDCE4E9),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(
-          mediaQuery.size.height * 0.1,
-        ),
-        child: AppBar(
-          backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          title: Padding(
-            padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.035,
-                mediaQuery.size.width * 0.06, 0),
-            child: Text(
-              'Dashboard',
-              style: TextStyle(
-                fontFamily: 'Rubik Bold',
-                fontSize: mediaQuery.size.height * 0.04,
-                color: const Color(0xFF221540),
-              ),
-            ),
+    return WillPopScope(
+      onWillPop: () async {
+        return false; // Disable back button
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFDCE4E9),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(
+            mediaQuery.size.height * 0.1,
           ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                0,
-                mediaQuery.size.height * 0.017,
-                mediaQuery.size.width * 0.035,
-                0,
-              ),
-              child: IconButton(
-                onPressed: () {
-                  // ignore: use_build_context_synchronously
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ResponsiblePartyProfilePage(),
-                    ),
-                  );
-                },
-                icon: Icon(
-                  Icons.account_circle,
-                  size: mediaQuery.size.height * 0.045,
+          child: AppBar(
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
+            title: Padding(
+              padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.035,
+                  mediaQuery.size.width * 0.06, 0),
+              child: Text(
+                'Dashboard',
+                style: TextStyle(
+                  fontFamily: 'Rubik Bold',
+                  fontSize: mediaQuery.size.height * 0.04,
                   color: const Color(0xFF221540),
                 ),
               ),
             ),
-          ],
+            actions: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                  0,
+                  mediaQuery.size.height * 0.017,
+                  mediaQuery.size.width * 0.035,
+                  0,
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    // ignore: use_build_context_synchronously
+                    Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const ResponsiblePartyProfilePage(),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.account_circle,
+                    size: mediaQuery.size.height * 0.045,
+                    color: const Color(0xFF221540),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-      body: StreamBuilder(
-          stream: ref.orderByChild(rpRole).equalTo(userID).onValue,
-          builder: (context, AsyncSnapshot snapshot) {
-            dynamic values;
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasData) {
-              DataSnapshot dataSnapshot = snapshot.data!.snapshot;
+        body: StreamBuilder(
+            stream: ref.orderByChild(rpRole).equalTo(userID).onValue,
+            builder: (context, AsyncSnapshot snapshot) {
+              dynamic values;
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasData) {
+                DataSnapshot dataSnapshot = snapshot.data!.snapshot;
 
-              if (dataSnapshot.value != null) {
-                values = dataSnapshot.value;
+                if (dataSnapshot.value != null) {
+                  values = dataSnapshot.value;
 
-                return ListView.builder(
-                    itemCount: values.length,
-                    itemBuilder: (context, index) {
-                      String projectID = values.keys.elementAt(index);
+                  return ListView.builder(
+                      itemCount: values.length,
+                      itemBuilder: (context, index) {
+                        String projectID = values.keys.elementAt(index);
 
-                      String projectName = values[projectID]["projectName"];
-                      String projectLocation =
-                          values[projectID]["projectLocation"];
-                      String projectInspector = values[projectID]["inspector"];
-                      String projectImage = values[projectID]["projectImage"];
+                        String projectName = values[projectID]["projectName"];
+                        String projectLocation =
+                            values[projectID]["projectLocation"];
+                        String projectInspector =
+                            values[projectID]["inspector"];
+                        String projectImage = values[projectID]["projectImage"];
 
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ResponsiblePartyBottomNavigation(
-                                projectID: projectID,
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ResponsiblePartyBottomNavigation(
+                                  projectID: projectID,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              mediaQuery.size.width * 0.01,
+                              mediaQuery.size.height * 0.001,
+                              mediaQuery.size.width * 0.01,
+                              mediaQuery.size.height * 0.001,
+                            ),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      if (projectImage == "None")
+                                        Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: Image.asset(
+                                              'assets/images/no-image.png',
+                                              width: 100,
+                                              height: 100,
+                                            ),
+                                          ),
+                                        )
+                                      else
+                                        Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: Image.network(
+                                              projectImage,
+                                              width: 100,
+                                              height: 100,
+                                            ),
+                                          ),
+                                        ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Project Name: $projectName',
+                                            style: TextStyle(
+                                              fontFamily: 'Rubik Bold',
+                                              fontSize:
+                                                  mediaQuery.size.height * 0.02,
+                                              color: const Color(0xff221540),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              height: mediaQuery.size.height *
+                                                  0.002),
+                                          Text(
+                                            'Project Location: $projectLocation',
+                                            style: TextStyle(
+                                              fontFamily: 'Karla Regular',
+                                              fontSize: mediaQuery.size.height *
+                                                  0.017,
+                                              color: const Color(0xff221540),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              height: mediaQuery.size.height *
+                                                  0.002),
+                                          Text(
+                                            'Project Inspector: $projectInspector',
+                                            style: TextStyle(
+                                              fontFamily: 'Karla Regular',
+                                              fontSize: mediaQuery.size.height *
+                                                  0.017,
+                                              color: const Color(0xff221540),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              height: mediaQuery.size.height *
+                                                  0.002),
+                                          Text(
+                                            'Project ID: $projectID',
+                                            style: TextStyle(
+                                              fontFamily: 'Karla Regular',
+                                              fontSize: mediaQuery.size.height *
+                                                  0.017,
+                                              color: const Color(0xff221540),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                          );
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(
-                            mediaQuery.size.width * 0.01, 
-                            mediaQuery.size.height * 0.001, 
-                            mediaQuery.size.width * 0.01, 
-                            mediaQuery.size.height * 0.001,
-                            ),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    if (projectImage == "None")
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(15),
-                                          child: Image.asset(
-                                            'assets/images/no-image.png',
-                                            width: 100,
-                                            height: 100,
-                                          ),
-                                        ),
-                                      )
-                                    else
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(15),
-                                          child: Image.network(
-                                            projectImage,
-                                            width: 100,
-                                            height: 100,
-                                          ),
-                                        ),
-                                      ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Project Name: $projectName',
-                                              style: TextStyle(
-                                                fontFamily: 'Rubik Bold',
-                                                fontSize: mediaQuery.size.height * 0.02,
-                                                color: const Color(0xff221540),
-                                                ),
-                                                ),
-                                        SizedBox(height: mediaQuery.size.height * 0.002),
-                                        Text('Project Location: $projectLocation',
-                                              style: TextStyle(
-                                                fontFamily: 'Karla Regular',
-                                                fontSize: mediaQuery.size.height * 0.017,
-                                                color: const Color(0xff221540),
-                                                ),
-                                                ),
-                                        SizedBox(height: mediaQuery.size.height * 0.002),
-                                        Text('Project Inspector: $projectInspector',
-                                              style: TextStyle(
-                                                fontFamily: 'Karla Regular',
-                                                fontSize: mediaQuery.size.height * 0.017,
-                                                color: const Color(0xff221540),
-                                                ),
-                                                ),
-                                        SizedBox(height: mediaQuery.size.height * 0.002),
-                                        Text('Project ID: $projectID',
-                                              style: TextStyle(
-                                                fontFamily: 'Karla Regular',
-                                                fontSize: mediaQuery.size.height * 0.017,
-                                                color: const Color(0xff221540),
-                                                ),
-                                                ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
                           ),
-                        ),
-                      );
-                    });
+                        );
+                      });
+                }
               }
-            }
-            return const Text("");
-          }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showDialog,
-        backgroundColor: const Color(0xFF221540),
-        child: const Icon(Icons.add),
+              return const Text("");
+            }),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _showDialog,
+          backgroundColor: const Color(0xFF221540),
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
