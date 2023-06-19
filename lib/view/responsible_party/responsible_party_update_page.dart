@@ -186,7 +186,8 @@ class _ResponsiblePartyUpdatePageState
         logger.d('Stack trace: $stackTrace');
       }
     });
-
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref().child('projectUpdates');
     return Scaffold(
         backgroundColor: const Color(0xFFDCE4E9),
         appBar: PreferredSize(
@@ -246,6 +247,67 @@ class _ResponsiblePartyUpdatePageState
             ],
           ),
         ),
-        body: const Text('Responsible party list of updates'));
+        body: StreamBuilder(
+            stream: ref.orderByChild("rpID").equalTo(userID).onValue,
+            builder: (context, AsyncSnapshot snapshot) {
+              dynamic values;
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasData) {
+                DataSnapshot dataSnapshot = snapshot.data!.snapshot;
+                if (dataSnapshot.value != null) {
+                  values = dataSnapshot.value;
+
+                  return ListView.builder(
+                      itemCount: values.length,
+                      itemBuilder: (context, index) {
+                        String projectUpdatesID = values.keys.elementAt(index);
+
+                        String projectUpdatesPhotoURL =
+                            values[projectUpdatesID]["projectUpdatesPhotoURL"];
+                        int projectUpdatesTitleLength = values[projectUpdatesID]
+                                ["projectUpdatesTitle"]
+                            .length;
+                        String projectUpdatesTitle = values[projectUpdatesID]
+                                ["projectUpdatesTitle"]
+                            ["title$projectUpdatesTitleLength"];
+                        String projectID =
+                            values[projectUpdatesID]["projectID"];
+                        int rpSubmissionDateLength =
+                            values[projectUpdatesID]["rpSubmissionDate"].length;
+                        String rpSubmissionDate = values[projectUpdatesID]
+                                ["rpSubmissionDate"]
+                            ["rpSubmissionDate$rpSubmissionDateLength"];
+                        DateTime dateTime =
+                            DateFormat("MM-dd-yyyy").parse(rpSubmissionDate);
+                        String formattedDate =
+                            DateFormat("MMMM d, yyyy").format(dateTime);
+                        if (projectID == widget.projectIDQuery) {
+                          return Card(
+                            child: Column(children: [
+                              Row(
+                                children: [
+                                  Image.network(
+                                    projectUpdatesPhotoURL,
+                                    width: 100,
+                                    height: 100,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text("Title: $projectUpdatesTitle"),
+                                      Text("Submission Date$formattedDate"),
+                                    ],
+                                  )
+                                ],
+                              )
+                            ]),
+                          );
+                        }
+                        return const Text("");
+                      });
+                }
+              }
+              return const Text("");
+            }));
   }
 }

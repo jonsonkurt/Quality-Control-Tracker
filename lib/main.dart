@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     initFcm(context);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Quality Control Tracker',
       theme: ThemeData(
         primarySwatch: Colors.purple,
