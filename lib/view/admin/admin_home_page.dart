@@ -26,6 +26,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
           mediaQuery.size.height * 0.1,
         ),
         child: AppBar(
+          toolbarHeight: 60,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           title: Padding(
@@ -125,6 +126,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                         projectImage,
                                         width: 100,
                                         height: 100,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),

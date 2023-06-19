@@ -188,6 +188,7 @@ class _ResponsiblePartyDashboardPageState
             mediaQuery.size.height * 0.1,
           ),
           child: AppBar(
+            toolbarHeight: 60,
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
             title: Padding(
