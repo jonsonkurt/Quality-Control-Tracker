@@ -110,7 +110,7 @@ class _LoadingPageState extends State<LoadingPage> {
       });
       return const Scaffold(
         appBar: null,
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.white,
         body: Center(
           child:
               CircularProgressIndicator(), // Show a loading indicator while checking Firebase

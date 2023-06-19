@@ -149,7 +149,7 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const SignInPage()),
                 );
