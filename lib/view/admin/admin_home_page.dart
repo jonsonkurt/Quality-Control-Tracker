@@ -17,39 +17,54 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
     return Scaffold(
       backgroundColor: const Color(0xFFDCE4E9),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        title: const Text(
-          'Dashboard',
-          style: TextStyle(
-            color: Color(0xFF221540),
-            fontSize: 30,
-          ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(
+          mediaQuery.size.height * 0.1,
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 15,
-            ),
-            child: IconButton(
-              onPressed: () {
-                // ignore: use_build_context_synchronously
-                Navigator.push<void>(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AdminProfilePage()));
-              },
-              icon: const Icon(
-                Icons.account_circle,
-                color: Color(0xFF221540),
-                size: 45,
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.035,
+                mediaQuery.size.width * 0.06, 0),
+            child: Text(
+              'Dashboard',
+              style: TextStyle(
+                fontFamily: 'Rubik Bold',
+                fontSize: mediaQuery.size.height * 0.04,
+                color: const Color(0xFF221540),
               ),
             ),
           ),
-        ],
+          actions: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                0,
+                mediaQuery.size.height * 0.017,
+                mediaQuery.size.width * 0.035,
+                0,
+              ),
+              child: IconButton(
+                onPressed: () {
+                  // ignore: use_build_context_synchronously
+                  Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AdminProfilePage()));
+                },
+                icon: Icon(
+                  Icons.account_circle,
+                  size: mediaQuery.size.height * 0.045,
+                  color: const Color(0xFF221540),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       body: StreamBuilder(
           stream: ref.orderByChild("projectStatus").equalTo("ON-GOING").onValue,
@@ -74,33 +89,89 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     String projectInspector = values[projectID]["inspector"];
                     String projectImage = values[projectID]["projectImage"];
 
-                    return Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                    return Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        mediaQuery.size.width * 0.01,
+                        mediaQuery.size.height * 0.001,
+                        mediaQuery.size.width * 0.01,
+                        mediaQuery.size.height * 0.001,
+                      ),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         child: Column(
                           children: [
                             Row(
                               children: [
                                 if (projectImage == "None")
-                                  const Text(
-                                    "NO FUCKING \nIMAGE",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Image.asset(
+                                        'assets/images/no-image.png',
+                                        width: 100,
+                                        height: 100,
+                                      ),
+                                    ),
                                   )
                                 else
-                                  Image.network(
-                                    projectImage,
-                                    width: 100,
-                                    height: 100,
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Image.network(
+                                        projectImage,
+                                        width: 100,
+                                        height: 100,
+                                      ),
+                                    ),
                                   ),
                                 Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Project Name: $projectName'),
-                                    Text('Project Location: $projectLocation'),
                                     Text(
-                                        'Project Inspector: $projectInspector'),
-                                    Text('Project ID: $projectID'),
+                                      'Project Name: $projectName',
+                                      style: TextStyle(
+                                        fontFamily: 'Rubik Bold',
+                                        fontSize: mediaQuery.size.height * 0.02,
+                                        color: const Color(0xff221540),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height: mediaQuery.size.height * 0.002),
+                                    Text(
+                                      'Project Location: $projectLocation',
+                                      style: TextStyle(
+                                        fontFamily: 'Karla Regular',
+                                        fontSize:
+                                            mediaQuery.size.height * 0.017,
+                                        color: const Color(0xff221540),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height: mediaQuery.size.height * 0.002),
+                                    Text(
+                                      'Project Inspector: $projectInspector',
+                                      style: TextStyle(
+                                        fontFamily: 'Karla Regular',
+                                        fontSize:
+                                            mediaQuery.size.height * 0.017,
+                                        color: const Color(0xff221540),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height: mediaQuery.size.height * 0.002),
+                                    Text(
+                                      'Project ID: $projectID',
+                                      style: TextStyle(
+                                        fontFamily: 'Karla Regular',
+                                        fontSize:
+                                            mediaQuery.size.height * 0.017,
+                                        color: const Color(0xff221540),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],
