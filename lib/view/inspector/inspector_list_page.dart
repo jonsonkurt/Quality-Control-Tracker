@@ -27,6 +27,23 @@ class _InspectorListPageState extends State<InspectorListPage> {
           child: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
+            leading: Padding(
+              padding: EdgeInsets.fromLTRB(
+                mediaQuery.size.width * 0.035,
+                mediaQuery.size.height * 0.028,
+                0,
+                0,
+              ),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Color(0xFF221540),
+                ),
+              ),
+            ),
             title: Padding(
               padding: EdgeInsets.fromLTRB(
                 0, 
