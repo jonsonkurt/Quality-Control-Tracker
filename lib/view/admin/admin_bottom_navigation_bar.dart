@@ -149,7 +149,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                       shape: BoxShape.rectangle,
                                                       border: Border.all(
                                                         color: const Color
-                                                                .fromARGB(
+                                                            .fromARGB(
                                                             255, 35, 35, 35),
                                                         width: 2,
                                                       )),
@@ -163,7 +163,6 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                               Icons.add_a_photo,
                                                               size: 35,
                                                             )
-                                                          
                                                           : Image.file(
                                                               fit: BoxFit.cover,
                                                               File(provider
@@ -312,10 +311,10 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                   String inspectorID = '';
 
                                                   for (var item in dataList) {
-                                                    if (item['firstName'] ==
-                                                            'Giovanni' &&
-                                                        item['lastName'] ==
-                                                            'De Vera') {
+                                                    String fullName =
+                                                        "${item['firstName']} ${item['lastName']}";
+                                                    if (fullName ==
+                                                        inspectorName) {
                                                       inspectorID =
                                                           item['inspectorID'];
                                                       break;
