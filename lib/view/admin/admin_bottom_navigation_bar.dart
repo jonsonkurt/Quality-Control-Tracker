@@ -234,7 +234,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                                  .fromLTRB(
+                                                              .fromLTRB(
                                                               12, 4, 4, 0),
                                                       border:
                                                           OutlineInputBorder(
@@ -288,7 +288,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                                  .fromLTRB(
+                                                              .fromLTRB(
                                                               12, 4, 4, 0),
                                                       border:
                                                           OutlineInputBorder(
@@ -342,11 +342,13 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         DropDownDecoratorProps(
                                                             dropdownSearchDecoration:
                                                                 InputDecoration(
-                                                                    contentPadding: const EdgeInsets.fromLTRB(
-                                                                        12,
-                                                                        4,
-                                                                        4,
-                                                                        0),
+                                                                    contentPadding:
+                                                                        const EdgeInsets
+                                                                            .fromLTRB(
+                                                                            12,
+                                                                            4,
+                                                                            4,
+                                                                            0),
                                                                     border: OutlineInputBorder(
                                                                         borderRadius:
                                                                             BorderRadius.circular(
@@ -572,10 +574,10 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     String inspectorID = '';
 
                                                     for (var item in dataList) {
-                                                      if (item['firstName'] ==
-                                                              'Giovanni' &&
-                                                          item['lastName'] ==
-                                                              'De Vera') {
+                                                      String fullName =
+                                                          "${item['firstName']} ${item['lastName']}";
+                                                      if (fullName ==
+                                                          inspectorName) {
                                                         inspectorID =
                                                             item['inspectorID'];
                                                         break;
