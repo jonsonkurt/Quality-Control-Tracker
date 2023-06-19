@@ -276,9 +276,6 @@ class _ResponsiblePartyUpdatePageState
                             DateFormat("MM-dd-yyyy").parse(rpSubmissionDate);
                         String formattedDate =
                             DateFormat("MMMM d, yyyy").format(dateTime);
-
-                        // print(" projectIDQuery ---${widget.projectIDQuery}");
-                        // print(" projectUpdatesID ---${projectUpdatesID}");
                         if (projectID == widget.projectIDQuery) {
                           return Card(
                             child: Column(children: [
