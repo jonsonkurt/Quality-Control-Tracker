@@ -256,12 +256,24 @@ class _SignInPageState extends State<SignInPage> {
     String password = _passwordController.text;
     String getCred = decodingCred();
 
-    if (email == getCred && password == getCred) {
-      // ignore: use_build_context_synchronously
-      Navigator.push<void>(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const AdminBottomNavigation()));
+    bool isPasswordCorrect = await checkPassword(password);
+
+    if (email == getCred) {
+      // print("I/'m an admin");
+      if (isPasswordCorrect) {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const AdminBottomNavigation()));
+      } else {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Admin password is incorrect.'),
+          ),
+        );
+      }
     } else {
       try {
         // ignore: unused_local_variable
