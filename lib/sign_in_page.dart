@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quality_control_tracker/forgot_password_page.dart';
-import 'package:quality_control_tracker/view/admin/admin_bottom_navigation_bar.dart';
 import 'package:quality_control_tracker/view/admin/admin_cred.dart';
 import 'package:quality_control_tracker/welcome_page.dart';
 import 'sign_up_page.dart';

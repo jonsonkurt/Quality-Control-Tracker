@@ -35,7 +35,7 @@ class _LoadingPageState extends State<LoadingPage> {
   Widget build(BuildContext context) {
     void toDashboard() {
       Future.delayed(const Duration(seconds: 1), () {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => ResponsiblePartyDashboardPage(role: account),
