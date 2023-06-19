@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:random_string/random_string.dart';
 
 class ResponsiblePartyUpdatePage extends StatefulWidget {
   final String projectIDQuery;
@@ -53,6 +54,7 @@ class _ResponsiblePartyUpdatePageState
         final formattedDate = DateFormat('MM-dd-yyyy').format(now);
         final formattedTime = DateFormat('HH:mm').format(now);
         final combinedDateTime = "$formattedDate-$formattedTime";
+        final String projectUpdatesID = randomAlphaNumeric(8);
 
         final mediaQuery = MediaQuery.of(context);
 
@@ -105,20 +107,24 @@ class _ResponsiblePartyUpdatePageState
                   // Updates database
                   DatabaseReference projectsRef = FirebaseDatabase.instance
                       .ref()
-                      .child('projectUpdates/${widget.projectIDQuery}');
+                      .child('projectUpdates/$projectUpdatesID');
 
                   projectsRef.set({
                     "projectID": widget.projectIDQuery,
+                    "projectUpdatesID": projectUpdatesID,
                     "rpID": userID,
                     "rpName": rpFullName,
                     "rpRole": rpRole,
                     "inspectorID": inspectorID,
-                    "rpProjectRemarks": "$userID-PENDING",
-                    "submissionDate": "-",
-                    "rpNotes": rpNotes,
-                    "inspectorProjectRemakrs": "-",
-                    "inspectorNotes": "-",
-                    "inspectionDate": "-",
+                    "rpProjectRemarks": "$userID-PENDING-$combinedDateTime",
+                    "rpSubmissionDate": {"rpSubmissionDate1": formattedDate},
+                    "inspectorIssueDeadline": {"inspectorIssueDeadline1": ""},
+                    "rpNotes": {"rpNotes1": rpNotes},
+                    "inspectorProjectRemakrs":
+                        "$inspectorID-PENDING-$combinedDateTime",
+                    "inspectorNotes": {"inspectorNotes1": ""},
+                    "inspectionDate": {"inspectionDate1": ""},
+                    "projectUpdatesPhotoURL": "",
                   });
 
                   Navigator.of(context).pop();

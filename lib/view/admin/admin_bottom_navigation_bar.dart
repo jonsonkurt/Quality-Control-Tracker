@@ -104,9 +104,16 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
             return Scaffold(
               floatingActionButton: _selectedItemPosition == 0
                   ? FloatingActionButton(
+                      backgroundColor: const Color(0xFF221540),
+                      child: const Icon(Icons.add),
                       onPressed: () async {
                         // ignore: use_build_context_synchronously
                         showModalBottomSheet(
+                          backgroundColor: const Color(0xffDCE4E9),
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(30),
+                          )),
                           isScrollControlled: true,
                           context: context,
                           builder: (BuildContext context) {
@@ -122,263 +129,498 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                 child: Consumer<ProfileController>(
                                     builder: (context, provider, child) {
                                   return SingleChildScrollView(
-                                    physics: const BouncingScrollPhysics(),
-                                    child: SafeArea(
-                                      child: Container(
-                                        height: desiredHeight,
-                                        padding: const EdgeInsets.all(16),
-                                        child: SingleChildScrollView(
-                                          child: Column(
-                                            children: [
-                                              const Text(
-                                                "Add project",
-                                                style: TextStyle(
-                                                  fontSize: 25,
-                                                  fontWeight: FontWeight.bold,
+                                      physics: const BouncingScrollPhysics(),
+                                      child: SafeArea(
+                                        child: Container(
+                                          height: desiredHeight,
+                                          padding: const EdgeInsets.all(16),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.01,
                                                 ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  provider.pickImage(
-                                                      context, projectID);
-                                                },
-                                                child: Container(
-                                                  height: 130,
-                                                  width: 130,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.rectangle,
-                                                      border: Border.all(
-                                                        color: const Color
-                                                            .fromARGB(
-                                                            255, 35, 35, 35),
-                                                        width: 2,
-                                                      )),
-                                                  child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadiusDirectional
-                                                              .zero,
-                                                      child: provider.image ==
-                                                              null
-                                                          ? const Icon(
-                                                              Icons.add_a_photo,
-                                                              size: 35,
-                                                            )
-                                                          : Image.file(
-                                                              fit: BoxFit.cover,
-                                                              File(provider
-                                                                      .image!
-                                                                      .path)
-                                                                  .absolute)),
+                                                Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.02,
+                                                    ),
+                                                    Text(
+                                                      "Add project",
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'Rubik Bold',
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.03,
+                                                        color: const Color(
+                                                            0xff221540),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-
-                                              TextField(
-                                                controller:
-                                                    _projectNameController,
-                                                decoration:
-                                                    const InputDecoration(
-                                                  labelText: 'Project Name',
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.03,
                                                 ),
-                                              ),
-                                              const SizedBox(height: 16),
-                                              TextField(
-                                                controller:
-                                                    _projectLocationController,
-                                                decoration:
-                                                    const InputDecoration(
-                                                  labelText: 'Project Location',
-                                                ),
-                                              ),
-                                              const SizedBox(height: 16),
-
-                                              DropdownSearch<String>(
-                                                onChanged: itemSelectionChanged,
-                                                dropdownDecoratorProps:
-                                                    const DropDownDecoratorProps(
-                                                        dropdownSearchDecoration:
-                                                            InputDecoration(
-                                                                hintText:
-                                                                    "Inspector in-charge")),
-                                                items: [
-                                                  for (var item in dataList)
-                                                    "${item["firstName"]} ${item["lastName"]}",
-                                                ],
-                                                popupProps: PopupProps.menu(
-                                                  showSelectedItems: true,
-                                                  searchFieldProps: TextFieldProps(
-                                                      controller:
-                                                          _inspectorController,
-                                                      decoration:
-                                                          const InputDecoration(
-                                                              hintText:
-                                                                  "Search Here")),
-                                                  showSearchBox: true,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 16),
-                                              // const TextField(
-                                              //   decoration: InputDecoration(
-                                              //     labelText: 'Project Deadline',
-                                              //   ),
-                                              // ),
-                                              TextfieldDatePicker(
-                                                cupertinoDatePickerBackgroundColor:
-                                                    Colors.white,
-                                                cupertinoDatePickerMaximumDate:
-                                                    DateTime(2099),
-                                                cupertinoDatePickerMaximumYear:
-                                                    2099,
-                                                cupertinoDatePickerMinimumYear:
-                                                    1990,
-                                                cupertinoDatePickerMinimumDate:
-                                                    DateTime(1990),
-                                                cupertinoDateInitialDateTime:
-                                                    DateTime.now(),
-                                                materialDatePickerFirstDate:
-                                                    DateTime.now(),
-                                                materialDatePickerInitialDate:
-                                                    DateTime.now(),
-                                                materialDatePickerLastDate:
-                                                    DateTime(2099),
-                                                preferredDateFormat: DateFormat(
-                                                    'dd-MMMM-' 'yyyy'),
-                                                textfieldDatePickerController:
-                                                    _projectDeadlineController,
-                                                style: const TextStyle(
-                                                  fontSize: 13,
-                                                  color: Colors.black,
-                                                ),
-                                                textCapitalization:
-                                                    TextCapitalization
-                                                        .sentences,
-                                                cursorColor: Colors.black,
-                                                decoration: InputDecoration(
-                                                  //errorText: errorTextValue,
-                                                  helperStyle: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      color: Colors.grey),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                          borderSide:
-                                                              const BorderSide(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  width: 0),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(2)),
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(2),
-                                                          borderSide:
-                                                              const BorderSide(
-                                                            width: 0,
-                                                            color: Colors.white,
-                                                          )),
-                                                  hintText: 'Select Date',
-                                                  hintStyle: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.normal),
-                                                  filled: true,
-                                                  fillColor: Colors.grey[300],
-                                                  border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    provider.pickImage(
+                                                        context, projectID);
+                                                  },
+                                                  child: Container(
+                                                    height: 130,
+                                                    width: 130,
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.rectangle,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                        border: Border.all(
+                                                          color: const Color(
+                                                              0xff221540),
+                                                          width: 2,
+                                                        )),
+                                                    child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadiusDirectional
+                                                                .zero,
+                                                        child: provider.image ==
+                                                                null
+                                                            ? const Icon(
+                                                                Icons
+                                                                    .add_circle,
+                                                                size: 35,
+                                                                color: Color(
+                                                                    0xff221540),
+                                                              )
+                                                            : Image.file(
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                File(provider
+                                                                        .image!
+                                                                        .path)
+                                                                    .absolute)),
                                                   ),
                                                 ),
-                                              ),
-                                              const SizedBox(height: 16),
-                                              ElevatedButton(
-                                                onPressed: () async {
-                                                  String projName =
-                                                      _projectNameController
-                                                          .text;
-                                                  String projLocation =
-                                                      _projectLocationController
-                                                          .text;
-                                                  String inspectorName =
-                                                      _inspectorController.text;
-                                                  String projDeadline =
-                                                      _projectDeadlineController
-                                                          .text;
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.03,
+                                                ),
 
-                                                  String inspectorID = '';
+                                                Material(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  elevation: 5,
+                                                  child: TextField(
+                                                    cursorColor:
+                                                        const Color(0xFF221540),
+                                                    controller:
+                                                        _projectNameController,
+                                                    decoration: InputDecoration(
+                                                      contentPadding:
+                                                          const EdgeInsets
+                                                              .fromLTRB(
+                                                              12, 4, 4, 0),
+                                                      border:
+                                                          OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30),
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30),
+                                                        borderSide:
+                                                            BorderSide.none,
+                                                      ),
+                                                      filled: true,
+                                                      fillColor: Colors.white,
+                                                      hintText: 'Project Name',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Karla Regular',
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.02,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
 
-                                                  for (var item in dataList) {
-                                                    String fullName =
-                                                        "${item['firstName']} ${item['lastName']}";
-                                                    if (fullName ==
-                                                        inspectorName) {
-                                                      inspectorID =
-                                                          item['inspectorID'];
-                                                      break;
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.02,
+                                                ),
+
+                                                Material(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  elevation: 5,
+                                                  child: TextField(
+                                                    cursorColor:
+                                                        const Color(0xFF221540),
+                                                    controller:
+                                                        _projectLocationController,
+                                                    decoration: InputDecoration(
+                                                      contentPadding:
+                                                          const EdgeInsets
+                                                              .fromLTRB(
+                                                              12, 4, 4, 0),
+                                                      border:
+                                                          OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30),
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30),
+                                                        borderSide:
+                                                            BorderSide.none,
+                                                      ),
+                                                      filled: true,
+                                                      fillColor: Colors.white,
+                                                      hintText:
+                                                          'Project Location',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Karla Regular',
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.02,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.02,
+                                                ),
+
+                                                Material(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  elevation: 5,
+                                                  child: DropdownSearch<String>(
+                                                    onChanged:
+                                                        itemSelectionChanged,
+                                                    dropdownDecoratorProps:
+                                                        DropDownDecoratorProps(
+                                                            dropdownSearchDecoration:
+                                                                InputDecoration(
+                                                                    contentPadding:
+                                                                        const EdgeInsets
+                                                                            .fromLTRB(
+                                                                            12,
+                                                                            4,
+                                                                            4,
+                                                                            0),
+                                                                    border: OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                30),
+                                                                        borderSide:
+                                                                            BorderSide
+                                                                                .none),
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              30),
+                                                                      borderSide:
+                                                                          BorderSide
+                                                                              .none,
+                                                                    ),
+                                                                    filled:
+                                                                        true,
+                                                                    fillColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    hintText:
+                                                                        "Inspector in-charge",
+                                                                    labelStyle:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Karla Regular',
+                                                                      fontSize: MediaQuery.of(context)
+                                                                              .size
+                                                                              .height *
+                                                                          0.02,
+                                                                    ))),
+                                                    items: [
+                                                      for (var item in dataList)
+                                                        "${item["firstName"]} ${item["lastName"]}",
+                                                    ],
+
+                                                    popupProps: PopupProps.menu(
+                                                      showSelectedItems: true,
+                                                      searchFieldProps:
+                                                          TextFieldProps(
+                                                              cursorColor:
+                                                                  const Color(
+                                                                      0xFF221540),
+                                                              controller:
+                                                                  _inspectorController,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                      border: OutlineInputBorder(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              30),
+                                                                          borderSide: BorderSide
+                                                                              .none),
+                                                                      focusedBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(30),
+                                                                        borderSide:
+                                                                            BorderSide.none,
+                                                                      ),
+                                                                      hintText:
+                                                                          "Search Inspector",
+                                                                      labelStyle:
+                                                                          TextStyle(
+                                                                        fontFamily:
+                                                                            'Karla Regular',
+                                                                        fontSize:
+                                                                            MediaQuery.of(context).size.height *
+                                                                                0.02,
+                                                                      ))),
+                                                      showSearchBox: true,
+                                                    ),
+                                                    //dropdownButtonProps: DropdownButtonProps(),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 16),
+                                                // const TextField(
+                                                //   decoration: InputDecoration(
+                                                //     labelText: 'Project Deadline',
+                                                //   ),
+                                                // ),
+                                                SizedBox(
+                                                  // height: 50,
+                                                  child: Material(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    elevation: 5,
+                                                    child: TextfieldDatePicker(
+                                                      // textfieldDatePickerPadding:
+                                                      //     const EdgeInsets
+                                                      //             .fromLTRB(
+                                                      //         12, 4, 4, 0),
+                                                      textfieldDatePickerWidth:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.4,
+                                                      textAlignVertical:
+                                                          TextAlignVertical
+                                                              .center,
+                                                      cupertinoDatePickerBackgroundColor:
+                                                          Colors.white,
+                                                      cupertinoDatePickerMaximumDate:
+                                                          DateTime(2099),
+                                                      cupertinoDatePickerMaximumYear:
+                                                          2099,
+                                                      cupertinoDatePickerMinimumYear:
+                                                          1990,
+                                                      cupertinoDatePickerMinimumDate:
+                                                          DateTime(1990),
+                                                      cupertinoDateInitialDateTime:
+                                                          DateTime.now(),
+                                                      materialDatePickerFirstDate:
+                                                          DateTime.now(),
+                                                      materialDatePickerInitialDate:
+                                                          DateTime.now(),
+                                                      materialDatePickerLastDate:
+                                                          DateTime(2099),
+                                                      preferredDateFormat:
+                                                          DateFormat(
+                                                        'dd-MMMM-' 'yyyy',
+                                                      ),
+                                                      textfieldDatePickerController:
+                                                          _projectDeadlineController,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'Karla Regular',
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.02,
+                                                        color: const Color(
+                                                            0xff221540),
+                                                      ),
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .sentences,
+                                                      cursorColor: Colors.black,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        //errorText: errorTextValue,
+                                                        helperStyle: TextStyle(
+                                                          fontFamily:
+                                                              'Karla Regular',
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.017,
+                                                          color: const Color(
+                                                              0xff221540),
+                                                        ),
+                                                        hintText: 'Select Date',
+                                                        hintStyle: TextStyle(
+                                                          fontFamily:
+                                                              'Karla Regular',
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.02,
+                                                          color: const Color(
+                                                              0xff221540),
+                                                        ),
+                                                        filled: true,
+                                                        fillColor: Colors.white,
+
+                                                        border: OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30.0),
+                                                            borderSide:
+                                                                BorderSide
+                                                                    .none),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+
+                                                const SizedBox(height: 16),
+                                                ElevatedButton(
+                                                  onPressed: () async {
+                                                    String projName =
+                                                        _projectNameController
+                                                            .text;
+                                                    String projLocation =
+                                                        _projectLocationController
+                                                            .text;
+                                                    String inspectorName =
+                                                        _inspectorController
+                                                            .text;
+                                                    String projDeadline =
+                                                        _projectDeadlineController
+                                                            .text;
+
+                                                    String inspectorID = '';
+
+                                                    for (var item in dataList) {
+                                                      String fullName =
+                                                          "${item['firstName']} ${item['lastName']}";
+                                                      if (fullName ==
+                                                          inspectorName) {
+                                                        inspectorID =
+                                                            item['inspectorID'];
+                                                        break;
+                                                      }
                                                     }
-                                                  }
 
-                                                  await ref
-                                                      .child(projectID)
-                                                      .update({
-                                                    "HVAC": "-",
-                                                    "HVACQuery": "-",
-                                                    "carpenter": "-",
-                                                    "carpenterQuery": "-",
-                                                    "electrician": "-",
-                                                    "electricianQuery": "-",
-                                                    "inspector": inspectorName,
-                                                    "inspectorQuery":
-                                                        inspectorID,
-                                                    "laborer": "-",
-                                                    "laborerQuery": "-",
-                                                    "landscaper": "-",
-                                                    "landscaperQuery": "-",
-                                                    "mason": "-",
-                                                    "masonQuery": "-",
-                                                    "owner": "-",
-                                                    "ownerQuery": "-",
-                                                    "painter": "-",
-                                                    "painterQuery": "-",
-                                                    "plumber": "-",
-                                                    "plumberQuery": "-",
-                                                    "projectDeadline":
-                                                        projDeadline,
-                                                    "projectID": projectID,
-                                                    "projectImage":
-                                                        provider.imgURL,
-                                                    "projectLocation":
-                                                        projLocation,
-                                                    "projectManager": "-",
-                                                    "projectManagerQuery": "-",
-                                                    "projectName": projName,
-                                                    "projectStatus": "ON-GOING",
-                                                    "technician": "-",
-                                                    "technicianQuery": "-",
-                                                    "welder": "-",
-                                                    "welderQuery": "-"
-                                                  });
+                                                    await ref
+                                                        .child(projectID)
+                                                        .update({
+                                                      "HVAC": "-",
+                                                      "HVACQuery": "-",
+                                                      "carpenter": "-",
+                                                      "carpenterQuery": "-",
+                                                      "electrician": "-",
+                                                      "electricianQuery": "-",
+                                                      "inspector":
+                                                          inspectorName,
+                                                      "inspectorQuery":
+                                                          inspectorID,
+                                                      "laborer": "-",
+                                                      "laborerQuery": "-",
+                                                      "landscaper": "-",
+                                                      "landscaperQuery": "-",
+                                                      "mason": "-",
+                                                      "masonQuery": "-",
+                                                      "owner": "-",
+                                                      "ownerQuery": "-",
+                                                      "painter": "-",
+                                                      "painterQuery": "-",
+                                                      "plumber": "-",
+                                                      "plumberQuery": "-",
+                                                      "projectDeadline":
+                                                          projDeadline,
+                                                      "projectID": projectID,
+                                                      "projectImage":
+                                                          provider.imgURL,
+                                                      "projectLocation":
+                                                          projLocation,
+                                                      "projectManager": "-",
+                                                      "projectManagerQuery":
+                                                          "-",
+                                                      "projectName": projName,
+                                                      "projectStatus":
+                                                          "ON-GOING",
+                                                      "technician": "-",
+                                                      "technicianQuery": "-",
+                                                      "welder": "-",
+                                                      "welderQuery": "-"
+                                                    });
 
-                                                  _projectNameController
-                                                      .clear();
-                                                  _projectLocationController
-                                                      .clear();
-                                                  _inspectorController.clear();
-                                                  _projectDeadlineController
-                                                      .clear();
-                                                  // Perform the desired action when the button is pressed
-                                                },
-                                                child: const Text('Submit'),
-                                              ),
-                                            ],
+                                                    _projectNameController
+                                                        .clear();
+                                                    _projectLocationController
+                                                        .clear();
+                                                    _inspectorController
+                                                        .clear();
+                                                    _projectDeadlineController
+                                                        .clear();
+                                                    // Perform the desired action when the button is pressed
+                                                  },
+                                                  child: const Text('Submit'),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  );
+                                      ));
                                 }));
                           },
                         );

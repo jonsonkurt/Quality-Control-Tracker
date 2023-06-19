@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:quality_control_tracker/notification_controller.dart';
+import 'package:quality_control_tracker/view/admin/admin_bottom_navigation_bar.dart';
 import 'package:quality_control_tracker/welcome_page.dart';
 import 'firebase_options.dart';
 import 'package:flutter/services.dart';
+
+import 'loading_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +27,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const WelcomePage(),
+      routes: {
+        '/': (context) => const WelcomePage(),
+        '/loading': (context) => const LoadingPage(),
+        '/adminDashboard': (context) => const AdminBottomNavigation(),
+        // Define other routes here
+      },
+      initialRoute: '/',
     );
   }
 }

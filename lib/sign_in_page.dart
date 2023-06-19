@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quality_control_tracker/forgot_password_page.dart';
-import 'package:quality_control_tracker/loading_page.dart';
-import 'package:quality_control_tracker/view/admin/admin_bottom_navigation_bar.dart';
 import 'package:quality_control_tracker/view/admin/admin_cred.dart';
 import 'package:quality_control_tracker/welcome_page.dart';
 import 'sign_up_page.dart';
@@ -22,6 +20,14 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    void toLoading() {
+      Navigator.pushNamed(context, '/loading');
+    }
+
+    void toAdmin() {
+      Navigator.pushNamed(context, '/adminDashboard');
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFFDCE4E9),
       appBar: AppBar(
@@ -193,10 +199,67 @@ class _SignInPageState extends State<SignInPage> {
                     Align(
                       alignment: Alignment.center,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             // Perform sign-in logic
-                            _performSignIn();
+                            // _performSignIn();
+                            String email = _emailController.text;
+                            String password = _passwordController.text;
+                            String getCred = decodingCred();
+
+                            bool isPasswordCorrect =
+                                await checkPassword(password);
+
+                            if (email == getCred) {
+                              if (isPasswordCorrect) {
+                                toAdmin();
+                              } else {
+                                // ignore: use_build_context_synchronously
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text('Admin password is incorrect.'),
+                                  ),
+                                );
+                              }
+                            } else {
+                              try {
+                                // ignore: unused_local_variable
+                                final credential = await FirebaseAuth.instance
+                                    .signInWithEmailAndPassword(
+                                        email: email, password: password);
+
+                                // Clear text fields after successful sign-in
+                                _emailController.clear();
+                                _passwordController.clear();
+
+                                // // ignore: use_build_context_synchronously
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const LoadingPage()));
+                                toLoading();
+                              } on FirebaseAuthException catch (e) {
+                                if (e.code == 'user-not-found') {
+                                  // ignore: use_build_context_synchronously
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('No user found for that email.'),
+                                    ),
+                                  );
+                                } else if (e.code == 'wrong-password') {
+                                  // ignore: use_build_context_synchronously
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Wrong password provided for that user.'),
+                                    ),
+                                  );
+                                }
+                              }
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -251,46 +314,59 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  Future<void> _performSignIn() async {
-    String email = _emailController.text;
-    String password = _passwordController.text;
-    String getCred = decodingCred();
+  // Future<void> _performSignIn() async {
+  //   String email = _emailController.text;
+  //   String password = _passwordController.text;
+  //   String getCred = decodingCred();
 
-    if (email == getCred && password == getCred) {
-      // ignore: use_build_context_synchronously
-      Navigator.push<void>(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const AdminBottomNavigation()));
-    } else {
-      try {
-        // ignore: unused_local_variable
-        final credential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: password);
+  //   bool isPasswordCorrect = await checkPassword(password);
 
-        // Clear text fields after successful sign-in
-        _emailController.clear();
-        _passwordController.clear();
+  //   if (email == getCred) {
+  //     // print("I/'m an admin");
+  //     if (isPasswordCorrect) {
+  //       // ignore: use_build_context_synchronously
+  //       Navigator.push(
+  //           context,
+  //           MaterialPageRoute(
+  //               builder: (context) => const AdminBottomNavigation()));
+  //     } else {
+  //       // ignore: use_build_context_synchronously
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text('Admin password is incorrect.'),
+  //         ),
+  //       );
+  //     }
+  //   } else {
+  //     try {
+  //       // ignore: unused_local_variable
+  //       final credential = await FirebaseAuth.instance
+  //           .signInWithEmailAndPassword(email: email, password: password);
 
-        // ignore: use_build_context_synchronously
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoadingPage()));
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          // ignore: use_build_context_synchronously
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('No user found for that email.'),
-            ),
-          );
-        } else if (e.code == 'wrong-password') {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Wrong password provided for that user.'),
-            ),
-          );
-        }
-      }
-    }
-  }
+  //       // Clear text fields after successful sign-in
+  //       _emailController.clear();
+  //       _passwordController.clear();
+
+  //       // ignore: use_build_context_synchronously
+  //       Navigator.push(context,
+  //           MaterialPageRoute(builder: (context) => const LoadingPage()));
+  //     } on FirebaseAuthException catch (e) {
+  //       if (e.code == 'user-not-found') {
+  //         // ignore: use_build_context_synchronously
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(
+  //             content: Text('No user found for that email.'),
+  //           ),
+  //         );
+  //       } else if (e.code == 'wrong-password') {
+  //         // ignore: use_build_context_synchronously
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(
+  //             content: Text('Wrong password provided for that user.'),
+  //           ),
+  //         );
+  //       }
+  //     }
+  //   }
+  // }
 }
