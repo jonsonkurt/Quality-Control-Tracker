@@ -124,6 +124,7 @@ class _ResponsiblePartyUpdatePageState
                         "$inspectorID-PENDING-$combinedDateTime",
                     "inspectorNotes": {"inspectorNotes1": ""},
                     "inspectionDate": {"inspectionDate1": ""},
+                    "projectUpdatesPhotoURL": "",
                   });
 
                   Navigator.of(context).pop();

@@ -33,6 +33,17 @@ class _LoadingPageState extends State<LoadingPage> {
 
   @override
   Widget build(BuildContext context) {
+    void toDashboard() {
+      Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ResponsiblePartyDashboardPage(role: account),
+          ),
+        );
+      });
+    }
+
     if (FirebaseAuth.instance.currentUser != null) {
       DatabaseReference nameRef =
           FirebaseDatabase.instance.ref().child('inspectors/$userID/role');
@@ -85,31 +96,7 @@ class _LoadingPageState extends State<LoadingPage> {
                 await resRef.child(userID.toString()).update({
                   'fcmToken': fcmToken,
                 });
-                // ignore: use_build_context_synchronously
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    transitionDuration: const Duration(milliseconds: 1),
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        ResponsiblePartyDashboardPage(
-                      role: account,
-                    ),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                      var begin = const Offset(0.0, 1.0);
-                      var end = Offset.zero;
-                      var curve = Curves.ease;
-
-                      var tween = Tween(begin: begin, end: end)
-                          .chain(CurveTween(curve: curve));
-
-                      return SlideTransition(
-                        position: animation.drive(tween),
-                        child: child,
-                      );
-                    },
-                  ),
-                );
+                toDashboard();
               } catch (error, stackTrace) {
                 logger.d('Error occurred: $error');
                 logger.d('Stack trace: $stackTrace');
@@ -123,7 +110,7 @@ class _LoadingPageState extends State<LoadingPage> {
       });
       return const Scaffold(
         appBar: null,
-        backgroundColor: Color(0xffDCE4E9),
+        backgroundColor: Colors.white,
         body: Center(
           child:
               CircularProgressIndicator(), // Show a loading indicator while checking Firebase
