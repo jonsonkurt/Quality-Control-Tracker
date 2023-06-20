@@ -169,12 +169,13 @@ class _ResponsiblePartyUpdatePageState
                       "rpName": rpFullName,
                       "rpRole": rpRole,
                       "inspectorID": inspectorID,
-                      "rpProjectRemarks": "$userID-PENDING-$combinedDateTime",
+                      "rpProjectRemarks":
+                          "$userID-${widget.projectIDQuery}-PENDING-$combinedDateTime",
                       "rpSubmissionDate": {"rpSubmissionDate1": formattedDate},
                       "inspectorIssueDeadline": {"inspectorIssueDeadline1": ""},
                       "rpNotes": {"rpNotes1": rpNotes},
                       "inspectorProjectRemarks":
-                          "$inspectorID-PENDING-$combinedDateTime",
+                          "$inspectorID-${widget.projectIDQuery}-PENDING-$combinedDateTime",
                       "inspectorNotes": {"inspectorNotes1": ""},
                       "inspectionDate": {"inspectionDate1": ""},
                       "projectUpdatesPhotoURL":
