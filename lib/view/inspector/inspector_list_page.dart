@@ -18,7 +18,7 @@ class InspectorListPage extends StatefulWidget {
 class _InspectorListPageState extends State<InspectorListPage> {
   String? inspectorID = FirebaseAuth.instance.currentUser?.uid;
   DatabaseReference ref =
-      FirebaseDatabase.instance.ref().child('projectUpdates');
+      FirebaseDatabase.instance.ref().child('projectUpdates/');
 
   String convertJobTitle(String input) {
     switch (input.toLowerCase()) {
@@ -94,8 +94,11 @@ class _InspectorListPageState extends State<InspectorListPage> {
           ),
         ),
         body: StreamBuilder(
-            stream:
-                ref.orderByChild("inspectorID").equalTo(inspectorID).onValue,
+            stream: ref
+                .orderByChild("inspectorProjectRemarks")
+                .startAt("$inspectorID-${widget.projectIDQuery}-PENDING")
+                .endAt("$inspectorID-PENDING\uf8ff")
+                .onValue,
             builder: (context, AsyncSnapshot snapshot) {
               dynamic values;
               if (!snapshot.hasData) {
@@ -110,8 +113,6 @@ class _InspectorListPageState extends State<InspectorListPage> {
                       itemCount: values.length,
                       itemBuilder: (context, index) {
                         String projectUpdatesID = values.keys.elementAt(index);
-                        String inspectorName =
-                            values[projectUpdatesID]["inspector"];
                         String rpName = values[projectUpdatesID]["rpName"];
                         String rpRole = values[projectUpdatesID]["rpRole"];
                         String jobTitle = convertJobTitle(rpRole);
@@ -149,7 +150,7 @@ class _InspectorListPageState extends State<InspectorListPage> {
                       });
                 }
               }
-              return const Text("hello");
+              return const Text("No Available Requests for Inspection");
             }));
   }
 }
