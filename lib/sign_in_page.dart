@@ -197,6 +197,7 @@ class _SignInPageState extends State<SignInPage> {
                             },
                           ),
                         ),
+                        obscureText: !_isPasswordVisible,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             setState(() {
