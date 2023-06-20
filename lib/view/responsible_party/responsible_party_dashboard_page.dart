@@ -290,13 +290,14 @@ class _ResponsiblePartyDashboardPageState
                                                   builder: (context) {
                                             return DetailScreen(
                                               imageUrl: projectImage,
+                                              projectID: projectID,
                                             );
                                           }));
                                         },
 
                                         // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
                                         child: Hero(
-                                          tag: projectImage,
+                                          tag: projectID,
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(15),

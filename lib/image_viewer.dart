@@ -3,8 +3,11 @@ import 'package:quality_control_tracker/full_screen_wrapper.dart';
 
 class DetailScreen extends StatelessWidget {
   final String imageUrl;
+  final String projectID;
 
-  const DetailScreen({Key? key, required this.imageUrl}) : super(key: key);
+  const DetailScreen(
+      {Key? key, required this.imageUrl, required this.projectID})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
