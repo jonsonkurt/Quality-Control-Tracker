@@ -234,7 +234,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                              .fromLTRB(
+                                                                  .fromLTRB(
                                                               12, 4, 4, 0),
                                                       border:
                                                           OutlineInputBorder(
@@ -288,7 +288,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                              .fromLTRB(
+                                                                  .fromLTRB(
                                                               12, 4, 4, 0),
                                                       border:
                                                           OutlineInputBorder(
@@ -342,13 +342,11 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         DropDownDecoratorProps(
                                                             dropdownSearchDecoration:
                                                                 InputDecoration(
-                                                                    contentPadding:
-                                                                        const EdgeInsets
-                                                                            .fromLTRB(
-                                                                            12,
-                                                                            4,
-                                                                            4,
-                                                                            0),
+                                                                    contentPadding: const EdgeInsets.fromLTRB(
+                                                                        12,
+                                                                        4,
+                                                                        4,
+                                                                        0),
                                                                     border: OutlineInputBorder(
                                                                         borderRadius:
                                                                             BorderRadius.circular(
@@ -637,6 +635,8 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     _projectDeadlineController
                                                         .clear();
                                                     // Perform the desired action when the button is pressed
+                                                    // ignore: use_build_context_synchronously
+                                                    Navigator.pop(context);
                                                   },
                                                   child: Padding(
                                                     padding: EdgeInsets.all(
