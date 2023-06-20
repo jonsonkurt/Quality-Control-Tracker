@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:quality_control_tracker/view/inspector/inspector_project_updates.dart';
 
 class InspectorListPage extends StatefulWidget {
   final String projectIDQuery;
@@ -121,6 +122,14 @@ class _InspectorListPageState extends State<InspectorListPage> {
                         String rpSubmissionDate = values[projectUpdatesID]
                                 ["rpSubmissionDate"]
                             ["rpSubmissionDate$rpSubmissionDateLength"];
+
+                        int projectUpdatesTitleLength = values[projectUpdatesID]
+                                ["projectUpdatesTitle"]
+                            .length;
+                        String projectUpdatesTitle = values[projectUpdatesID]
+                                ["projectUpdatesTitle"]
+                            ["title$projectUpdatesTitleLength"];
+
                         String projectUpdatesPhotoURL =
                             values[projectUpdatesID]["projectUpdatesPhotoURL"];
 
@@ -129,22 +138,35 @@ class _InspectorListPageState extends State<InspectorListPage> {
                         String formattedDate =
                             DateFormat("MMMM d, yyyy").format(dateTime);
 
-                        return Card(
-                          child: Row(
-                            children: [
-                              Image.network(
-                                projectUpdatesPhotoURL,
-                                width: 100,
-                                height: 100,
-                              ),
-                              Column(
-                                children: [
-                                  Text(jobTitle),
-                                  Text("Accomplished by: $rpName"),
-                                  Text(formattedDate),
-                                ],
-                              )
-                            ],
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      InspectorProjectUpdatesPage(
+                                        projectUpdatesID: projectUpdatesID,
+                                      )),
+                            );
+                          },
+                          child: Card(
+                            child: Row(
+                              children: [
+                                Image.network(
+                                  projectUpdatesPhotoURL,
+                                  width: 100,
+                                  height: 100,
+                                ),
+                                Column(
+                                  children: [
+                                    Text(jobTitle),
+                                    Text(projectUpdatesTitle),
+                                    Text("Accomplished by: $rpName"),
+                                    Text(formattedDate),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         );
                       });
