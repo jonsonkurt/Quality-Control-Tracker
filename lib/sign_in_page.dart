@@ -142,7 +142,7 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your first name';
+                            return 'Please enter your email';
                           }
                           return null; // Return null if there is no error
                         },
