@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+import 'package:quality_control_tracker/view/responsible_party/update_image_controller.dart';
 import 'package:random_string/random_string.dart';
 
 class ResponsiblePartyUpdatePage extends StatefulWidget {
@@ -61,144 +64,186 @@ class _ResponsiblePartyUpdatePageState
 
         final mediaQuery = MediaQuery.of(context);
 
-        return AlertDialog(
-          backgroundColor: const Color(0xffDCE4E9),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          title: Text(
-            'Request Inspection',
-            style: TextStyle(
-              fontFamily: 'Rubik Bold',
-              fontSize: mediaQuery.size.height * 0.03,
-              color: const Color(0xFF221540),
-            ),
-          ),
-          content: Form(
-            key: formKey,
-            child: SizedBox(
-              height: 300,
-              child: Column(
-                children: [
-                  TextFormField(
-                    cursorColor: const Color(0xFF221540),
-                    controller: _rpTitleController,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.fromLTRB(12, 4, 4, 0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide.none,
+        return ChangeNotifierProvider(
+            create: (_) => ProfileController(),
+            child: Consumer<ProfileController>(
+                builder: (context, provider, child) {
+              return AlertDialog(
+                backgroundColor: const Color(0xffDCE4E9),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                title: Text(
+                  'Request Inspection',
+                  style: TextStyle(
+                    fontFamily: 'Rubik Bold',
+                    fontSize: mediaQuery.size.height * 0.03,
+                    color: const Color(0xFF221540),
+                  ),
+                ),
+                content: Form(
+                  key: formKey,
+                  child: SizedBox(
+                    height: 300,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          cursorColor: const Color(0xFF221540),
+                          controller: _rpTitleController,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(12, 4, 4, 0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Title',
+                            labelStyle: TextStyle(
+                              fontFamily: 'Karla Regular',
+                              fontSize: mediaQuery.size.height * 0.02,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter a title';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          cursorColor: const Color(0xFF221540),
+                          controller: _rpNotesController,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(12, 4, 4, 0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Notes',
+                            labelStyle: TextStyle(
+                              fontFamily: 'Karla Regular',
+                              fontSize: mediaQuery.size.height * 0.02,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your notes';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            provider.pickImage(context, projectUpdatesID);
+                          },
+                          child: Container(
+                            height: 130,
+                            width: 130,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(
+                                  color: const Color(0xff221540),
+                                  width: 2,
+                                )),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: provider.image == null
+                                    ? const Icon(
+                                        Icons.add_circle,
+                                        size: 35,
+                                        color: Color(0xff221540),
+                                      )
+                                    : Image.file(
+                                        fit: BoxFit.cover,
+                                        File(provider.image!.path).absolute)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                actions: <Widget>[
+                  Center(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        backgroundColor: const Color(0xFF221540),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: 'Title',
-                      labelStyle: TextStyle(
-                        fontFamily: 'Karla Regular',
-                        fontSize: mediaQuery.size.height * 0.02,
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          String rpTitle = _rpTitleController.text;
+                          String rpNotes = _rpNotesController.text;
+
+                          // Updates database
+                          DatabaseReference projectsRef = FirebaseDatabase
+                              .instance
+                              .ref()
+                              .child('projectUpdates/$projectUpdatesID');
+
+                          projectsRef.set({
+                            "projectID": widget.projectIDQuery,
+                            "projectUpdatesID": projectUpdatesID,
+                            "rpID": userID,
+                            "rpName": rpFullName,
+                            "rpRole": rpRole,
+                            "inspectorID": inspectorID,
+                            "rpProjectRemarks":
+                                "$userID-PENDING-$combinedDateTime",
+                            "rpSubmissionDate": {
+                              "rpSubmissionDate1": formattedDate
+                            },
+                            "inspectorIssueDeadline": {
+                              "inspectorIssueDeadline1": ""
+                            },
+                            "rpNotes": {"rpNotes1": rpNotes},
+                            "inspectorProjectRemarks":
+                                "$inspectorID-PENDING-$combinedDateTime",
+                            "inspectorNotes": {"inspectorNotes1": ""},
+                            "inspectionDate": {"inspectionDate1": ""},
+                            "projectUpdatesPhotoURL": provider.imgURL,
+                            "projectUpdatesTitle": {"title1": rpTitle},
+                          });
+
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(mediaQuery.size.height * 0.017),
+                        child: Text(
+                          'Request',
+                          style: TextStyle(
+                            fontFamily: 'Rubik Regular',
+                            fontSize: mediaQuery.size.height * 0.02,
+                          ),
+                        ),
                       ),
                     ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a title';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    cursorColor: const Color(0xFF221540),
-                    controller: _rpNotesController,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.fromLTRB(12, 4, 4, 0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: 'Notes',
-                      labelStyle: TextStyle(
-                        fontFamily: 'Karla Regular',
-                        fontSize: mediaQuery.size.height * 0.02,
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your notes';
-                      }
-                      return null;
-                    },
                   ),
                 ],
-              ),
-            ),
-          ),
-          actions: <Widget>[
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  backgroundColor: const Color(0xFF221540),
-                ),
-                onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                    String rpTitle = _rpTitleController.text;
-                    String rpNotes = _rpNotesController.text;
-
-                    // Updates database
-                    DatabaseReference projectsRef = FirebaseDatabase.instance
-                        .ref()
-                        .child('projectUpdates/$projectUpdatesID');
-
-                    projectsRef.set({
-                      "projectID": widget.projectIDQuery,
-                      "projectUpdatesID": projectUpdatesID,
-                      "rpID": userID,
-                      "rpName": rpFullName,
-                      "rpRole": rpRole,
-                      "inspectorID": inspectorID,
-                      "rpProjectRemarks": "$userID-PENDING-$combinedDateTime",
-                      "rpSubmissionDate": {"rpSubmissionDate1": formattedDate},
-                      "inspectorIssueDeadline": {"inspectorIssueDeadline1": ""},
-                      "rpNotes": {"rpNotes1": rpNotes},
-                      "inspectorProjectRemarks":
-                          "$inspectorID-PENDING-$combinedDateTime",
-                      "inspectorNotes": {"inspectorNotes1": ""},
-                      "inspectionDate": {"inspectionDate1": ""},
-                      "projectUpdatesPhotoURL":
-                          "https://coboelectric.ca/wp-content/uploads/2020/10/AdobeStock_275162542-2048x1365.jpeg.webp",
-                      "projectUpdatesTitle": {"title1": rpTitle},
-                    });
-
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(mediaQuery.size.height * 0.017),
-                  child: Text(
-                    'Request',
-                    style: TextStyle(
-                      fontFamily: 'Rubik Regular',
-                      fontSize: mediaQuery.size.height * 0.02,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
+              );
+            }));
       },
     );
   }
@@ -345,6 +390,7 @@ class _ResponsiblePartyUpdatePageState
                               Row(
                                 children: [
                                   Image.network(
+                                    fit: BoxFit.cover,
                                     projectUpdatesPhotoURL,
                                     width: 100,
                                     height: 100,
