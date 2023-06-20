@@ -23,6 +23,8 @@ class ResponsiblePartyUpdatePage extends StatefulWidget {
 class _ResponsiblePartyUpdatePageState
     extends State<ResponsiblePartyUpdatePage> {
   final TextEditingController _rpNotesController = TextEditingController();
+  final TextEditingController _rpTitleController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   StreamSubscription<DatabaseEvent>? getRole;
   StreamSubscription<DatabaseEvent>? userSubscription;
@@ -38,10 +40,11 @@ class _ResponsiblePartyUpdatePageState
 
   @override
   void dispose() {
+    _rpTitleController.dispose();
+    _rpNotesController.dispose();
     getRole?.cancel();
     userSubscription?.cancel();
     projectSubscription?.cancel();
-    _rpNotesController.dispose();
     super.dispose();
   }
 
@@ -66,31 +69,77 @@ class _ResponsiblePartyUpdatePageState
           title: Text(
             'Request Inspection',
             style: TextStyle(
-                fontFamily: 'Rubik Bold',
-                fontSize: mediaQuery.size.height * 0.03,
-                color: const Color(0xFF221540)),
+              fontFamily: 'Rubik Bold',
+              fontSize: mediaQuery.size.height * 0.03,
+              color: const Color(0xFF221540),
+            ),
           ),
-          content: Material(
-            borderRadius: BorderRadius.circular(30.0),
-            elevation: 5,
-            child: TextField(
-              cursorColor: const Color(0xFF221540),
-              controller: _rpNotesController,
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.fromLTRB(12, 4, 4, 0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide.none),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none),
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Notes',
-                labelStyle: TextStyle(
-                  fontFamily: 'Karla Regular',
-                  fontSize: mediaQuery.size.height * 0.02,
-                ),
+          content: Form(
+            key: formKey,
+            child: SizedBox(
+              height: 200,
+              child: Column(
+                children: [
+                  TextFormField(
+                    cursorColor: const Color(0xFF221540),
+                    controller: _rpTitleController,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.fromLTRB(12, 4, 4, 0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: 'Title',
+                      labelStyle: TextStyle(
+                        fontFamily: 'Karla Regular',
+                        fontSize: mediaQuery.size.height * 0.02,
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a title';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    cursorColor: const Color(0xFF221540),
+                    controller: _rpNotesController,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.fromLTRB(12, 4, 4, 0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: 'Notes',
+                      labelStyle: TextStyle(
+                        fontFamily: 'Karla Regular',
+                        fontSize: mediaQuery.size.height * 0.02,
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your notes';
+                      }
+                      return null;
+                    },
+                  ),
+                ],
               ),
             ),
           ),
@@ -98,44 +147,52 @@ class _ResponsiblePartyUpdatePageState
             Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    backgroundColor: const Color(0xFF221540)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  backgroundColor: const Color(0xFF221540),
+                ),
                 onPressed: () async {
-                  String rpNotes = _rpNotesController.text;
+                  if (formKey.currentState!.validate()) {
+                    String rpTitle = _rpTitleController.text;
+                    String rpNotes = _rpNotesController.text;
 
-                  // Updates database
-                  DatabaseReference projectsRef = FirebaseDatabase.instance
-                      .ref()
-                      .child('projectUpdates/$projectUpdatesID');
+                    // Updates database
+                    DatabaseReference projectsRef = FirebaseDatabase.instance
+                        .ref()
+                        .child('projectUpdates/$projectUpdatesID');
 
-                  projectsRef.set({
-                    "projectID": widget.projectIDQuery,
-                    "projectUpdatesID": projectUpdatesID,
-                    "rpID": userID,
-                    "rpName": rpFullName,
-                    "rpRole": rpRole,
-                    "inspectorID": inspectorID,
-                    "rpProjectRemarks": "$userID-PENDING-$combinedDateTime",
-                    "rpSubmissionDate": {"rpSubmissionDate1": formattedDate},
-                    "inspectorIssueDeadline": {"inspectorIssueDeadline1": ""},
-                    "rpNotes": {"rpNotes1": rpNotes},
-                    "inspectorProjectRemakrs":
-                        "$inspectorID-PENDING-$combinedDateTime",
-                    "inspectorNotes": {"inspectorNotes1": ""},
-                    "inspectionDate": {"inspectionDate1": ""},
-                    "projectUpdatesPhotoURL": "",
-                  });
+                    projectsRef.set({
+                      "projectID": widget.projectIDQuery,
+                      "projectUpdatesID": projectUpdatesID,
+                      "rpID": userID,
+                      "rpName": rpFullName,
+                      "rpRole": rpRole,
+                      "inspectorID": inspectorID,
+                      "rpProjectRemarks": "$userID-PENDING-$combinedDateTime",
+                      "rpSubmissionDate": {"rpSubmissionDate1": formattedDate},
+                      "inspectorIssueDeadline": {"inspectorIssueDeadline1": ""},
+                      "rpNotes": {"rpNotes1": rpNotes},
+                      "inspectorProjectRemakrs":
+                          "$inspectorID-PENDING-$combinedDateTime",
+                      "inspectorNotes": {"inspectorNotes1": ""},
+                      "inspectionDate": {"inspectionDate1": ""},
+                      "projectUpdatesPhotoURL":
+                          "https://coboelectric.ca/wp-content/uploads/2020/10/AdobeStock_275162542-2048x1365.jpeg.webp",
+                      "projectUpdatesTitle": {"title1": rpTitle},
+                    });
 
-                  Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }
                 },
                 child: Padding(
                   padding: EdgeInsets.all(mediaQuery.size.height * 0.017),
                   child: Text(
                     'Request',
                     style: TextStyle(
-                        fontFamily: 'Rubik Regular',
-                        fontSize: mediaQuery.size.height * 0.02),
+                      fontFamily: 'Rubik Regular',
+                      fontSize: mediaQuery.size.height * 0.02,
+                    ),
                   ),
                 ),
               ),
