@@ -77,7 +77,7 @@ class _ResponsiblePartyUpdatePageState
           content: Form(
             key: formKey,
             child: SizedBox(
-              height: 200,
+              height: 300,
               child: Column(
                 children: [
                   TextFormField(
@@ -173,7 +173,7 @@ class _ResponsiblePartyUpdatePageState
                       "rpSubmissionDate": {"rpSubmissionDate1": formattedDate},
                       "inspectorIssueDeadline": {"inspectorIssueDeadline1": ""},
                       "rpNotes": {"rpNotes1": rpNotes},
-                      "inspectorProjectRemakrs":
+                      "inspectorProjectRemarks":
                           "$inspectorID-PENDING-$combinedDateTime",
                       "inspectorNotes": {"inspectorNotes1": ""},
                       "inspectionDate": {"inspectionDate1": ""},
