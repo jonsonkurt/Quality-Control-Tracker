@@ -19,7 +19,7 @@ class ProfileController with ChangeNotifier {
 
   Future pickGalleryImage(BuildContext context, String projectID) async {
     final pickedFile =
-        await picker.pickImage(source: ImageSource.gallery, imageQuality: 70);
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 100);
 
     if (pickedFile != null) {
       _image = XFile(pickedFile.path);
@@ -31,7 +31,7 @@ class ProfileController with ChangeNotifier {
 
   Future pickCameraImage(BuildContext context, String projectID) async {
     final pickedFile =
-        await picker.pickImage(source: ImageSource.camera, imageQuality: 70);
+        await picker.pickImage(source: ImageSource.camera, imageQuality: 100);
 
     if (pickedFile != null) {
       _image = XFile(pickedFile.path);
