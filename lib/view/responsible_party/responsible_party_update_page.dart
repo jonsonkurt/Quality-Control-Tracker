@@ -202,26 +202,29 @@ class _ResponsiblePartyUpdatePageState
                               .ref()
                               .child('projectUpdates/$projectUpdatesID');
 
-                    projectsRef.set({
-                      "projectID": widget.projectIDQuery,
-                      "projectUpdatesID": projectUpdatesID,
-                      "rpID": userID,
-                      "rpName": rpFullName,
-                      "rpRole": rpRole,
-                      "inspectorID": inspectorID,
-                      "rpProjectRemarks":
-                          "$userID-${widget.projectIDQuery}-PENDING-$combinedDateTime",
-                      "rpSubmissionDate": {"rpSubmissionDate1": formattedDate},
-                      "inspectorIssueDeadline": {"inspectorIssueDeadline1": ""},
-                      "rpNotes": {"rpNotes1": rpNotes},
-                      "inspectorProjectRemarks":
-                          "$inspectorID-${widget.projectIDQuery}-PENDING-$combinedDateTime",
-                      "inspectorNotes": {"inspectorNotes1": ""},
-                      "inspectionDate": {"inspectionDate1": ""},
-                      "projectUpdatesPhotoURL":
-                          "https://coboelectric.ca/wp-content/uploads/2020/10/AdobeStock_275162542-2048x1365.jpeg.webp",
-                      "projectUpdatesTitle": {"title1": rpTitle},
-                    });
+                          projectsRef.set({
+                            "projectID": widget.projectIDQuery,
+                            "projectUpdatesID": projectUpdatesID,
+                            "rpID": userID,
+                            "rpName": rpFullName,
+                            "rpRole": rpRole,
+                            "inspectorID": inspectorID,
+                            "rpProjectRemarks":
+                                "$userID-${widget.projectIDQuery}-PENDING-$combinedDateTime",
+                            "rpSubmissionDate": {
+                              "rpSubmissionDate1": formattedDate
+                            },
+                            "inspectorIssueDeadline": {
+                              "inspectorIssueDeadline1": ""
+                            },
+                            "rpNotes": {"rpNotes1": rpNotes},
+                            "inspectorProjectRemarks":
+                                "$inspectorID-${widget.projectIDQuery}-PENDING-$combinedDateTime",
+                            "inspectorNotes": {"inspectorNotes1": ""},
+                            "inspectionDate": {"inspectionDate1": ""},
+                            "projectUpdatesPhotoURL": provider.imgURL,
+                            "projectUpdatesTitle": {"title1": rpTitle},
+                          });
 
                           Navigator.of(context).pop();
                         }
