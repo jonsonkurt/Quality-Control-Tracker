@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:quality_control_tracker/view/admin/admin_inspector_creation_page.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AdminListPage extends StatefulWidget {
   const AdminListPage({Key? key}) : super(key: key);
@@ -9,8 +13,38 @@ class AdminListPage extends StatefulWidget {
 }
 
 class _AdminListPageState extends State<AdminListPage> {
+  StreamSubscription<DatabaseEvent>? nameSubricption;
+  DatabaseReference ref = FirebaseDatabase.instance.ref().child('inspectors');
+  DatabaseReference ref1 = FirebaseDatabase.instance.ref().child('projects');
+
+  int countProjects(List<dynamic> projectList, String inspectorName) {
+    int count = 0;
+    for (var project in projectList) {
+      if (project['inspector'] == inspectorName) {
+        count++;
+      }
+    }
+    return count;
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<dynamic> projectList = [];
+
+    ref1.onValue.listen((event) {
+      DataSnapshot snapshot = event.snapshot;
+      Map<dynamic, dynamic>? projectsData =
+          snapshot.value as Map<dynamic, dynamic>?;
+
+      if (projectsData != null) {
+        projectList = projectsData.values.toList();
+      } else {
+        print('No data available');
+      }
+    }, onError: (error) {
+      print('Error: $error');
+    });
+
     return Scaffold(
         backgroundColor: const Color(0xFFDCE4E9),
         appBar: PreferredSize(
@@ -38,41 +72,41 @@ class _AdminListPageState extends State<AdminListPage> {
             ),
           ),
         ),
-        body: SafeArea(
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.all(15),
-            elevation: 8,
-            color: Colors.blue,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.account_box_outlined,
-                  size: 60,
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5, 10, 0, 0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Giova Guava",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Text("Shabu Packer", style: TextStyle(fontSize: 13)),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ));
+        body: StreamBuilder(
+            stream: ref.orderByChild("firstName").onValue,
+            builder: (context, AsyncSnapshot snapshot) {
+              dynamic values;
+
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasData) {
+                DataSnapshot dataSnapshot = snapshot.data!.snapshot;
+                if (dataSnapshot.value != null) {
+                  values = dataSnapshot.value;
+                  return ListView.builder(
+                      itemCount: values.length,
+                      itemBuilder: (context, index) {
+                        String projectUpdatesID = values.keys.elementAt(index);
+                        String inspectorFirstName =
+                            values[projectUpdatesID]["firstName"];
+                        String inspectorLastName =
+                            values[projectUpdatesID]["lastName"];
+                        String inspectorFullName =
+                            "$inspectorFirstName $inspectorLastName";
+
+                        int projectHandled =
+                            countProjects(projectList, inspectorFullName);
+
+                        return Card(
+                          child: Column(children: [
+                            Text(inspectorFullName),
+                            Text("Project handled:$projectHandled")
+                          ]),
+                        );
+                      });
+                }
+              }
+              return Text("helkko");
+            }));
   }
 }
