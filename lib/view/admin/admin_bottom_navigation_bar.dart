@@ -195,8 +195,8 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         )),
                                                     child: ClipRRect(
                                                         borderRadius:
-                                                            BorderRadiusDirectional
-                                                                .zero,
+                                                            BorderRadius
+                                                                .circular(15),
                                                         child: provider.image ==
                                                                 null
                                                             ? const Icon(
@@ -234,7 +234,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                              .fromLTRB(
+                                                                  .fromLTRB(
                                                               12, 4, 4, 0),
                                                       border:
                                                           OutlineInputBorder(
@@ -288,7 +288,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                              .fromLTRB(
+                                                                  .fromLTRB(
                                                               12, 4, 4, 0),
                                                       border:
                                                           OutlineInputBorder(
@@ -342,13 +342,11 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         DropDownDecoratorProps(
                                                             dropdownSearchDecoration:
                                                                 InputDecoration(
-                                                                    contentPadding:
-                                                                        const EdgeInsets
-                                                                            .fromLTRB(
-                                                                            12,
-                                                                            4,
-                                                                            4,
-                                                                            0),
+                                                                    contentPadding: const EdgeInsets.fromLTRB(
+                                                                        12,
+                                                                        4,
+                                                                        4,
+                                                                        0),
                                                                     border: OutlineInputBorder(
                                                                         borderRadius:
                                                                             BorderRadius.circular(
@@ -424,14 +422,22 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     //dropdownButtonProps: DropdownButtonProps(),
                                                   ),
                                                 ),
-                                                const SizedBox(height: 16),
+                                                SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.02),
                                                 // const TextField(
                                                 //   decoration: InputDecoration(
                                                 //     labelText: 'Project Deadline',
                                                 //   ),
                                                 // ),
                                                 SizedBox(
-                                                  // height: 50,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.06,
                                                   child: Material(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -449,7 +455,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                               0.4,
                                                       textAlignVertical:
                                                           TextAlignVertical
-                                                              .center,
+                                                              .bottom,
                                                       cupertinoDatePickerBackgroundColor:
                                                           Colors.white,
                                                       cupertinoDatePickerMaximumDate:
@@ -531,8 +537,24 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                   ),
                                                 ),
 
-                                                const SizedBox(height: 16),
+                                                SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.04),
                                                 ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                    ),
+                                                    backgroundColor:
+                                                        const Color(0xFF221540),
+                                                  ),
                                                   onPressed: () async {
                                                     String projName =
                                                         _projectNameController
@@ -613,8 +635,27 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     _projectDeadlineController
                                                         .clear();
                                                     // Perform the desired action when the button is pressed
+                                                    // ignore: use_build_context_synchronously
+                                                    Navigator.pop(context);
                                                   },
-                                                  child: const Text('Submit'),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.017),
+                                                    child: Text(
+                                                      'Submit',
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'Rubik Regular',
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.02),
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -628,6 +669,8 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                     )
                   : _selectedItemPosition == 1
                       ? FloatingActionButton(
+                          backgroundColor: const Color(0xFF221540),
+                          child: const Icon(Icons.add),
                           onPressed: () {
                             Navigator.push<void>(
                                 context,

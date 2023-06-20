@@ -17,6 +17,8 @@ class _SignInPageState extends State<SignInPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
+  bool validateEmail = false;
+  bool validatePassword = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +38,25 @@ class _SignInPageState extends State<SignInPage> {
         backgroundColor: const Color(0xFFDCE4E9),
         leading: IconButton(
           onPressed: () {
-            Navigator.push(
+            Navigator.push<void>(
               context,
-              MaterialPageRoute(builder: (context) => const WelcomePage()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const WelcomePage(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 500),
+              ),
             );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const WelcomePage()),
+            // );
           },
           icon: const Icon(
             Icons.arrow_back_ios,
@@ -64,27 +81,49 @@ class _SignInPageState extends State<SignInPage> {
                     const Text(
                       "Sign In",
                       style: TextStyle(
-                        fontFamily: "Rubik-Bold",
+                        fontFamily: "Rubik",
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF221540),
                       ),
                     ),
-                    const Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        fontFamily: "Rubik-Bold",
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push<void>(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    const SignUpPage(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            },
+                            transitionDuration:
+                                const Duration(milliseconds: 500),
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero, // Remove any padding
+                      ),
+                      child: const Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          fontFamily: "Rubik",
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 70),
-                    Card(
+                    const SizedBox(height: 30),
+                    Material(
+                      borderRadius: BorderRadius.circular(30),
                       elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
                       child: TextFormField(
                         controller: _emailController,
                         style: const TextStyle(color: Colors.black),
@@ -105,18 +144,30 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your first name';
+                            setState(() {
+                              validateEmail = true;
+                            });
+                            return null;
                           }
+                          setState(() {
+                            validateEmail = false;
+                          });
                           return null; // Return null if there is no error
                         },
                       ),
                     ),
-                    const SizedBox(height: 15.0),
-                    Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
+                    if (validateEmail)
+                      const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text(
+                          "Please enter your email",
+                          style: TextStyle(color: Colors.red),
+                        ),
                       ),
+                    const SizedBox(height: 15.0),
+                    Material(
+                      borderRadius: BorderRadius.circular(30),
+                      elevation: 5,
                       child: TextFormField(
                         controller: _passwordController,
                         style: const TextStyle(color: Colors.black),
@@ -146,16 +197,28 @@ class _SignInPageState extends State<SignInPage> {
                             },
                           ),
                         ),
-                        obscureText: !_isPasswordVisible,
                         validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter a password';
+                          if (value == null || value.isEmpty) {
+                            setState(() {
+                              validatePassword = true;
+                            });
+                            return null;
                           }
-                          // Add additional password validation logic if needed
-                          return null;
+                          setState(() {
+                            validatePassword = false;
+                          });
+                          return null; // Return null if there is no error
                         },
                       ),
                     ),
+                    if (validatePassword)
+                      const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text(
+                          "Please enter your password",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
                     const SizedBox(height: 20),
                     Align(
                       alignment: Alignment.center,
@@ -277,29 +340,6 @@ class _SignInPageState extends State<SignInPage> {
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: TextButton(
-                        onPressed: () {
-                          // ignore: use_build_context_synchronously
-                          Navigator.push<void>(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignUpPage(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            fontFamily: "Karla-Light",
-                            color: Color(0xFF221540),
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),

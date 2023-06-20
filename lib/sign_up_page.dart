@@ -121,10 +121,26 @@ class _SignUpPageState extends State<SignUpPage> {
         backgroundColor: const Color(0xFFDCE4E9),
         leading: IconButton(
           onPressed: () {
-            Navigator.push(
+            Navigator.push<void>(
               context,
-              MaterialPageRoute(builder: (context) => const SignInPage()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const SignInPage(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 500),
+              ),
             );
+
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const SignInPage()),
+            // );
           },
           icon: const Icon(
             Icons.arrow_back_ios,
@@ -132,338 +148,339 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       ),
-      body: Container(
-        color: const Color(0xFFDCE4E9),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      fontFamily: "Rubik-Bold",
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF221540),
-                    ),
-                  ),
-                  const Text(
-                    "Sign In",
-                    style: TextStyle(
-                      fontFamily: "Rubik-Bold",
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: TextFormField(
-                        controller: _firstNameController,
-                        style: const TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          hintText: 'First Name',
-                          labelStyle: const TextStyle(
-                            fontFamily: "Karla-Regular",
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 16, // Adjust the vertical padding here
-                            horizontal:
-                                24, // Adjust the horizontal padding here
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your first name';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: TextFormField(
-                        controller: _lastNameController,
-                        style: const TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          hintText: 'Last Name',
-                          labelStyle: const TextStyle(
-                            fontFamily: "Karla-Regular",
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 16, // Adjust the vertical padding here
-                            horizontal:
-                                24, // Adjust the horizontal padding here
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your last name';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: DropdownButtonFormField<String>(
-                        value: _selectedRole,
-                        style: const TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          hintText: 'Role',
-                          labelStyle: const TextStyle(
-                            fontFamily: "Karla-Regular",
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 13, // Adjust the vertical padding here
-                            horizontal:
-                                24, // Adjust the horizontal padding here
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                        ),
-                        items: _roles.map((String role) {
-                          return DropdownMenuItem<String>(
-                            value: role,
-                            child: Text(
-                              role,
+      body: SingleChildScrollView(
+        child: Container(
+          color: const Color(0xFFDCE4E9),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 30),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push<void>(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      const SignInPage(),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                              transitionDuration:
+                                  const Duration(milliseconds: 500),
                             ),
                           );
-                        }).toList(),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select a role';
-                          }
-                          return null;
                         },
-                        onChanged: (value) =>
-                            setState(() => _selectedRole = value),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: TextFormField(
-                        controller: _emailController,
-                        style: const TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          hintText: 'Email',
-                          labelStyle: const TextStyle(
-                            fontFamily: "Karla-Regular",
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 16, // Adjust the vertical padding here
-                            horizontal:
-                                24, // Adjust the horizontal padding here
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(25.0),
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero, // Remove any padding
+                        ),
+                        child: const Text(
+                          "Sign In",
+                          style: TextStyle(
+                            fontFamily: "Rubik-Bold",
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          // You can add more email validation logic here if needed
-                          return null;
-                        },
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: TextFormField(
-                        controller: _passwordController,
-                        style: const TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          hintText: 'Password',
-                          labelStyle: const TextStyle(
-                            fontFamily: "Karla-Regular",
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 16, // Adjust the vertical padding here
-                            horizontal:
-                                24, // Adjust the horizontal padding here
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          suffixIcon: IconButton(
-                            color: const Color(0xFF221540),
-                            icon: Icon(_isPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off),
-                            onPressed: () {
-                              setState(() {
-                                _isPasswordVisible = !_isPasswordVisible;
-                              });
-                            },
-                          ),
-                        ),
-                        obscureText: !_isPasswordVisible,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter a password';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: TextFormField(
-                        controller: _confirmPasswordController,
-                        style: const TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          hintText: 'Confirm Password',
-                          labelStyle: const TextStyle(
-                            fontFamily: "Karla-Regular",
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 16, // Adjust the vertical padding here
-                            horizontal:
-                                24, // Adjust the horizontal padding here
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          suffixIcon: IconButton(
-                            color: const Color(0xFF221540),
-                            icon: Icon(_isPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off),
-                            onPressed: () {
-                              setState(() {
-                                _isconPasswordVisible = !_isconPasswordVisible;
-                              });
-                            },
-                          ),
-                        ),
-                        obscureText: !_isconPasswordVisible,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please confirm your password';
-                          }
-                          if (value != _passwordController.text) {
-                            return 'Passwords do not match';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30.0),
-                  Align(
-                    alignment: Alignment.center,
-                    child: ElevatedButton(
-                      onPressed: _signUp,
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(164, 50),
-                        backgroundColor: const Color(0xFF221540),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              30), // Adjust the radius as needed
-                        ),
-                      ),
-                      child: const Text(
-                        'Sign Up',
+                      const Text(
+                        "Sign Up",
                         style: TextStyle(
-                          fontFamily: "Karla-Bold",
-                          color: Colors.white,
-                          fontSize: 20,
+                          fontFamily: "Rubik-Bold",
+                          fontSize: 32,
                           fontWeight: FontWeight.bold,
+                          color: Color(0xFF221540),
                         ),
                       ),
-                    ),
+                      const SizedBox(height: 30),
+                      Material(
+                        borderRadius: BorderRadius.circular(30),
+                        elevation: 5,
+                        child: TextFormField(
+                          controller: _firstNameController,
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            hintText: 'First Name',
+                            labelStyle: const TextStyle(
+                              fontFamily: "Karla-Regular",
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16, // Adjust the vertical padding here
+                              horizontal:
+                                  24, // Adjust the horizontal padding here
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your first name';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Material(
+                        borderRadius: BorderRadius.circular(30),
+                        elevation: 5,
+                        child: TextFormField(
+                          controller: _lastNameController,
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            hintText: 'Last Name',
+                            labelStyle: const TextStyle(
+                              fontFamily: "Karla-Regular",
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16, // Adjust the vertical padding here
+                              horizontal:
+                                  24, // Adjust the horizontal padding here
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your last name';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Material(
+                        borderRadius: BorderRadius.circular(30),
+                        elevation: 5,
+                        child: DropdownButtonFormField<String>(
+                          value: _selectedRole,
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            hintText: 'Role',
+                            labelStyle: const TextStyle(
+                              fontFamily: "Karla-Regular",
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 13, // Adjust the vertical padding here
+                              horizontal:
+                                  24, // Adjust the horizontal padding here
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                          ),
+                          items: _roles.map((String role) {
+                            return DropdownMenuItem<String>(
+                              value: role,
+                              child: Text(
+                                role,
+                              ),
+                            );
+                          }).toList(),
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select a role';
+                            }
+                            return null;
+                          },
+                          onChanged: (value) =>
+                              setState(() => _selectedRole = value),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Material(
+                        borderRadius: BorderRadius.circular(30),
+                        elevation: 5,
+                        child: TextFormField(
+                          controller: _emailController,
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            hintText: 'Email',
+                            labelStyle: const TextStyle(
+                              fontFamily: "Karla-Regular",
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16, // Adjust the vertical padding here
+                              horizontal:
+                                  24, // Adjust the horizontal padding here
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            // You can add more email validation logic here if needed
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Material(
+                        borderRadius: BorderRadius.circular(30),
+                        elevation: 5,
+                        child: TextFormField(
+                          controller: _passwordController,
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            hintText: 'Password',
+                            labelStyle: const TextStyle(
+                              fontFamily: "Karla-Regular",
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16, // Adjust the vertical padding here
+                              horizontal:
+                                  24, // Adjust the horizontal padding here
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            suffixIcon: IconButton(
+                              color: const Color(0xFF221540),
+                              icon: Icon(_isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                              onPressed: () {
+                                setState(() {
+                                  _isPasswordVisible = !_isPasswordVisible;
+                                });
+                              },
+                            ),
+                          ),
+                          obscureText: !_isPasswordVisible,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter a password';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Material(
+                        borderRadius: BorderRadius.circular(30),
+                        elevation: 5,
+                        child: TextFormField(
+                          controller: _confirmPasswordController,
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            hintText: 'Confirm Password',
+                            labelStyle: const TextStyle(
+                              fontFamily: "Karla-Regular",
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16, // Adjust the vertical padding here
+                              horizontal:
+                                  24, // Adjust the horizontal padding here
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            suffixIcon: IconButton(
+                              color: const Color(0xFF221540),
+                              icon: Icon(_isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                              onPressed: () {
+                                setState(() {
+                                  _isconPasswordVisible =
+                                      !_isconPasswordVisible;
+                                });
+                              },
+                            ),
+                          ),
+                          obscureText: !_isconPasswordVisible,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please confirm your password';
+                            }
+                            if (value != _passwordController.text) {
+                              return 'Passwords do not match';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 30.0),
+                      Align(
+                        alignment: Alignment.center,
+                        child: ElevatedButton(
+                          onPressed: _signUp,
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: const Size(164, 50),
+                            backgroundColor: const Color(0xFF221540),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  30), // Adjust the radius as needed
+                            ),
+                          ),
+                          child: const Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              fontFamily: "Karla-Bold",
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 60.0),
+                    ],
                   ),
-                  const SizedBox(height: 60.0),
-                ],
+                ),
               ),
             ),
           ),

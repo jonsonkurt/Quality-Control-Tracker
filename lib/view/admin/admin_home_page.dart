@@ -134,7 +134,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Project Name: $projectName',
+                                      'Project $projectName',
                                       style: TextStyle(
                                         fontFamily: 'Rubik Bold',
                                         fontSize: mediaQuery.size.height * 0.02,
@@ -144,7 +144,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                     SizedBox(
                                         height: mediaQuery.size.height * 0.002),
                                     Text(
-                                      'Project Location: $projectLocation',
+                                      projectLocation,
                                       style: TextStyle(
                                         fontFamily: 'Karla Regular',
                                         fontSize:
@@ -154,25 +154,40 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                     ),
                                     SizedBox(
                                         height: mediaQuery.size.height * 0.002),
-                                    Text(
-                                      'Project Inspector: $projectInspector',
-                                      style: TextStyle(
-                                        fontFamily: 'Karla Regular',
-                                        fontSize:
-                                            mediaQuery.size.height * 0.017,
-                                        color: const Color(0xff221540),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                        height: mediaQuery.size.height * 0.002),
-                                    Text(
-                                      'Project ID: $projectID',
-                                      style: TextStyle(
-                                        fontFamily: 'Karla Regular',
-                                        fontSize:
-                                            mediaQuery.size.height * 0.017,
-                                        color: const Color(0xff221540),
-                                      ),
+                                    // Text(
+                                    //   'Project Inspector: $projectInspector',
+                                    //   style: TextStyle(
+                                    //     fontFamily: 'Karla Regular',
+                                    //     fontSize:
+                                    //         mediaQuery.size.height * 0.017,
+                                    //     color: const Color(0xff221540),
+                                    //   ),
+                                    // ),
+                                    // SizedBox(
+                                    //     height: mediaQuery.size.height * 0.002),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Project ID: \n$projectID',
+                                          style: TextStyle(
+                                            fontFamily: 'Karla Regular',
+                                            fontSize:
+                                                mediaQuery.size.height * 0.017,
+                                            color: const Color(0xff221540),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.copy,
+                                            color: const Color(0xFF221540),
+                                            size: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.02,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ],
                                 ),
