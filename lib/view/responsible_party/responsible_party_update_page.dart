@@ -3,10 +3,13 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:quality_control_tracker/view/responsible_party/responsible_party_project_updates.dart';
+import 'package:quality_control_tracker/view/responsible_party/responsible_party_project_updates_information.dart';
 import 'package:quality_control_tracker/view/responsible_party/update_image_controller.dart';
 import 'package:random_string/random_string.dart';
 
@@ -221,7 +224,7 @@ class _ResponsiblePartyUpdatePageState
                             "inspectorNotes": "",
                             "inspectionDate": "",
                             "projectUpdatesPhotoURL": provider.imgURL,
-                            "projectUpdatesTitle": {"title1": rpTitle},
+                            "projectUpdatesTitle": rpTitle,
                           });
 
                           Navigator.of(context).pop();
@@ -289,126 +292,260 @@ class _ResponsiblePartyUpdatePageState
     DatabaseReference ref =
         FirebaseDatabase.instance.ref().child('projectUpdates');
     return Scaffold(
-        backgroundColor: const Color(0xFFDCE4E9),
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(
-            mediaQuery.size.height * 0.1,
+      backgroundColor: const Color(0xFFDCE4E9),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(
+          mediaQuery.size.height * 0.1,
+        ),
+        child: AppBar(
+          toolbarHeight: 60,
+          backgroundColor: Colors.white,
+          leading: Padding(
+            padding: EdgeInsets.fromLTRB(
+              mediaQuery.size.width * 0.035,
+              mediaQuery.size.height * 0.028,
+              0,
+              0,
+            ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Color(0xFF221540),
+              ),
+            ),
           ),
-          child: AppBar(
-            toolbarHeight: 60,
-            backgroundColor: Colors.white,
-            leading: Padding(
+          title: Padding(
+            padding: EdgeInsets.only(
+              top: mediaQuery.size.height * 0.035,
+            ),
+            child: Text(
+              'Updates',
+              style: TextStyle(
+                fontFamily: 'Rubik Bold',
+                fontSize: mediaQuery.size.height * 0.04,
+                color: const Color(0xFF221540),
+              ),
+            ),
+          ),
+          actions: [
+            Padding(
               padding: EdgeInsets.fromLTRB(
-                mediaQuery.size.width * 0.035,
-                mediaQuery.size.height * 0.028,
                 0,
+                mediaQuery.size.height * 0.017,
+                mediaQuery.size.width * 0.035,
                 0,
               ),
               child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back_ios,
-                  color: Color(0xFF221540),
-                ),
-              ),
-            ),
-            title: Padding(
-              padding: EdgeInsets.only(
-                top: mediaQuery.size.height * 0.035,
-              ),
-              child: Text(
-                'Updates',
-                style: TextStyle(
-                  fontFamily: 'Rubik Bold',
-                  fontSize: mediaQuery.size.height * 0.04,
+                onPressed: _showDialog,
+                icon: Icon(
+                  Icons.add,
+                  size: mediaQuery.size.height * 0.045,
                   color: const Color(0xFF221540),
                 ),
               ),
             ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                  0,
-                  mediaQuery.size.height * 0.017,
-                  mediaQuery.size.width * 0.035,
-                  0,
-                ),
-                child: IconButton(
-                  onPressed: _showDialog,
-                  icon: Icon(
-                    Icons.add,
-                    size: mediaQuery.size.height * 0.045,
-                    color: const Color(0xFF221540),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          ],
         ),
-        body: StreamBuilder(
-            stream: ref.orderByChild("rpID").equalTo(userID).onValue,
-            builder: (context, AsyncSnapshot snapshot) {
-              dynamic values;
-              if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasData) {
-                DataSnapshot dataSnapshot = snapshot.data!.snapshot;
-                if (dataSnapshot.value != null) {
-                  values = dataSnapshot.value;
+      ),
+      body: Container(
+        height: 580,
+        padding: const EdgeInsets.only(top: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("For Inspection"),
+            Flexible(
+              child: FirebaseAnimatedList(
+                scrollDirection: Axis.horizontal,
+                query: ref
+                    .orderByChild("rpProjectRemarks")
+                    .startAt("$userID-${widget.projectIDQuery}-PENDING-")
+                    .endAt("$userID-${widget.projectIDQuery}-PENDING-\uf8ff"),
+                itemBuilder: (context, snapshot, animation, index) {
+                  String projectUpdatesID =
+                      snapshot.child("projectUpdatesID").value.toString();
 
-                  return ListView.builder(
-                      itemCount: values.length,
-                      itemBuilder: (context, index) {
-                        String projectUpdatesID = values.keys.elementAt(index);
+                  String rpSubmissionDateLengthString =
+                      snapshot.child("rpSubmissionDate").value.toString();
+                  int rpSubmissionDateLengthInt =
+                      rpSubmissionDateLengthString.split(":").length - 1;
+                  String rpSubmissionDate = snapshot
+                      .child(
+                          "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
+                      .value
+                      .toString();
 
-                        String projectUpdatesPhotoURL =
-                            values[projectUpdatesID]["projectUpdatesPhotoURL"];
-                        int projectUpdatesTitleLength = values[projectUpdatesID]
-                                ["projectUpdatesTitle"]
-                            .length;
-                        String projectUpdatesTitle = values[projectUpdatesID]
-                                ["projectUpdatesTitle"]
-                            ["title$projectUpdatesTitleLength"];
-                        String projectID =
-                            values[projectUpdatesID]["projectID"];
-                        int rpSubmissionDateLength =
-                            values[projectUpdatesID]["rpSubmissionDate"].length;
-                        String rpSubmissionDate = values[projectUpdatesID]
-                                ["rpSubmissionDate"]
-                            ["rpSubmissionDate$rpSubmissionDateLength"];
-                        DateTime dateTime =
-                            DateFormat("MM-dd-yyyy").parse(rpSubmissionDate);
-                        String formattedDate =
-                            DateFormat("MMMM d, yyyy").format(dateTime);
-                        if (projectID == widget.projectIDQuery) {
-                          return Card(
-                            child: Column(children: [
-                              Row(
-                                children: [
-                                  Image.network(
-                                    fit: BoxFit.cover,
-                                    projectUpdatesPhotoURL,
-                                    width: 100,
-                                    height: 100,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text("Title: $projectUpdatesTitle"),
-                                      Text("Submission Date$formattedDate"),
-                                    ],
-                                  )
-                                ],
-                              )
-                            ]),
-                          );
-                        }
-                        return const Text("");
-                      });
-                }
-              }
-              return const Text("");
-            }));
+                  String projectUpdatesTitle =
+                      snapshot.child("projectUpdatesTitle").value.toString();
+
+                  String projectUpdatesPhotoURL =
+                      snapshot.child("projectUpdatesPhotoURL").value.toString();
+
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ResponsiblePartyProjectUpdatesInformationPage(
+                                  projectUpdatesID: projectUpdatesID,
+                                )),
+                      );
+                    },
+                    child: Card(
+                      child: Row(
+                        children: [
+                          Image.network(
+                            projectUpdatesPhotoURL,
+                            width: 100,
+                            height: 100,
+                          ),
+                          Column(
+                            children: [
+                              Text(projectUpdatesTitle),
+                              Text("Submitted on: $rpSubmissionDate"),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text("For Rework"),
+            Flexible(
+              child: FirebaseAnimatedList(
+                scrollDirection: Axis.horizontal,
+                query: ref
+                    .orderByChild("rpProjectRemarks")
+                    .startAt("$userID-${widget.projectIDQuery}-REWORK-")
+                    .endAt("$userID-${widget.projectIDQuery}-REWORK-\uf8ff"),
+                itemBuilder: (context, snapshot, animation, index) {
+                  String projectUpdatesID =
+                      snapshot.child("projectUpdatesID").value.toString();
+
+                  String inspectionDateLengthString =
+                      snapshot.child("inspectionDate").value.toString();
+                  int inspectionDateLengthInt =
+                      inspectionDateLengthString.split(":").length - 1;
+                  String inspectionDate = snapshot
+                      .child(
+                          "inspectionDate/inspectionDate$inspectionDateLengthInt")
+                      .value
+                      .toString();
+
+                  String projectUpdatesTitle =
+                      snapshot.child("projectUpdatesTitle").value.toString();
+
+                  String projectUpdatesPhotoURL =
+                      snapshot.child("projectUpdatesPhotoURL").value.toString();
+
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ResponsiblePartyProjectUpdatesPage(
+                                  projectUpdatesID: projectUpdatesID,
+                                )),
+                      );
+                    },
+                    child: Card(
+                      child: Row(
+                        children: [
+                          Image.network(
+                            projectUpdatesPhotoURL,
+                            width: 100,
+                            height: 100,
+                          ),
+                          Column(
+                            children: [
+                              Text(projectUpdatesTitle),
+                              Text("Inspected on: $inspectionDate"),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text("Completed"),
+            Flexible(
+              child: FirebaseAnimatedList(
+                scrollDirection: Axis.horizontal,
+                query: ref
+                    .orderByChild("rpProjectRemarks")
+                    .startAt("$userID-${widget.projectIDQuery}-COMPLETED-")
+                    .endAt("$userID-${widget.projectIDQuery}-COMPLETED-\uf8ff"),
+                itemBuilder: (context, snapshot, animation, index) {
+                  String projectUpdatesID =
+                      snapshot.child("projectUpdatesID").value.toString();
+
+                  String rpSubmissionDateLengthString =
+                      snapshot.child("rpSubmissionDate").value.toString();
+                  int rpSubmissionDateLengthInt =
+                      rpSubmissionDateLengthString.split(":").length - 1;
+                  String rpSubmissionDate = snapshot
+                      .child(
+                          "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
+                      .value
+                      .toString();
+
+                  String projectUpdatesTitle =
+                      snapshot.child("projectUpdatesTitle").value.toString();
+
+                  String projectUpdatesPhotoURL =
+                      snapshot.child("projectUpdatesPhotoURL").value.toString();
+
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ResponsiblePartyProjectUpdatesInformationPage(
+                            projectUpdatesID: projectUpdatesID,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Card(
+                      child: Row(
+                        children: [
+                          Image.network(
+                            projectUpdatesPhotoURL,
+                            width: 100,
+                            height: 100,
+                          ),
+                          Column(
+                            children: [
+                              Text(projectUpdatesTitle),
+                              Text("Submitted on: $rpSubmissionDate"),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

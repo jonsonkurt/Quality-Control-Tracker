@@ -37,8 +37,6 @@ class _InspectorProjectUpdatesPageState
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController inspectorNotesController =
       TextEditingController();
-  final TextEditingController inspectorTitleController =
-      TextEditingController();
 
   @override
   void initState() {
@@ -157,23 +155,13 @@ class _InspectorProjectUpdatesPageState
                 // inspectionDate
                 int inspectionDateLength = map["inspectionDate"].length + 1;
 
-                // projectUpdatesTitle for Inspector
-                int inspectorProjectUpdatesTitleLength =
-                    map["projectUpdatesTitle"].length + 1;
-
-                // projectUpdatesTitle
-                int projectUpdatesTitleLength =
-                    map["projectUpdatesTitle"].length;
-                String projectUpdatesTitle = map["projectUpdatesTitle"]
-                    ["title$projectUpdatesTitleLength"];
-
                 String projectUpdatesOP = map['rpName'];
                 String projectID = map['projectID'];
                 String rpID = map['rpID'];
 
                 // projectUpdatesSubmissionDate
                 int projectUpdatesSubmissionDateLength =
-                    map["projectUpdatesTitle"].length;
+                    map["rpSubmissionDate"].length;
                 String? projectUpdatesSubmissionDate = map["rpSubmissionDate"]
                     ["rpSubmissionDate$projectUpdatesSubmissionDateLength"];
 
@@ -181,8 +169,7 @@ class _InspectorProjectUpdatesPageState
                     convertJobTitle(map['rpRole'].toString());
 
                 // String projectUpdatesNotes = map['firstName'];
-                int projectUpdatesNotesLength =
-                    map["projectUpdatesTitle"].length;
+                int projectUpdatesNotesLength = map["rpNotes"].length;
                 String? projectUpdatesNotes =
                     map["rpNotes"]["rpNotes$projectUpdatesNotesLength"];
 
@@ -394,55 +381,6 @@ class _InspectorProjectUpdatesPageState
                                                       cursorColor: const Color(
                                                           0xFF221540),
                                                       controller:
-                                                          inspectorTitleController,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        contentPadding:
-                                                            const EdgeInsets
-                                                                    .fromLTRB(
-                                                                12, 4, 4, 0),
-                                                        border:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      30.0),
-                                                          borderSide:
-                                                              BorderSide.none,
-                                                        ),
-                                                        focusedBorder:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(30),
-                                                          borderSide:
-                                                              BorderSide.none,
-                                                        ),
-                                                        filled: true,
-                                                        fillColor: Colors.white,
-                                                        hintText: 'Title',
-                                                        labelStyle: TextStyle(
-                                                          fontFamily:
-                                                              'Karla Regular',
-                                                          fontSize: mediaQuery
-                                                                  .size.height *
-                                                              0.02,
-                                                        ),
-                                                      ),
-                                                      validator: (value) {
-                                                        if (value!.isEmpty) {
-                                                          return 'Please enter a title';
-                                                        }
-                                                        return null;
-                                                      },
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    TextFormField(
-                                                      cursorColor: const Color(
-                                                          0xFF221540),
-                                                      controller:
                                                           inspectorNotesController,
                                                       decoration:
                                                           InputDecoration(
@@ -557,27 +495,9 @@ class _InspectorProjectUpdatesPageState
                                                   onPressed: () async {
                                                     if (formKey.currentState!
                                                         .validate()) {
-                                                      String inspectorTitle =
-                                                          inspectorTitleController
-                                                              .text;
                                                       String inspectorNotes =
                                                           inspectorNotesController
                                                               .text;
-
-                                                      // Updates projectUpdatesTitle
-                                                      DatabaseReference
-                                                          projectUpdatesTitleRef =
-                                                          FirebaseDatabase
-                                                              .instance
-                                                              .ref()
-                                                              .child(
-                                                                  'projectUpdates/${widget.projectUpdatesID}/projectUpdatesTitle');
-
-                                                      projectUpdatesTitleRef
-                                                          .update({
-                                                        "title$inspectorProjectUpdatesTitleLength":
-                                                            inspectorTitle
-                                                      });
 
                                                       // Updates inspectorNotes
                                                       DatabaseReference
