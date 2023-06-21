@@ -234,7 +234,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                                  .fromLTRB(
+                                                              .fromLTRB(
                                                               12, 4, 4, 0),
                                                       border:
                                                           OutlineInputBorder(
@@ -288,7 +288,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                                  .fromLTRB(
+                                                              .fromLTRB(
                                                               12, 4, 4, 0),
                                                       border:
                                                           OutlineInputBorder(
@@ -342,11 +342,13 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         DropDownDecoratorProps(
                                                             dropdownSearchDecoration:
                                                                 InputDecoration(
-                                                                    contentPadding: const EdgeInsets.fromLTRB(
-                                                                        12,
-                                                                        4,
-                                                                        4,
-                                                                        0),
+                                                                    contentPadding:
+                                                                        const EdgeInsets
+                                                                            .fromLTRB(
+                                                                            12,
+                                                                            4,
+                                                                            4,
+                                                                            0),
                                                                     border: OutlineInputBorder(
                                                                         borderRadius:
                                                                             BorderRadius.circular(
@@ -692,6 +694,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                 ),
               ),
               bottomNavigationBar: SnakeNavigationBar.color(
+                elevation: 10.0,
                 behaviour: snakeBarStyle,
                 snakeShape: snakeShape,
                 shape: bottomBarShape,
