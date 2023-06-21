@@ -108,15 +108,19 @@ class _AdminInspectorCreationPageState
           key: _formKey,
           child: ListView(
             children: <Widget>[
-              TextFormField(
-                controller: _firstNameController,
-                decoration: const InputDecoration(labelText: 'First Name'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your first name';
-                  }
-                  return null;
-                },
+              Material(
+                borderRadius: BorderRadius.circular(30),
+                elevation: 5,
+                child: TextFormField(
+                  controller: _firstNameController,
+                  decoration: const InputDecoration(labelText: 'First Name'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your first name';
+                    }
+                    return null;
+                  },
+                ),
               ),
               TextFormField(
                 controller: _lastNameController,

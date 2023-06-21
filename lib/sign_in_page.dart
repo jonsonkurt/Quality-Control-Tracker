@@ -81,7 +81,7 @@ class _SignInPageState extends State<SignInPage> {
                     const Text(
                       "Sign In",
                       style: TextStyle(
-                        fontFamily: "Rubik",
+                        fontFamily: "Rubik Bold",
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF221540),
@@ -113,7 +113,7 @@ class _SignInPageState extends State<SignInPage> {
                       child: const Text(
                         "Sign Up",
                         style: TextStyle(
-                          fontFamily: "Rubik",
+                          fontFamily: "Rubik Bold",
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
