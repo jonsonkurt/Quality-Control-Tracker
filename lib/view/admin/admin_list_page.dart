@@ -97,11 +97,65 @@ class _AdminListPageState extends State<AdminListPage> {
                         int projectHandled =
                             countProjects(projectList, inspectorFullName);
 
-                        return Card(
-                          child: Column(children: [
-                            Text(inspectorFullName),
-                            Text("Project handled:$projectHandled")
-                          ]),
+                        return Padding(
+                          padding: EdgeInsets.fromLTRB(
+                            MediaQuery.of(context).size.width * 0.01,
+                            MediaQuery.of(context).size.height * 0.001,
+                            MediaQuery.of(context).size.width * 0.01,
+                            MediaQuery.of(context).size.height * 0.001,
+                          ),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Column(
+
+                                ///mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.all(15.0),
+                                        child: Icon(
+                                          Icons.person,
+                                          size: 50,
+                                        ),
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            inspectorFullName,
+                                            style: TextStyle(
+                                                fontFamily: 'Rubik Bold',
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.023),
+                                          ),
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.01,
+                                          ),
+                                          Text(
+                                            "Project handled:$projectHandled",
+                                            style: TextStyle(
+                                              fontFamily: 'Karla Regular',
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.018,
+                                              color: const Color(0xff221540),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ]),
+                          ),
                         );
                       });
                 }
