@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:random_string/random_string.dart';
 
 class InspectorProjectUpdatesPage extends StatefulWidget {
   final String projectUpdatesID;
@@ -20,6 +23,7 @@ class InspectorProjectUpdatesPage extends StatefulWidget {
 class _InspectorProjectUpdatesPageState
     extends State<InspectorProjectUpdatesPage> {
   var logger = Logger();
+  String? userID = FirebaseAuth.instance.currentUser?.uid;
   String projectUpdatesPicture = '';
   String projectUpdatesTitle = '';
   String projectUpdatesOP = '';
@@ -124,6 +128,13 @@ class _InspectorProjectUpdatesPageState
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasData) {
+                // Getting the time and date
+                final now = DateTime.now();
+                final formattedDate = DateFormat('MM-dd-yyyy').format(now);
+                final formattedTime = DateFormat('HH:mm').format(now);
+                final combinedDateTime = "$formattedDate-$formattedTime";
+
+                // Getting values from database
                 Map<dynamic, dynamic> map = snapshot.data.snapshot.value;
 
                 String projectUpdatesPicture = map['projectUpdatesPhotoURL'];
@@ -135,6 +146,8 @@ class _InspectorProjectUpdatesPageState
                     ["title$projectUpdatesTitleLength"];
 
                 String projectUpdatesOP = map['rpName'];
+                String projectID = map['projectID'];
+                String rpID = map['rpID'];
 
                 // projectUpdatesSubmissionDate
                 int projectUpdatesSubmissionDateLength =
@@ -223,7 +236,44 @@ class _InspectorProjectUpdatesPageState
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            // Accept button logic
+                            // Confirmation dialog
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Confirmation'),
+                                  content: const Text(
+                                      'Are you sure you want to mark the inspection as complete and indicate that no issues were found?'),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text('No'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: const Text('Yes'),
+                                      onPressed: () {
+                                        // Performs the action when the user confirms
+                                        // Updates database
+                                        DatabaseReference projectsRef =
+                                            FirebaseDatabase.instance.ref().child(
+                                                'projectUpdates/${widget.projectUpdatesID}');
+
+                                        projectsRef.update({
+                                          "rpProjectRemarks":
+                                              "$rpID-$projectID-COMPLETED-$combinedDateTime",
+                                          "inspectorProjectRemarks":
+                                              "$userID-$projectID-COMPLETED-$combinedDateTime",
+                                        });
+                                        Navigator.of(context).pop();
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
                           child: const Text('Accept'),
                         ),
