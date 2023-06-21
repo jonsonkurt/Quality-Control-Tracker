@@ -192,6 +192,7 @@ class _InspectorListPageState extends State<InspectorListPage> {
                 child: Row(
                   children: [
                     Image.network(
+                      fit: BoxFit.cover,
                       projectUpdatesPhotoURL,
                       width: 100,
                       height: 100,
