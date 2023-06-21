@@ -214,14 +214,12 @@ class _ResponsiblePartyUpdatePageState
                             "rpSubmissionDate": {
                               "rpSubmissionDate1": formattedDate
                             },
-                            "inspectorIssueDeadline": {
-                              "inspectorIssueDeadline1": ""
-                            },
+                            "inspectorIssueDeadline": "",
                             "rpNotes": {"rpNotes1": rpNotes},
                             "inspectorProjectRemarks":
                                 "$inspectorID-${widget.projectIDQuery}-PENDING-$combinedDateTime",
-                            "inspectorNotes": {"inspectorNotes1": ""},
-                            "inspectionDate": {"inspectionDate1": ""},
+                            "inspectorNotes": "",
+                            "inspectionDate": "",
                             "projectUpdatesPhotoURL": provider.imgURL,
                             "projectUpdatesTitle": {"title1": rpTitle},
                           });
