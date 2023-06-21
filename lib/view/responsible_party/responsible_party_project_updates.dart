@@ -31,10 +31,7 @@ class _ResponsiblePartyProjectUpdatesPageState
   String projectUpdatesNotes = '';
   StreamSubscription<DatabaseEvent>? projectUpdatesSubscription;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController inspectorNotesController =
-      TextEditingController();
-  final TextEditingController inspectorTitleController =
-      TextEditingController();
+  final TextEditingController rpNotesController = TextEditingController();
 
   @override
   void initState() {
@@ -145,17 +142,21 @@ class _ResponsiblePartyProjectUpdatesPageState
 
                 // inspectionIssueDeadline
                 int inspectionIssueDeadlineLength =
-                    map["inspectionIssueDeadline"].length + 1;
+                    map["inspectionIssueDeadline"].length;
+                String? inspectionIssueDeadline = map["inspectionIssueDeadline"]
+                    ["inspectionIssueDeadline$inspectionIssueDeadlineLength"];
 
-                // projectUpdatesTitle for Inspector
-                int inspectorProjectUpdatesTitleLength =
-                    map["projectUpdatesTitle"].length + 1;
+                // rpNotes length
+                int rpNotesLength = map["rpNotes"].length + 1;
+
+                // rpSubmissionDate length
+                int rpSubmissionDateLength = map["rpSubmissionDate"].length + 1;
 
                 // projectUpdatesTitle
                 String projectUpdatesTitle = map["projectUpdatesTitle"];
 
                 String projectID = map['projectID'];
-                String rpID = map['rpID'];
+                String inspectorID = map['inspectorID'];
 
                 // inspectionDate
                 int inspectionDateLength = map["inspectionDate"].length;
@@ -202,6 +203,16 @@ class _ResponsiblePartyProjectUpdatesPageState
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
                         "Inspection Date: $inspectionDate",
+                        // "Submission Date: ",
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        "Issue Deadline: $inspectionIssueDeadline",
                         // "Submission Date: ",
                         style: const TextStyle(
                           fontSize: 16,
@@ -259,50 +270,13 @@ class _ResponsiblePartyProjectUpdatesPageState
                                       height: 300,
                                       child: Column(
                                         children: [
-                                          TextFormField(
-                                            cursorColor:
-                                                const Color(0xFF221540),
-                                            controller:
-                                                inspectorTitleController,
-                                            decoration: InputDecoration(
-                                              contentPadding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      12, 4, 4, 0),
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.0),
-                                                borderSide: BorderSide.none,
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                                borderSide: BorderSide.none,
-                                              ),
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                              hintText: 'Title',
-                                              labelStyle: TextStyle(
-                                                fontFamily: 'Karla Regular',
-                                                fontSize:
-                                                    mediaQuery.size.height *
-                                                        0.02,
-                                              ),
-                                            ),
-                                            validator: (value) {
-                                              if (value!.isEmpty) {
-                                                return 'Please enter a title';
-                                              }
-                                              return null;
-                                            },
-                                          ),
                                           const SizedBox(
                                             height: 10,
                                           ),
                                           TextFormField(
                                             cursorColor:
                                                 const Color(0xFF221540),
-                                            controller:
-                                                inspectorNotesController,
+                                            controller: rpNotesController,
                                             decoration: InputDecoration(
                                               contentPadding:
                                                   const EdgeInsets.fromLTRB(
@@ -355,60 +329,30 @@ class _ResponsiblePartyProjectUpdatesPageState
                                         onPressed: () async {
                                           if (formKey.currentState!
                                               .validate()) {
-                                            String inspectorTitle =
-                                                inspectorTitleController.text;
-                                            String inspectorNotes =
-                                                inspectorNotesController.text;
+                                            String rpNotes =
+                                                rpNotesController.text;
 
-                                            // Updates projectUpdatesTitle
-                                            DatabaseReference
-                                                projectUpdatesTitleRef =
+                                            // Updates rpNotes
+                                            DatabaseReference rpNotesRef =
                                                 FirebaseDatabase.instance
                                                     .ref()
                                                     .child(
-                                                        'projectUpdates/${widget.projectUpdatesID}/projectUpdatesTitle');
+                                                        'projectUpdates/${widget.projectUpdatesID}/rpNotes');
 
-                                            projectUpdatesTitleRef.update({
-                                              "title$inspectorProjectUpdatesTitleLength":
-                                                  inspectorTitle
+                                            rpNotesRef.update({
+                                              "rpNotes$rpNotesLength": rpNotes,
                                             });
 
-                                            // Updates inspectorNotes
+                                            // Updates rpSubmissionDate
                                             DatabaseReference
-                                                inspectorNotesRef =
+                                                rpSubmissionDateRef =
                                                 FirebaseDatabase.instance
                                                     .ref()
                                                     .child(
-                                                        'projectUpdates/${widget.projectUpdatesID}/inspectorNotes');
+                                                        'projectUpdates/${widget.projectUpdatesID}/rpSubmissionDate');
 
-                                            inspectorNotesRef.update({
-                                              "inspectorNotes$inspectorNotesLength":
-                                                  inspectorNotes,
-                                            });
-
-                                            // Updates inspectorIssueDeadline
-                                            DatabaseReference
-                                                inspectorIssueDeadlineRef =
-                                                FirebaseDatabase.instance
-                                                    .ref()
-                                                    .child(
-                                                        'projectUpdates/${widget.projectUpdatesID}/inspectionIssueDeadline');
-
-                                            inspectorIssueDeadlineRef.update({
-                                              "inspectionIssueDeadline$inspectionIssueDeadlineLength":
-                                                  "-"
-                                            });
-
-                                            // Updates inspectionDate
-                                            DatabaseReference
-                                                inspectionDateRef =
-                                                FirebaseDatabase.instance
-                                                    .ref()
-                                                    .child(
-                                                        'projectUpdates/${widget.projectUpdatesID}/inspectionDate');
-
-                                            inspectionDateRef.update({
-                                              "inspectionDate$inspectionDateLength":
+                                            rpSubmissionDateRef.update({
+                                              "rpSubmissionDate$rpSubmissionDateLength":
                                                   formattedDate
                                             });
 
@@ -421,9 +365,9 @@ class _ResponsiblePartyProjectUpdatesPageState
 
                                             projectsRef.update({
                                               "rpProjectRemarks":
-                                                  "$rpID-$projectID-REWORK-$combinedDateTime",
+                                                  "$userID-$projectID-PENDING-$combinedDateTime",
                                               "inspectorProjectRemarks":
-                                                  "$userID-$projectID-REWORK-$combinedDateTime",
+                                                  "$inspectorID-$projectID-PENDING-$combinedDateTime",
                                             });
                                             Navigator.of(context).pop();
                                             Navigator.pop(context);
