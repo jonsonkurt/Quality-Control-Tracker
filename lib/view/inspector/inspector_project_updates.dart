@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+import 'package:quality_control_tracker/image_viewer.dart';
+import 'package:quality_control_tracker/view/inspector/update_image_inspector_controller.dart';
 
 class InspectorProjectUpdatesPage extends StatefulWidget {
   final String projectUpdatesID;
@@ -190,13 +194,49 @@ class _InspectorProjectUpdatesPageState
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.network(
-                          projectUpdatesPicture,
-                          width: 300,
-                          height: 200,
-                          fit: BoxFit.cover,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return DetailScreen(
+                              imageUrl: projectUpdatesPicture,
+                              projectID: projectID,
+                            );
+                          }));
+                        },
+
+                        // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
+                        child: Hero(
+                          tag: projectID,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: projectUpdatesPicture == "None"
+                                ? Image.asset(
+                                    'assets/images/no-image.png',
+                                    fit: BoxFit.cover,
+                                    width: 300,
+                                    height: 200,
+                                  )
+                                : Image(
+                                    width: 300,
+                                    height: 200,
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(projectUpdatesPicture),
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      }
+                                      return const CircularProgressIndicator();
+                                    },
+                                    errorBuilder: (context, object, stack) {
+                                      return const Icon(
+                                        Icons.error_outline,
+                                        color: Color.fromARGB(255, 35, 35, 35),
+                                      );
+                                    },
+                                  ),
+                          ),
                         ),
                       ),
                     ),
@@ -319,217 +359,313 @@ class _InspectorProjectUpdatesPageState
                           onPressed: () {
                             // Dialog for rework
                             showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                final mediaQuery = MediaQuery.of(context);
+                                context: context,
+                                builder: (BuildContext context) {
+                                  final mediaQuery = MediaQuery.of(context);
 
-                                return AlertDialog(
-                                  backgroundColor: const Color(0xffDCE4E9),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  title: Text(
-                                    'Rework',
-                                    style: TextStyle(
-                                      fontFamily: 'Rubik Bold',
-                                      fontSize: mediaQuery.size.height * 0.03,
-                                      color: const Color(0xFF221540),
-                                    ),
-                                  ),
-                                  content: Form(
-                                    key: formKey,
-                                    child: SizedBox(
-                                      height: 300,
-                                      child: Column(
-                                        children: [
-                                          TextFormField(
-                                            cursorColor:
-                                                const Color(0xFF221540),
-                                            controller:
-                                                inspectorTitleController,
-                                            decoration: InputDecoration(
-                                              contentPadding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      12, 4, 4, 0),
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.0),
-                                                borderSide: BorderSide.none,
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                                borderSide: BorderSide.none,
-                                              ),
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                              hintText: 'Title',
-                                              labelStyle: TextStyle(
-                                                fontFamily: 'Karla Regular',
+                                  return ChangeNotifierProvider(
+                                      create: (_) => ProfileController(),
+                                      child: Consumer<ProfileController>(
+                                        builder: (context, provider, child) {
+                                          return AlertDialog(
+                                            backgroundColor:
+                                                const Color(0xffDCE4E9),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            title: Text(
+                                              'Rework',
+                                              style: TextStyle(
+                                                fontFamily: 'Rubik Bold',
                                                 fontSize:
                                                     mediaQuery.size.height *
-                                                        0.02,
+                                                        0.03,
+                                                color: const Color(0xFF221540),
                                               ),
                                             ),
-                                            validator: (value) {
-                                              if (value!.isEmpty) {
-                                                return 'Please enter a title';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          TextFormField(
-                                            cursorColor:
-                                                const Color(0xFF221540),
-                                            controller:
-                                                inspectorNotesController,
-                                            decoration: InputDecoration(
-                                              contentPadding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      12, 4, 4, 0),
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.0),
-                                                borderSide: BorderSide.none,
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                                borderSide: BorderSide.none,
-                                              ),
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                              hintText: 'Notes',
-                                              labelStyle: TextStyle(
-                                                fontFamily: 'Karla Regular',
-                                                fontSize:
-                                                    mediaQuery.size.height *
-                                                        0.02,
+                                            content: Form(
+                                              key: formKey,
+                                              child: SizedBox(
+                                                height: 300,
+                                                child: Column(
+                                                  children: [
+                                                    TextFormField(
+                                                      cursorColor: const Color(
+                                                          0xFF221540),
+                                                      controller:
+                                                          inspectorTitleController,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                    .fromLTRB(
+                                                                12, 4, 4, 0),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      30.0),
+                                                          borderSide:
+                                                              BorderSide.none,
+                                                        ),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(30),
+                                                          borderSide:
+                                                              BorderSide.none,
+                                                        ),
+                                                        filled: true,
+                                                        fillColor: Colors.white,
+                                                        hintText: 'Title',
+                                                        labelStyle: TextStyle(
+                                                          fontFamily:
+                                                              'Karla Regular',
+                                                          fontSize: mediaQuery
+                                                                  .size.height *
+                                                              0.02,
+                                                        ),
+                                                      ),
+                                                      validator: (value) {
+                                                        if (value!.isEmpty) {
+                                                          return 'Please enter a title';
+                                                        }
+                                                        return null;
+                                                      },
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    TextFormField(
+                                                      cursorColor: const Color(
+                                                          0xFF221540),
+                                                      controller:
+                                                          inspectorNotesController,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                    .fromLTRB(
+                                                                12, 4, 4, 0),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      30.0),
+                                                          borderSide:
+                                                              BorderSide.none,
+                                                        ),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(30),
+                                                          borderSide:
+                                                              BorderSide.none,
+                                                        ),
+                                                        filled: true,
+                                                        fillColor: Colors.white,
+                                                        hintText: 'Notes',
+                                                        labelStyle: TextStyle(
+                                                          fontFamily:
+                                                              'Karla Regular',
+                                                          fontSize: mediaQuery
+                                                                  .size.height *
+                                                              0.02,
+                                                        ),
+                                                      ),
+                                                      validator: (value) {
+                                                        if (value!.isEmpty) {
+                                                          return 'Please enter your notes';
+                                                        }
+                                                        return null;
+                                                      },
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        provider.pickImage(
+                                                            context,
+                                                            widget
+                                                                .projectUpdatesID);
+                                                      },
+                                                      child: Container(
+                                                        height: 130,
+                                                        width: 130,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            15),
+                                                                border:
+                                                                    Border.all(
+                                                                  color: const Color(
+                                                                      0xff221540),
+                                                                  width: 2,
+                                                                )),
+                                                        child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                            child: provider
+                                                                        .image ==
+                                                                    null
+                                                                ? const Icon(
+                                                                    Icons
+                                                                        .add_circle,
+                                                                    size: 35,
+                                                                    color: Color(
+                                                                        0xff221540),
+                                                                  )
+                                                                : Image.file(
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    File(provider
+                                                                            .image!
+                                                                            .path)
+                                                                        .absolute)),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                            validator: (value) {
-                                              if (value!.isEmpty) {
-                                                return 'Please enter your notes';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    Center(
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                          ),
-                                          backgroundColor:
-                                              const Color(0xFF221540),
-                                        ),
-                                        onPressed: () async {
-                                          if (formKey.currentState!
-                                              .validate()) {
-                                            String inspectorTitle =
-                                                inspectorTitleController.text;
-                                            String inspectorNotes =
-                                                inspectorNotesController.text;
+                                            actions: <Widget>[
+                                              Center(
+                                                child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                    ),
+                                                    backgroundColor:
+                                                        const Color(0xFF221540),
+                                                  ),
+                                                  onPressed: () async {
+                                                    if (formKey.currentState!
+                                                        .validate()) {
+                                                      String inspectorTitle =
+                                                          inspectorTitleController
+                                                              .text;
+                                                      String inspectorNotes =
+                                                          inspectorNotesController
+                                                              .text;
 
-                                            // Updates projectUpdatesTitle
-                                            DatabaseReference
-                                                projectUpdatesTitleRef =
-                                                FirebaseDatabase.instance
-                                                    .ref()
-                                                    .child(
-                                                        'projectUpdates/${widget.projectUpdatesID}/projectUpdatesTitle');
+                                                      // Updates projectUpdatesTitle
+                                                      DatabaseReference
+                                                          projectUpdatesTitleRef =
+                                                          FirebaseDatabase
+                                                              .instance
+                                                              .ref()
+                                                              .child(
+                                                                  'projectUpdates/${widget.projectUpdatesID}/projectUpdatesTitle');
 
-                                            projectUpdatesTitleRef.update({
-                                              "title$inspectorProjectUpdatesTitleLength":
-                                                  inspectorTitle
-                                            });
+                                                      projectUpdatesTitleRef
+                                                          .update({
+                                                        "title$inspectorProjectUpdatesTitleLength":
+                                                            inspectorTitle
+                                                      });
 
-                                            // Updates inspectorNotes
-                                            DatabaseReference
-                                                inspectorNotesRef =
-                                                FirebaseDatabase.instance
-                                                    .ref()
-                                                    .child(
-                                                        'projectUpdates/${widget.projectUpdatesID}/inspectorNotes');
+                                                      // Updates inspectorNotes
+                                                      DatabaseReference
+                                                          inspectorNotesRef =
+                                                          FirebaseDatabase
+                                                              .instance
+                                                              .ref()
+                                                              .child(
+                                                                  'projectUpdates/${widget.projectUpdatesID}/inspectorNotes');
 
-                                            inspectorNotesRef.update({
-                                              "inspectorNotes$inspectorNotesLength":
-                                                  inspectorNotes,
-                                            });
+                                                      inspectorNotesRef.update({
+                                                        "inspectorNotes$inspectorNotesLength":
+                                                            inspectorNotes,
+                                                      });
 
-                                            // Updates inspectorIssueDeadline
-                                            DatabaseReference
-                                                inspectorIssueDeadlineRef =
-                                                FirebaseDatabase.instance
-                                                    .ref()
-                                                    .child(
-                                                        'projectUpdates/${widget.projectUpdatesID}/inspectionIssueDeadline');
+                                                      // Updates inspectorIssueDeadline
+                                                      DatabaseReference
+                                                          inspectorIssueDeadlineRef =
+                                                          FirebaseDatabase
+                                                              .instance
+                                                              .ref()
+                                                              .child(
+                                                                  'projectUpdates/${widget.projectUpdatesID}/inspectionIssueDeadline');
 
-                                            inspectorIssueDeadlineRef.update({
-                                              "inspectionIssueDeadline$inspectionIssueDeadlineLength":
-                                                  "-"
-                                            });
+                                                      inspectorIssueDeadlineRef
+                                                          .update({
+                                                        "inspectionIssueDeadline$inspectionIssueDeadlineLength":
+                                                            "-"
+                                                      });
 
-                                            // Updates inspectionDate
-                                            DatabaseReference
-                                                inspectionDateRef =
-                                                FirebaseDatabase.instance
-                                                    .ref()
-                                                    .child(
-                                                        'projectUpdates/${widget.projectUpdatesID}/inspectionDate');
+                                                      // Updates inspectionDate
+                                                      DatabaseReference
+                                                          inspectionDateRef =
+                                                          FirebaseDatabase
+                                                              .instance
+                                                              .ref()
+                                                              .child(
+                                                                  'projectUpdates/${widget.projectUpdatesID}/inspectionDate');
 
-                                            inspectionDateRef.update({
-                                              "inspectionDate$inspectionDateLength":
-                                                  formattedDate
-                                            });
+                                                      inspectionDateRef.update({
+                                                        "inspectionDate$inspectionDateLength":
+                                                            formattedDate
+                                                      });
 
-                                            // Updates project remarks
-                                            DatabaseReference projectsRef =
-                                                FirebaseDatabase.instance
-                                                    .ref()
-                                                    .child(
-                                                        'projectUpdates/${widget.projectUpdatesID}');
+                                                      // Updates project remarks
+                                                      DatabaseReference
+                                                          projectsRef =
+                                                          FirebaseDatabase
+                                                              .instance
+                                                              .ref()
+                                                              .child(
+                                                                  'projectUpdates/${widget.projectUpdatesID}');
 
-                                            projectsRef.update({
-                                              "rpProjectRemarks":
-                                                  "$rpID-$projectID-REWORK-$combinedDateTime",
-                                              "inspectorProjectRemarks":
-                                                  "$userID-$projectID-REWORK-$combinedDateTime",
-                                            });
-                                            Navigator.of(context).pop();
-                                            Navigator.pop(context);
-                                          }
+                                                      projectsRef.update({
+                                                        "rpProjectRemarks":
+                                                            "$rpID-$projectID-REWORK-$combinedDateTime",
+                                                        "inspectorProjectRemarks":
+                                                            "$userID-$projectID-REWORK-$combinedDateTime",
+                                                        "projectUpdatesPhotoURL":
+                                                            provider.imgURL,
+                                                      });
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      Navigator.pop(context);
+                                                    }
+                                                  },
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(
+                                                        mediaQuery.size.height *
+                                                            0.017),
+                                                    child: Text(
+                                                      'Submit',
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'Rubik Regular',
+                                                        fontSize: mediaQuery
+                                                                .size.height *
+                                                            0.02,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
                                         },
-                                        child: Padding(
-                                          padding: EdgeInsets.all(
-                                              mediaQuery.size.height * 0.017),
-                                          child: Text(
-                                            'Submit',
-                                            style: TextStyle(
-                                              fontFamily: 'Rubik Regular',
-                                              fontSize:
-                                                  mediaQuery.size.height * 0.02,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                                      ));
+                                });
                           },
                           child: const Text('Rework'),
                         ),
