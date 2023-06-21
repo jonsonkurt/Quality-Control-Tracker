@@ -20,6 +20,13 @@ class _AdminInspectorCreationPageState
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  bool validateFN = false;
+  bool validateLN = false;
+  bool validateRole = false;
+  bool validateEmail = false;
+  bool validatePW = false;
+  bool validateCPW = false;
+
   Future<void> _signUp() async {
     if (_formKey.currentState!.validate()) {
       // Validation successful, perform sign up
@@ -100,8 +107,44 @@ class _AdminInspectorCreationPageState
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign Up')),
+      backgroundColor: const Color(0xFFDCE4E9),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(mediaQuery.size.height * 0.1),
+          child: AppBar(
+              toolbarHeight: 60,
+              backgroundColor: Colors.white,
+              leading: Padding(
+                padding: EdgeInsets.fromLTRB(
+                  mediaQuery.size.width * 0.035,
+                  mediaQuery.size.height * 0.028,
+                  0,
+                  0,
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Color(0xFF221540),
+                  ),
+                ),
+              ),
+              title: Padding(
+                padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.03,
+                    mediaQuery.size.width * 0.06, 0),
+                child: Text(
+                  'Add inspector',
+                  style: TextStyle(
+                    fontFamily: 'Rubik Bold',
+                    fontSize: mediaQuery.size.height * 0.04,
+                    color: const Color(0xFF221540),
+                  ),
+                ),
+              ))),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -113,15 +156,49 @@ class _AdminInspectorCreationPageState
                 elevation: 5,
                 child: TextFormField(
                   controller: _firstNameController,
-                  decoration: const InputDecoration(labelText: 'First Name'),
+                  decoration: InputDecoration(
+                    hintText: 'First Name',
+                    labelStyle: const TextStyle(
+                      fontFamily: "Karla Regular",
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 16, // Adjust the vertical padding here
+                      horizontal: 24, // Adjust the horizontal padding here
+                    ),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(30)),
+                  ),
                   validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your first name';
+                    if (value == null || value.isEmpty) {
+                      setState(() {
+                        validateFN = true;
+                      });
+                      return null;
                     }
+                    setState(() {
+                      validateFN = false;
+                    });
                     return null;
                   },
                 ),
               ),
+              if (validateFN)
+                const Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Text(
+                    "Please enter your first name",
+                    style: TextStyle(
+                        fontFamily: 'Karla Regular',
+                        fontSize: 14,
+                        color: Colors.red),
+                  ),
+                ),
               TextFormField(
                 controller: _lastNameController,
                 decoration: const InputDecoration(labelText: 'Last Name'),
