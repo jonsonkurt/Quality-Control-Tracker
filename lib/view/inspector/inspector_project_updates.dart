@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:quality_control_tracker/image_viewer.dart';
 import 'package:quality_control_tracker/view/inspector/update_image_inspector_controller.dart';
+import 'package:textfield_datepicker/textfield_datepicker.dart';
 
 class InspectorProjectUpdatesPage extends StatefulWidget {
   final String projectUpdatesID;
@@ -37,7 +38,7 @@ class _InspectorProjectUpdatesPageState
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController inspectorNotesController =
       TextEditingController();
-  final TextEditingController inspectorTitleController =
+  final TextEditingController reworkDeadlineController =
       TextEditingController();
 
   @override
@@ -157,23 +158,14 @@ class _InspectorProjectUpdatesPageState
                 // inspectionDate
                 int inspectionDateLength = map["inspectionDate"].length + 1;
 
-                // projectUpdatesTitle for Inspector
-                int inspectorProjectUpdatesTitleLength =
-                    map["projectUpdatesTitle"].length + 1;
-
-                // projectUpdatesTitle
-                int projectUpdatesTitleLength =
-                    map["projectUpdatesTitle"].length;
-                String projectUpdatesTitle = map["projectUpdatesTitle"]
-                    ["title$projectUpdatesTitleLength"];
-
                 String projectUpdatesOP = map['rpName'];
+                String projectUpdatesTitle = map['projectUpdatesTitle'];
                 String projectID = map['projectID'];
                 String rpID = map['rpID'];
 
                 // projectUpdatesSubmissionDate
                 int projectUpdatesSubmissionDateLength =
-                    map["projectUpdatesTitle"].length;
+                    map["rpSubmissionDate"].length;
                 String? projectUpdatesSubmissionDate = map["rpSubmissionDate"]
                     ["rpSubmissionDate$projectUpdatesSubmissionDateLength"];
 
@@ -181,8 +173,7 @@ class _InspectorProjectUpdatesPageState
                     convertJobTitle(map['rpRole'].toString());
 
                 // String projectUpdatesNotes = map['firstName'];
-                int projectUpdatesNotesLength =
-                    map["projectUpdatesTitle"].length;
+                int projectUpdatesNotesLength = map["rpNotes"].length;
                 String? projectUpdatesNotes =
                     map["rpNotes"]["rpNotes$projectUpdatesNotesLength"];
 
@@ -386,133 +377,89 @@ class _InspectorProjectUpdatesPageState
                                             ),
                                             content: Form(
                                               key: formKey,
-                                              child: SizedBox(
-                                                height: 300,
-                                                child: Column(
-                                                  children: [
-                                                    TextFormField(
-                                                      cursorColor: const Color(
-                                                          0xFF221540),
-                                                      controller:
-                                                          inspectorTitleController,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        contentPadding:
-                                                            const EdgeInsets
-                                                                    .fromLTRB(
-                                                                12, 4, 4, 0),
-                                                        border:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      30.0),
-                                                          borderSide:
-                                                              BorderSide.none,
-                                                        ),
-                                                        focusedBorder:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(30),
-                                                          borderSide:
-                                                              BorderSide.none,
-                                                        ),
-                                                        filled: true,
-                                                        fillColor: Colors.white,
-                                                        hintText: 'Title',
-                                                        labelStyle: TextStyle(
-                                                          fontFamily:
-                                                              'Karla Regular',
-                                                          fontSize: mediaQuery
-                                                                  .size.height *
-                                                              0.02,
-                                                        ),
-                                                      ),
-                                                      validator: (value) {
-                                                        if (value!.isEmpty) {
-                                                          return 'Please enter a title';
-                                                        }
-                                                        return null;
-                                                      },
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    TextFormField(
-                                                      cursorColor: const Color(
-                                                          0xFF221540),
-                                                      controller:
-                                                          inspectorNotesController,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        contentPadding:
-                                                            const EdgeInsets
-                                                                    .fromLTRB(
-                                                                12, 4, 4, 0),
-                                                        border:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      30.0),
-                                                          borderSide:
-                                                              BorderSide.none,
-                                                        ),
-                                                        focusedBorder:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(30),
-                                                          borderSide:
-                                                              BorderSide.none,
-                                                        ),
-                                                        filled: true,
-                                                        fillColor: Colors.white,
-                                                        hintText: 'Notes',
-                                                        labelStyle: TextStyle(
-                                                          fontFamily:
-                                                              'Karla Regular',
-                                                          fontSize: mediaQuery
-                                                                  .size.height *
-                                                              0.02,
-                                                        ),
-                                                      ),
-                                                      validator: (value) {
-                                                        if (value!.isEmpty) {
-                                                          return 'Please enter your notes';
-                                                        }
-                                                        return null;
-                                                      },
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        provider.pickImage(
-                                                            context,
-                                                            widget
-                                                                .projectUpdatesID);
-                                                      },
-                                                      child: Container(
-                                                        height: 130,
-                                                        width: 130,
+                                              child: SingleChildScrollView(
+                                                child: SizedBox(
+                                                  height: 400,
+                                                  child: Column(
+                                                    children: [
+                                                      TextFormField(
+                                                        cursorColor:
+                                                            const Color(
+                                                                0xFF221540),
+                                                        controller:
+                                                            inspectorNotesController,
                                                         decoration:
-                                                            BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .rectangle,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            15),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: const Color(
-                                                                      0xff221540),
-                                                                  width: 2,
-                                                                )),
-                                                        child: ClipRRect(
+                                                            InputDecoration(
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  12, 4, 4, 0),
+                                                          border:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30.0),
+                                                            borderSide:
+                                                                BorderSide.none,
+                                                          ),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30),
+                                                            borderSide:
+                                                                BorderSide.none,
+                                                          ),
+                                                          filled: true,
+                                                          fillColor:
+                                                              Colors.white,
+                                                          hintText: 'Notes',
+                                                          labelStyle: TextStyle(
+                                                            fontFamily:
+                                                                'Karla Regular',
+                                                            fontSize: mediaQuery
+                                                                    .size
+                                                                    .height *
+                                                                0.02,
+                                                          ),
+                                                        ),
+                                                        validator: (value) {
+                                                          if (value!.isEmpty) {
+                                                            return 'Please enter your notes';
+                                                          }
+                                                          return null;
+                                                        },
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          provider.pickImage(
+                                                              context,
+                                                              widget
+                                                                  .projectUpdatesID);
+                                                        },
+                                                        child: Container(
+                                                          height: 130,
+                                                          width: 130,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .rectangle,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              15),
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: const Color(
+                                                                        0xff221540),
+                                                                    width: 2,
+                                                                  )),
+                                                          child: ClipRRect(
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
@@ -533,10 +480,110 @@ class _InspectorProjectUpdatesPageState
                                                                     File(provider
                                                                             .image!
                                                                             .path)
-                                                                        .absolute)),
+                                                                        .absolute),
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                      TextfieldDatePicker(
+                                                        textfieldDatePickerWidth:
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.4,
+                                                        textAlignVertical:
+                                                            TextAlignVertical
+                                                                .bottom,
+                                                        cupertinoDatePickerBackgroundColor:
+                                                            Colors.white,
+                                                        cupertinoDatePickerMaximumDate:
+                                                            DateTime(2099),
+                                                        cupertinoDatePickerMaximumYear:
+                                                            2099,
+                                                        cupertinoDatePickerMinimumYear:
+                                                            1990,
+                                                        cupertinoDatePickerMinimumDate:
+                                                            DateTime(1990),
+                                                        cupertinoDateInitialDateTime:
+                                                            DateTime.now(),
+                                                        materialDatePickerFirstDate:
+                                                            DateTime.now(),
+                                                        materialDatePickerInitialDate:
+                                                            DateTime.now(),
+                                                        materialDatePickerLastDate:
+                                                            DateTime(2099),
+                                                        preferredDateFormat:
+                                                            DateFormat(
+                                                          'dd-MMMM-' 'yyyy',
+                                                        ),
+                                                        textfieldDatePickerController:
+                                                            reworkDeadlineController,
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              'Karla Regular',
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.02,
+                                                          color: const Color(
+                                                              0xff221540),
+                                                        ),
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .sentences,
+                                                        cursorColor:
+                                                            Colors.black,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          //errorText: errorTextValue,
+                                                          helperStyle:
+                                                              TextStyle(
+                                                            fontFamily:
+                                                                'Karla Regular',
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.017,
+                                                            color: const Color(
+                                                                0xff221540),
+                                                          ),
+                                                          hintText:
+                                                              'Select Date',
+                                                          hintStyle: TextStyle(
+                                                            fontFamily:
+                                                                'Karla Regular',
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.02,
+                                                            color: const Color(
+                                                                0xff221540),
+                                                          ),
+                                                          filled: true,
+                                                          fillColor:
+                                                              Colors.white,
+
+                                                          border: OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0),
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
+                                                        ),
+                                                        validator: (value) {
+                                                          if (value!.isEmpty) {
+                                                            return 'Please enter a deadline';
+                                                          }
+                                                          return null;
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -557,27 +604,12 @@ class _InspectorProjectUpdatesPageState
                                                   onPressed: () async {
                                                     if (formKey.currentState!
                                                         .validate()) {
-                                                      String inspectorTitle =
-                                                          inspectorTitleController
-                                                              .text;
                                                       String inspectorNotes =
                                                           inspectorNotesController
                                                               .text;
-
-                                                      // Updates projectUpdatesTitle
-                                                      DatabaseReference
-                                                          projectUpdatesTitleRef =
-                                                          FirebaseDatabase
-                                                              .instance
-                                                              .ref()
-                                                              .child(
-                                                                  'projectUpdates/${widget.projectUpdatesID}/projectUpdatesTitle');
-
-                                                      projectUpdatesTitleRef
-                                                          .update({
-                                                        "title$inspectorProjectUpdatesTitleLength":
-                                                            inspectorTitle
-                                                      });
+                                                      String reworkDeadline =
+                                                          reworkDeadlineController
+                                                              .text;
 
                                                       // Updates inspectorNotes
                                                       DatabaseReference
@@ -605,7 +637,7 @@ class _InspectorProjectUpdatesPageState
                                                       inspectorIssueDeadlineRef
                                                           .update({
                                                         "inspectionIssueDeadline$inspectionIssueDeadlineLength":
-                                                            "-"
+                                                            reworkDeadline
                                                       });
 
                                                       // Updates inspectionDate
@@ -639,6 +671,8 @@ class _InspectorProjectUpdatesPageState
                                                         "projectUpdatesPhotoURL":
                                                             provider.imgURL,
                                                       });
+                                                      reworkDeadlineController
+                                                          .clear();
                                                       Navigator.of(context)
                                                           .pop();
                                                       Navigator.pop(context);

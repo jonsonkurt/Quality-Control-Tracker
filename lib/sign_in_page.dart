@@ -67,7 +67,11 @@ class _SignInPageState extends State<SignInPage> {
       body: Container(
         color: const Color(0xFFDCE4E9),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height / 30,
+              bottom: MediaQuery.of(context).size.height / 30,
+              left: MediaQuery.of(context).size.width / 30,
+              right: MediaQuery.of(context).size.width / 30),
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(

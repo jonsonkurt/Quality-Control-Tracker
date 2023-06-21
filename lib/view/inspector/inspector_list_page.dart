@@ -155,21 +155,15 @@ class _InspectorListPageState extends State<InspectorListPage> {
             String rpSubmissionDateLengthString =
                 snapshot.child("rpSubmissionDate").value.toString();
             int rpSubmissionDateLengthInt =
-                rpSubmissionDateLengthString.split("{").length - 1;
+                rpSubmissionDateLengthString.split(":").length - 1;
             String rpSubmissionDate = snapshot
                 .child(
                     "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
                 .value
                 .toString();
 
-            String projectUpdatesTitleLengthString =
+            String projectUpdatesTitle =
                 snapshot.child("projectUpdatesTitle").value.toString();
-            int projectUpdatesTitleLengthInt =
-                projectUpdatesTitleLengthString.split("{").length - 1;
-            String projectUpdatesTitle = snapshot
-                .child("projectUpdatesTitle/title$projectUpdatesTitleLengthInt")
-                .value
-                .toString();
 
             String projectUpdatesPhotoURL =
                 snapshot.child("projectUpdatesPhotoURL").value.toString();
