@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:quality_control_tracker/image_viewer.dart';
 import 'package:quality_control_tracker/view/admin/admin_profile_page.dart';
 
@@ -88,7 +89,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     String projectName = values[projectID]["projectName"];
                     String projectLocation =
                         values[projectID]["projectLocation"];
-                    String projectInspector = values[projectID]["inspector"];
                     String projectImage = values[projectID]["projectImage"];
 
                     return Padding(
@@ -204,7 +204,16 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                           ),
                                         ),
                                         IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Clipboard.setData(
+                                                ClipboardData(text: projectID));
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                  content: Text(
+                                                      'Project ID copied to clipboard')),
+                                            );
+                                          },
                                           icon: Icon(
                                             Icons.copy,
                                             color: const Color(0xFF221540),
