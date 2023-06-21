@@ -214,7 +214,7 @@ class _ResponsiblePartyUpdatePageState
                             "rpSubmissionDate": {
                               "rpSubmissionDate1": formattedDate
                             },
-                            "inspectorIssueDeadline": "",
+                            "inspectionIssueDeadline": "",
                             "rpNotes": {"rpNotes1": rpNotes},
                             "inspectorProjectRemarks":
                                 "$inspectorID-${widget.projectIDQuery}-PENDING-$combinedDateTime",
