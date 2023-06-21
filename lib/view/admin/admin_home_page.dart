@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quality_control_tracker/image_viewer.dart';
 import 'package:quality_control_tracker/view/admin/admin_profile_page.dart';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -105,36 +106,62 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           children: [
                             Row(
                               children: [
-                                if (projectImage == "None")
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: Image.asset(
-                                        'assets/images/no-image.png',
-                                        width: 100,
-                                        height: 100,
-                                      ),
-                                    ),
-                                  )
-                                else
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: Image.network(
-                                        projectImage,
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return DetailScreen(
+                                        imageUrl: projectImage,
+                                        projectID: projectID,
+                                      );
+                                    }));
+                                  },
+
+                                  // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
+                                  child: Hero(
+                                    tag: projectID,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: projectImage == "None"
+                                            ? Image.asset(
+                                                'assets/images/no-image.png',
+                                                fit: BoxFit.cover,
+                                                width: 100,
+                                                height: 100,
+                                              )
+                                            : Image(
+                                                width: 100,
+                                                height: 100,
+                                                fit: BoxFit.cover,
+                                                image:
+                                                    NetworkImage(projectImage),
+                                                loadingBuilder: (context, child,
+                                                    loadingProgress) {
+                                                  if (loadingProgress == null) {
+                                                    return child;
+                                                  }
+                                                  return const CircularProgressIndicator();
+                                                },
+                                                errorBuilder:
+                                                    (context, object, stack) {
+                                                  return const Icon(
+                                                    Icons.error_outline,
+                                                    color: Color.fromARGB(
+                                                        255, 35, 35, 35),
+                                                  );
+                                                },
+                                              ),
                                       ),
                                     ),
                                   ),
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Project Name: $projectName',
+                                      'Project $projectName',
                                       style: TextStyle(
                                         fontFamily: 'Rubik Bold',
                                         fontSize: mediaQuery.size.height * 0.02,
@@ -144,7 +171,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                     SizedBox(
                                         height: mediaQuery.size.height * 0.002),
                                     Text(
-                                      'Project Location: $projectLocation',
+                                      projectLocation,
                                       style: TextStyle(
                                         fontFamily: 'Karla Regular',
                                         fontSize:
@@ -154,25 +181,40 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                     ),
                                     SizedBox(
                                         height: mediaQuery.size.height * 0.002),
-                                    Text(
-                                      'Project Inspector: $projectInspector',
-                                      style: TextStyle(
-                                        fontFamily: 'Karla Regular',
-                                        fontSize:
-                                            mediaQuery.size.height * 0.017,
-                                        color: const Color(0xff221540),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                        height: mediaQuery.size.height * 0.002),
-                                    Text(
-                                      'Project ID: $projectID',
-                                      style: TextStyle(
-                                        fontFamily: 'Karla Regular',
-                                        fontSize:
-                                            mediaQuery.size.height * 0.017,
-                                        color: const Color(0xff221540),
-                                      ),
+                                    // Text(
+                                    //   'Project Inspector: $projectInspector',
+                                    //   style: TextStyle(
+                                    //     fontFamily: 'Karla Regular',
+                                    //     fontSize:
+                                    //         mediaQuery.size.height * 0.017,
+                                    //     color: const Color(0xff221540),
+                                    //   ),
+                                    // ),
+                                    // SizedBox(
+                                    //     height: mediaQuery.size.height * 0.002),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Project ID: \n$projectID',
+                                          style: TextStyle(
+                                            fontFamily: 'Karla Regular',
+                                            fontSize:
+                                                mediaQuery.size.height * 0.017,
+                                            color: const Color(0xff221540),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.copy,
+                                            color: const Color(0xFF221540),
+                                            size: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.02,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ],
                                 ),

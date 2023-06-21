@@ -17,6 +17,8 @@ class _SignInPageState extends State<SignInPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
+  bool validateEmail = false;
+  bool validatePassword = false;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,7 @@ class _SignInPageState extends State<SignInPage> {
                     const Text(
                       "Sign In",
                       style: TextStyle(
-                        fontFamily: "Rubik",
+                        fontFamily: "Rubik Bold",
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF221540),
@@ -111,7 +113,7 @@ class _SignInPageState extends State<SignInPage> {
                       child: const Text(
                         "Sign Up",
                         style: TextStyle(
-                          fontFamily: "Rubik",
+                          fontFamily: "Rubik Bold",
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -142,12 +144,26 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your first name';
+                            setState(() {
+                              validateEmail = true;
+                            });
+                            return null;
                           }
+                          setState(() {
+                            validateEmail = false;
+                          });
                           return null; // Return null if there is no error
                         },
                       ),
                     ),
+                    if (validateEmail)
+                      const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text(
+                          "Please enter your email",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
                     const SizedBox(height: 15.0),
                     Material(
                       borderRadius: BorderRadius.circular(30),
@@ -183,14 +199,27 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         obscureText: !_isPasswordVisible,
                         validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter a password';
+                          if (value == null || value.isEmpty) {
+                            setState(() {
+                              validatePassword = true;
+                            });
+                            return null;
                           }
-                          // Add additional password validation logic if needed
-                          return null;
+                          setState(() {
+                            validatePassword = false;
+                          });
+                          return null; // Return null if there is no error
                         },
                       ),
                     ),
+                    if (validatePassword)
+                      const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text(
+                          "Please enter your password",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
                     const SizedBox(height: 20),
                     Align(
                       alignment: Alignment.center,

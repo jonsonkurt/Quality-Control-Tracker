@@ -93,8 +93,9 @@ class ProfileController with ChangeNotifier {
   }
 
   void updloadImage(BuildContext context, String projectID) async {
-    firebase_storage.Reference storageRef =
-        firebase_storage.FirebaseStorage.instance.ref('projects/$projectID');
+    firebase_storage.Reference storageRef = firebase_storage
+        .FirebaseStorage.instance
+        .ref('projectUpdates/$projectID');
     firebase_storage.UploadTask uploadTask =
         storageRef.putFile(File(image!.path).absolute);
     await Future.value(uploadTask);
