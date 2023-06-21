@@ -121,8 +121,8 @@ class _AdminListPageState extends State<AdminListPage> {
                                         ),
                                       ),
                                       Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             inspectorFullName,

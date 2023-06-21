@@ -36,6 +36,14 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _isPasswordVisible = false;
   bool _isconPasswordVisible = false;
 
+  bool validateFN = false;
+  bool validateLN = false;
+  bool validateRole = false;
+  bool validateEmail = false;
+  bool validatePW = false;
+  bool validateCPW = false;
+  bool validatePWM = false;
+
   Future<void> _signUp() async {
     if (_formKey.currentState!.validate()) {
       // Validation successful, perform sign up
@@ -188,7 +196,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: const Text(
                           "Sign In",
                           style: TextStyle(
-                            fontFamily: "Rubik-Bold",
+                            fontFamily: "Rubik Bold",
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -198,7 +206,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       const Text(
                         "Sign Up",
                         style: TextStyle(
-                          fontFamily: "Rubik-Bold",
+                          fontFamily: "Rubik Bold",
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF221540),
@@ -214,7 +222,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           decoration: InputDecoration(
                             hintText: 'First Name',
                             labelStyle: const TextStyle(
-                              fontFamily: "Karla-Regular",
+                              fontFamily: "Karla Regular",
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
                               color: Colors.black,
@@ -232,13 +240,30 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter your first name';
+                            if (value == null || value.isEmpty) {
+                              setState(() {
+                                validateFN = true;
+                              });
+                              return null;
                             }
+                            setState(() {
+                              validateFN = false;
+                            });
                             return null;
                           },
                         ),
                       ),
+                      if (validateFN)
+                        const Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Text(
+                            "Please enter your first name",
+                            style: TextStyle(
+                                fontFamily: 'Karla Regular',
+                                fontSize: 14,
+                                color: Colors.red),
+                          ),
+                        ),
                       const SizedBox(height: 15),
                       Material(
                         borderRadius: BorderRadius.circular(30),
@@ -249,7 +274,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           decoration: InputDecoration(
                             hintText: 'Last Name',
                             labelStyle: const TextStyle(
-                              fontFamily: "Karla-Regular",
+                              fontFamily: "Karla Regular",
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
                               color: Colors.black,
@@ -267,13 +292,30 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter your last name';
+                            if (value == null || value.isEmpty) {
+                              setState(() {
+                                validateLN = true;
+                              });
+                              return null;
                             }
+                            setState(() {
+                              validateLN = false;
+                            });
                             return null;
                           },
                         ),
                       ),
+                      if (validateLN)
+                        const Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Text(
+                            "Please enter your last name",
+                            style: TextStyle(
+                                fontFamily: 'Karla Regular',
+                                fontSize: 14,
+                                color: Colors.red),
+                          ),
+                        ),
                       const SizedBox(height: 15),
                       Material(
                         borderRadius: BorderRadius.circular(30),
@@ -284,7 +326,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           decoration: InputDecoration(
                             hintText: 'Role',
                             labelStyle: const TextStyle(
-                              fontFamily: "Karla-Regular",
+                              fontFamily: "Karla Regular",
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
                               color: Colors.black,
@@ -310,15 +352,32 @@ class _SignUpPageState extends State<SignUpPage> {
                             );
                           }).toList(),
                           validator: (value) {
-                            if (value == null) {
-                              return 'Please select a role';
+                            if (value == null || value.isEmpty) {
+                              setState(() {
+                                validateRole = true;
+                              });
+                              return null;
                             }
+                            setState(() {
+                              validateRole = false;
+                            });
                             return null;
                           },
                           onChanged: (value) =>
                               setState(() => _selectedRole = value),
                         ),
                       ),
+                      if (validateRole)
+                        const Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Text(
+                            "Please enter your role",
+                            style: TextStyle(
+                                fontFamily: 'Karla Regular',
+                                fontSize: 14,
+                                color: Colors.red),
+                          ),
+                        ),
                       const SizedBox(height: 15),
                       Material(
                         borderRadius: BorderRadius.circular(30),
@@ -329,7 +388,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           decoration: InputDecoration(
                             hintText: 'Email',
                             labelStyle: const TextStyle(
-                              fontFamily: "Karla-Regular",
+                              fontFamily: "Karla Regular",
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
                               color: Colors.black,
@@ -347,14 +406,30 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter your email';
+                            if (value == null || value.isEmpty) {
+                              setState(() {
+                                validateEmail = true;
+                              });
+                              return null;
                             }
-                            // You can add more email validation logic here if needed
+                            setState(() {
+                              validateEmail = false;
+                            });
                             return null;
                           },
                         ),
                       ),
+                      if (validateEmail)
+                        const Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Text(
+                            "Please enter your email",
+                            style: TextStyle(
+                                fontFamily: 'Karla Regular',
+                                fontSize: 14,
+                                color: Colors.red),
+                          ),
+                        ),
                       const SizedBox(height: 15),
                       Material(
                         borderRadius: BorderRadius.circular(30),
@@ -365,7 +440,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           decoration: InputDecoration(
                             hintText: 'Password',
                             labelStyle: const TextStyle(
-                              fontFamily: "Karla-Regular",
+                              fontFamily: "Karla Regular",
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
                               color: Colors.black,
@@ -395,13 +470,30 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           obscureText: !_isPasswordVisible,
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter a password';
+                            if (value == null || value.isEmpty) {
+                              setState(() {
+                                validatePW = true;
+                              });
+                              return null;
                             }
+                            setState(() {
+                              validatePW = false;
+                            });
                             return null;
                           },
                         ),
                       ),
+                      if (validatePW)
+                        const Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Text(
+                            "Please enter your password",
+                            style: TextStyle(
+                                fontFamily: 'Karla Regular',
+                                fontSize: 14,
+                                color: Colors.red),
+                          ),
+                        ),
                       const SizedBox(height: 15),
                       Material(
                         borderRadius: BorderRadius.circular(30),
@@ -412,7 +504,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           decoration: InputDecoration(
                             hintText: 'Confirm Password',
                             labelStyle: const TextStyle(
-                              fontFamily: "Karla-Regular",
+                              fontFamily: "Karla Regular",
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
                               color: Colors.black,
@@ -443,16 +535,51 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           obscureText: !_isconPasswordVisible,
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please confirm your password';
+                            if (value == null || value.isEmpty) {
+                              setState(() {
+                                validateCPW = true;
+                              });
+                              return null;
                             }
+                            setState(() {
+                              validateCPW = false;
+                            });
+
                             if (value != _passwordController.text) {
-                              return 'Passwords do not match';
+                              setState(() {
+                                validatePWM = true;
+                              });
+                              return null;
                             }
+                            setState(() {
+                              validatePWM = false;
+                            });
                             return null;
                           },
                         ),
                       ),
+                      if (validateCPW)
+                        const Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Text(
+                            "Please enter your password",
+                            style: TextStyle(
+                                fontFamily: 'Karla Regular',
+                                fontSize: 14,
+                                color: Colors.red),
+                          ),
+                        ),
+                      if (validatePWM)
+                        const Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Text(
+                            "Password do not match",
+                            style: TextStyle(
+                                fontFamily: 'Karla Regular',
+                                fontSize: 14,
+                                color: Colors.red),
+                          ),
+                        ),
                       const SizedBox(height: 30.0),
                       Align(
                         alignment: Alignment.center,
