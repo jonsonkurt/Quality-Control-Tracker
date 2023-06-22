@@ -32,6 +32,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
         context: context,
+        backgroundColor: const Color(0xFFDCE4E9),
         isScrollControlled: true,
         builder: (context) => Padding(
             padding: EdgeInsets.only(
@@ -48,36 +49,76 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      TextFormField(
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Password',
+                      Material(
+                        borderRadius: BorderRadius.circular(30),
+                        elevation: 2,
+                        child: TextFormField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            hintText: 'Password',
+                            hintStyle: const TextStyle(
+                              fontFamily: "Karla",
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your new password';
+                            }
+                            return null; // Return null if there is no error
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your new password';
-                          }
-                          return null; // Return null if there is no error
-                        },
                       ),
                       const SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: _passwordConfirmController,
-                        decoration: const InputDecoration(
-                          labelText: 'Confirm Password',
+                      Material(
+                        borderRadius: BorderRadius.circular(30),
+                        elevation: 2,
+                        child: TextFormField(
+                          controller: _passwordConfirmController,
+                          cursorColor: const Color(0xFF221540),
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            hintText: 'Confirm Password',
+                            hintStyle: const TextStyle(
+                              fontFamily: "Karla",
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please confirm your new password';
+                            }
+                            if (value != _passwordController.text) {
+                              return 'Password is not match';
+                            }
+                            return null; // Return null if there is no error
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please confirm your new password';
-                          }
-                          if (value != _passwordController.text) {
-                            return 'Password is not match';
-                          }
-                          return null; // Return null if there is no error
-                        },
                       ),
-                      const SizedBox(height: 16.0),
+                      const SizedBox(height: 20.0),
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          backgroundColor: const Color(0xFF221540),
+                        ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             String password = _passwordController.text;
@@ -97,7 +138,15 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                             );
                           }
                         },
-                        child: const Text('Update Password'),
+                        child: const Padding(
+                          padding: EdgeInsets.all(15.0),
+                          child: Text('Update Password',
+                              style: TextStyle(
+                                fontFamily: 'Karla',
+                                fontSize: 15,
+                                color: Colors.white,
+                              )),
+                        ),
                       ),
                       const SizedBox(height: 40),
                     ],
@@ -115,38 +164,141 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin'),
-        backgroundColor: const Color(0xFF221540),
+      backgroundColor: const Color(0xFFDCE4E9),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(
+          mediaQuery.size.height * 0.1,
+        ),
+        child: AppBar(
+          title: Padding(
+            padding: EdgeInsets.only(top: mediaQuery.size.height * 0.035),
+            child: Text(
+              ' ',
+              style: TextStyle(
+                fontFamily: 'Rubik Bold',
+                fontSize: mediaQuery.size.height * 0.04,
+                color: const Color(0xFF221540),
+              ),
+            ),
+          ),
+          backgroundColor: Colors.white,
+          leading: Padding(
+            padding: EdgeInsets.fromLTRB(
+              mediaQuery.size.width * 0.035,
+              mediaQuery.size.height * 0.028,
+              0,
+              0,
+            ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Color(0xFF221540),
+              ),
+            ),
+          ),
+        ),
       ),
       body: SafeArea(
           child: Container(
-        padding: const EdgeInsets.only(top: 30, left: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            const Text(
-              "Admin",
-              style: TextStyle(
-                fontSize: 25,
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.01,
               ),
-            ),
-            ElevatedButton(
-              onPressed: _showPasswordModal,
-              child: const Text(
-                "Update Password",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-          ],
-        ),
-      )),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Material(
+                  borderRadius: BorderRadius.circular(30),
+                  elevation: 5,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.65,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const ListTile(
+                          title: Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: EdgeInsets.all(15.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: CircleAvatar(
+                                      radius: 35,
+                                      backgroundColor: Color(
+                                          0xFF221540), // Set your desired color here
+                                      child: Icon(
+                                        Icons.admin_panel_settings,
+                                        size: 40,
+                                        color: Colors
+                                            .white, // Set your desired color here
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 15.0),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Admin",
+                                        style: TextStyle(
+                                          fontFamily: 'Rubik Bold',
+                                          fontSize: 30,
+                                          color: Color(0xFF221540),
+                                        ),
+                                      ),
+                                      Text(
+                                        "Account",
+                                        style: TextStyle(
+                                          fontFamily: 'Rubik',
+                                          fontSize: 15,
+                                          color: Color(0xFF221540),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(
+                          thickness: 1,
+                          color: Color(0xFF221540),
+                          indent: 15,
+                          endIndent: 15,
+                        ),
+                        const SizedBox(height: 10.0),
+                        ElevatedButton(
+                          onPressed: _showPasswordModal,
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            backgroundColor: const Color(0xFF221540),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: Text(
+                              "Update Password",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16.0),
+                      ],
+                    ),
+                  ),
+                ),
+              ))),
       floatingActionButton: FloatingActionButton(
         onPressed: _logout,
-        child: const Icon(
-          Icons.logout,
-        ),
+        backgroundColor: const Color(0xFF221540),
+        child: const Icon(Icons.logout),
       ),
     );
   }
