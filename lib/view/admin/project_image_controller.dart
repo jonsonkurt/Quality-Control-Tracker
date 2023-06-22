@@ -92,7 +92,7 @@ class ProfileController with ChangeNotifier {
         });
   }
 
-  void updloadImage(BuildContext context, String projectID) async {
+  updloadImage(String projectID) async {
     firebase_storage.Reference storageRef =
         firebase_storage.FirebaseStorage.instance.ref('projects/$projectID');
     firebase_storage.UploadTask uploadTask =

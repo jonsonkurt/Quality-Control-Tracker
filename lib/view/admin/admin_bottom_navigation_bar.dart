@@ -557,8 +557,9 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                   ),
                                                   onPressed: () async {
                                                     // ignore: use_build_context_synchronously
-                                                    provider.updloadImage(
-                                                        context, projectID);
+                                                    await provider.updloadImage(
+                                                        projectID);
+                                                    print(provider.imgURL);
                                                     String projName =
                                                         _projectNameController
                                                             .text;
