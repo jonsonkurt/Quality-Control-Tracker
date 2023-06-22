@@ -298,40 +298,43 @@ class _ResponsiblePartyDashboardPageState
                                         // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
                                         child: Hero(
                                           tag: projectID,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            child: projectImage == "None"
-                                                ? Image.asset(
-                                                    'assets/images/no-image.png',
-                                                    fit: BoxFit.cover,
-                                                    width: 100,
-                                                    height: 100,
-                                                  )
-                                                : Image(
-                                                    width: 100,
-                                                    height: 100,
-                                                    fit: BoxFit.cover,
-                                                    image: NetworkImage(
-                                                        projectImage),
-                                                    loadingBuilder: (context,
-                                                        child,
-                                                        loadingProgress) {
-                                                      if (loadingProgress ==
-                                                          null) {
-                                                        return child;
-                                                      }
-                                                      return const CircularProgressIndicator();
-                                                    },
-                                                    errorBuilder: (context,
-                                                        object, stack) {
-                                                      return const Icon(
-                                                        Icons.error_outline,
-                                                        color: Color.fromARGB(
-                                                            255, 35, 35, 35),
-                                                      );
-                                                    },
-                                                  ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: projectImage == "None"
+                                                  ? Image.asset(
+                                                      'assets/images/no-image.png',
+                                                      fit: BoxFit.cover,
+                                                      width: 100,
+                                                      height: 100,
+                                                    )
+                                                  : Image(
+                                                      width: 100,
+                                                      height: 100,
+                                                      fit: BoxFit.cover,
+                                                      image: NetworkImage(
+                                                          projectImage),
+                                                      loadingBuilder: (context,
+                                                          child,
+                                                          loadingProgress) {
+                                                        if (loadingProgress ==
+                                                            null) {
+                                                          return child;
+                                                        }
+                                                        return const CircularProgressIndicator();
+                                                      },
+                                                      errorBuilder: (context,
+                                                          object, stack) {
+                                                        return const Icon(
+                                                          Icons.error_outline,
+                                                          color: Color.fromARGB(
+                                                              255, 35, 35, 35),
+                                                        );
+                                                      },
+                                                    ),
+                                            ),
                                           ),
                                         ),
                                       ),

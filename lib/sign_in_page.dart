@@ -130,6 +130,7 @@ class _SignInPageState extends State<SignInPage> {
                       elevation: 5,
                       child: TextFormField(
                         controller: _emailController,
+                        cursorColor: const Color(0xFF221540),
                         style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           hintText: 'Email',
@@ -174,6 +175,7 @@ class _SignInPageState extends State<SignInPage> {
                       elevation: 5,
                       child: TextFormField(
                         controller: _passwordController,
+                        cursorColor: const Color(0xFF221540),
                         style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           filled: true,
@@ -341,7 +343,7 @@ class _SignInPageState extends State<SignInPage> {
                         child: const Text(
                           'Sign In',
                           style: TextStyle(
-                            fontFamily: "Karla-Bold",
+                            fontFamily: "Rubik Bold",
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

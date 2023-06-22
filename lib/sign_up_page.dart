@@ -222,6 +222,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         elevation: 5,
                         child: TextFormField(
                           controller: _firstNameController,
+                          cursorColor: const Color(0xFF221540),
                           style: const TextStyle(color: Colors.black),
                           decoration: InputDecoration(
                             hintText: 'First Name',
@@ -274,6 +275,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         elevation: 5,
                         child: TextFormField(
                           controller: _lastNameController,
+                          cursorColor: const Color(0xFF221540),
                           style: const TextStyle(color: Colors.black),
                           decoration: InputDecoration(
                             hintText: 'Last Name',
@@ -388,6 +390,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         elevation: 5,
                         child: TextFormField(
                           controller: _emailController,
+                          cursorColor: const Color(0xFF221540),
                           style: const TextStyle(color: Colors.black),
                           decoration: InputDecoration(
                             hintText: 'Email',
@@ -440,6 +443,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         elevation: 5,
                         child: TextFormField(
                           controller: _passwordController,
+                          cursorColor: const Color(0xFF221540),
                           style: const TextStyle(color: Colors.black),
                           decoration: InputDecoration(
                             hintText: 'Password',
@@ -504,6 +508,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         elevation: 5,
                         child: TextFormField(
                           controller: _confirmPasswordController,
+                          cursorColor: const Color(0xFF221540),
                           style: const TextStyle(color: Colors.black),
                           decoration: InputDecoration(
                             hintText: 'Confirm Password',
@@ -577,7 +582,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         const Padding(
                           padding: EdgeInsets.only(left: 20),
                           child: Text(
-                            "Password do not match",
+                            "Passwords do not match",
                             style: TextStyle(
                                 fontFamily: 'Karla Regular',
                                 fontSize: 14,
