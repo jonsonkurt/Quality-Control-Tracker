@@ -76,6 +76,7 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
 
                 String projectImage = map['projectImage'];
                 String projectName = map['projectName'];
+                String projectLocation = map['projectLocation'];
                 String inspectorName = map['inspector'];
                 String projectDeadline = map['projectDeadline'];
                 String owner = map['owner'];
@@ -153,6 +154,15 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        'Project Location: $projectLocation',
+                        style: const TextStyle(
+                          fontSize: 16,
                         ),
                       ),
                     ),
