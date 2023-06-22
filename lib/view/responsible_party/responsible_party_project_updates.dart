@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
+import '../../image_viewer.dart';
+
 class ResponsiblePartyProjectUpdatesPage extends StatefulWidget {
   final String projectUpdatesID;
 
@@ -179,13 +181,49 @@ class _ResponsiblePartyProjectUpdatesPageState
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.network(
-                          projectUpdatesPicture,
-                          width: 300,
-                          height: 200,
-                          fit: BoxFit.cover,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return DetailScreen(
+                              imageUrl: projectUpdatesPicture,
+                              projectID: widget.projectUpdatesID,
+                            );
+                          }));
+                        },
+
+                        // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
+                        child: Hero(
+                          tag: widget.projectUpdatesID,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: projectUpdatesPicture == "None"
+                                ? Image.asset(
+                                    'assets/images/no-image.png',
+                                    fit: BoxFit.cover,
+                                    width: 300,
+                                    height: 200,
+                                  )
+                                : Image(
+                                    width: 300,
+                                    height: 200,
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(projectUpdatesPicture),
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      }
+                                      return const CircularProgressIndicator();
+                                    },
+                                    errorBuilder: (context, object, stack) {
+                                      return const Icon(
+                                        Icons.error_outline,
+                                        color: Color.fromARGB(255, 35, 35, 35),
+                                      );
+                                    },
+                                  ),
+                          ),
                         ),
                       ),
                     ),
