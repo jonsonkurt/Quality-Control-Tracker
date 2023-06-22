@@ -1,12 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:provider/provider.dart';
 import 'package:quality_control_tracker/view/admin/project_image_controller.dart';
 import 'admin_home_page.dart';
 import 'admin_list_page.dart';
-import 'admin_inspector_creation_page.dart';
 import 'dart:async';
 import 'package:random_string/random_string.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -46,6 +46,12 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
   final TextEditingController _inspectorController = TextEditingController();
   final TextEditingController _projectDeadlineController =
       TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   Map<String, dynamic>? nameSubscription1;
 
   var logger = Logger();
@@ -70,7 +76,11 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
     _inspectorController.dispose();
     _pageController.dispose();
     _projectDeadlineController.dispose();
-
+    firstNameController.dispose();
+    lastNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -234,7 +244,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                              .fromLTRB(
+                                                                  .fromLTRB(
                                                               12, 4, 4, 0),
                                                       border:
                                                           OutlineInputBorder(
@@ -288,7 +298,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                              .fromLTRB(
+                                                                  .fromLTRB(
                                                               12, 4, 4, 0),
                                                       border:
                                                           OutlineInputBorder(
@@ -342,13 +352,11 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         DropDownDecoratorProps(
                                                             dropdownSearchDecoration:
                                                                 InputDecoration(
-                                                                    contentPadding:
-                                                                        const EdgeInsets
-                                                                            .fromLTRB(
-                                                                            12,
-                                                                            4,
-                                                                            4,
-                                                                            0),
+                                                                    contentPadding: const EdgeInsets.fromLTRB(
+                                                                        12,
+                                                                        4,
+                                                                        4,
+                                                                        0),
                                                                     border: OutlineInputBorder(
                                                                         borderRadius:
                                                                             BorderRadius.circular(
@@ -674,11 +682,564 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                           backgroundColor: const Color(0xFF221540),
                           child: const Icon(Icons.add),
                           onPressed: () {
-                            Navigator.push<void>(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const AdminInspectorCreationPage()));
+                            // Navigator.push<void>(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) =>
+                            //         const AdminInspectorCreationPage(),
+                            //   ),
+                            // );
+                            showModalBottomSheet(
+                              backgroundColor: const Color(0xffDCE4E9),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(30),
+                              )),
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (BuildContext context) {
+                                final screenHeight =
+                                    MediaQuery.of(context).size.height;
+                                const desiredHeightFactor =
+                                    0.8; // Set the desired height factor (80%)
+                                final desiredHeight =
+                                    screenHeight * desiredHeightFactor;
+
+                                return ChangeNotifierProvider(
+                                  create: (_) => ProfileController(),
+                                  child: Consumer<ProfileController>(
+                                    builder: (context, provider, child) {
+                                      return SingleChildScrollView(
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          child: SafeArea(
+                                            child: Container(
+                                              height: desiredHeight,
+                                              padding: const EdgeInsets.all(16),
+                                              child: SingleChildScrollView(
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.01,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.02,
+                                                        ),
+                                                        Text(
+                                                          "Add Inspector",
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                'Rubik Bold',
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.03,
+                                                            color: const Color(
+                                                                0xff221540),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.03,
+                                                    ),
+                                                    // TODO: Heron pa-add po ng adding of photo dito
+                                                    // GestureDetector(
+                                                    //   onTap: () {
+                                                    //     provider.pickImage(
+                                                    //         context, projectID);
+                                                    //   },
+                                                    //   child: Container(
+                                                    //     height: 130,
+                                                    //     width: 130,
+                                                    //     decoration:
+                                                    //         BoxDecoration(
+                                                    //             shape: BoxShape
+                                                    //                 .rectangle,
+                                                    //             borderRadius:
+                                                    //                 BorderRadius
+                                                    //                     .circular(
+                                                    //                         15),
+                                                    //             border:
+                                                    //                 Border.all(
+                                                    //               color: const Color(
+                                                    //                   0xff221540),
+                                                    //               width: 2,
+                                                    //             )),
+                                                    //     child: ClipRRect(
+                                                    //         borderRadius:
+                                                    //             BorderRadius
+                                                    //                 .circular(
+                                                    //                     15),
+                                                    //         child: provider
+                                                    //                     .image ==
+                                                    //                 null
+                                                    //             ? const Icon(
+                                                    //                 Icons
+                                                    //                     .add_circle,
+                                                    //                 size: 35,
+                                                    //                 color: Color(
+                                                    //                     0xff221540),
+                                                    //               )
+                                                    //             : Image.file(
+                                                    //                 fit: BoxFit
+                                                    //                     .cover,
+                                                    //                 File(provider
+                                                    //                         .image!
+                                                    //                         .path)
+                                                    //                     .absolute)),
+                                                    //   ),
+                                                    // ),
+                                                    SizedBox(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.03,
+                                                    ),
+                                                    Material(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      elevation: 5,
+                                                      child: TextFormField(
+                                                        cursorColor:
+                                                            const Color(
+                                                                0xFF221540),
+                                                        controller:
+                                                            firstNameController,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  12, 4, 4, 0),
+                                                          border: OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30),
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30),
+                                                            borderSide:
+                                                                BorderSide.none,
+                                                          ),
+                                                          filled: true,
+                                                          fillColor:
+                                                              Colors.white,
+                                                          hintText:
+                                                              'First Name',
+                                                          labelStyle: TextStyle(
+                                                            fontFamily:
+                                                                'Karla Regular',
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.02,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    SizedBox(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.02,
+                                                    ),
+                                                    Material(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      elevation: 5,
+                                                      child: TextFormField(
+                                                        cursorColor:
+                                                            const Color(
+                                                                0xFF221540),
+                                                        controller:
+                                                            lastNameController,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  12, 4, 4, 0),
+                                                          border: OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30),
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30),
+                                                            borderSide:
+                                                                BorderSide.none,
+                                                          ),
+                                                          filled: true,
+                                                          fillColor:
+                                                              Colors.white,
+                                                          hintText: 'Last Name',
+                                                          labelStyle: TextStyle(
+                                                            fontFamily:
+                                                                'Karla Regular',
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.02,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    SizedBox(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.02,
+                                                    ),
+                                                    Material(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      elevation: 5,
+                                                      child: TextFormField(
+                                                        cursorColor:
+                                                            const Color(
+                                                                0xFF221540),
+                                                        controller:
+                                                            emailController,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  12, 4, 4, 0),
+                                                          border: OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30),
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30),
+                                                            borderSide:
+                                                                BorderSide.none,
+                                                          ),
+                                                          filled: true,
+                                                          fillColor:
+                                                              Colors.white,
+                                                          hintText: 'Email',
+                                                          labelStyle: TextStyle(
+                                                            fontFamily:
+                                                                'Karla Regular',
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.02,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    SizedBox(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.02),
+                                                    Material(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      elevation: 5,
+                                                      child: TextFormField(
+                                                        cursorColor:
+                                                            const Color(
+                                                                0xFF221540),
+                                                        controller:
+                                                            passwordController,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  12, 4, 4, 0),
+                                                          border: OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30),
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30),
+                                                            borderSide:
+                                                                BorderSide.none,
+                                                          ),
+                                                          filled: true,
+                                                          fillColor:
+                                                              Colors.white,
+                                                          hintText: 'Password',
+                                                          labelStyle: TextStyle(
+                                                            fontFamily:
+                                                                'Karla Regular',
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.02,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    SizedBox(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.03,
+                                                    ),
+                                                    Material(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      elevation: 5,
+                                                      child: TextFormField(
+                                                        cursorColor:
+                                                            const Color(
+                                                                0xFF221540),
+                                                        controller:
+                                                            confirmPasswordController,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  12, 4, 4, 0),
+                                                          border: OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30),
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30),
+                                                            borderSide:
+                                                                BorderSide.none,
+                                                          ),
+                                                          filled: true,
+                                                          fillColor:
+                                                              Colors.white,
+                                                          hintText:
+                                                              'Confirm Password',
+                                                          labelStyle: TextStyle(
+                                                            fontFamily:
+                                                                'Karla Regular',
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.02,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    SizedBox(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.04),
+                                                    ElevatedButton(
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(30),
+                                                        ),
+                                                        backgroundColor:
+                                                            const Color(
+                                                                0xFF221540),
+                                                      ),
+                                                      onPressed: () async {
+                                                        final firstName =
+                                                            firstNameController
+                                                                .text;
+                                                        final lastName =
+                                                            lastNameController
+                                                                .text;
+                                                        final email =
+                                                            emailController
+                                                                .text;
+                                                        final password =
+                                                            passwordController
+                                                                .text;
+                                                        try {
+                                                          // ignore: unused_local_variable
+                                                          final credential =
+                                                              await FirebaseAuth
+                                                                  .instance
+                                                                  .createUserWithEmailAndPassword(
+                                                            email: email,
+                                                            password: password,
+                                                          );
+
+                                                          String? userID =
+                                                              FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser
+                                                                  ?.uid;
+
+                                                          await FirebaseDatabase
+                                                              .instance
+                                                              .ref(
+                                                                  "inspectors/$userID")
+                                                              .set({
+                                                            "firstName":
+                                                                firstName,
+                                                            "lastName":
+                                                                lastName,
+                                                            "role": "Inspector",
+                                                            "email": email,
+                                                            "mobileNumber": "-",
+                                                            "profilePicStatus":
+                                                                "None",
+                                                            "inspectorID":
+                                                                userID,
+                                                            "fcmInspectorToken":
+                                                                "-",
+                                                          });
+                                                          // Reset form fields after successful sign up
+                                                          firstNameController
+                                                              .clear();
+                                                          lastNameController
+                                                              .clear();
+                                                          emailController
+                                                              .clear();
+                                                          passwordController
+                                                              .clear();
+                                                          confirmPasswordController
+                                                              .clear();
+                                                          // ignore: use_build_context_synchronously
+                                                          Navigator.pop(
+                                                              context);
+                                                        } on FirebaseAuthException catch (e) {
+                                                          if (e.code ==
+                                                              'weak-password') {
+                                                            // ignore: use_build_context_synchronously
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              const SnackBar(
+                                                                  content: Text(
+                                                                      'The password provided is too weak.')),
+                                                            );
+                                                          } else if (e.code ==
+                                                              'email-already-in-use') {
+                                                            // ignore: use_build_context_synchronously
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              const SnackBar(
+                                                                  content: Text(
+                                                                      'The account already exists for that email.')),
+                                                            );
+                                                          }
+                                                        } catch (e) {
+                                                          // ignore: use_build_context_synchronously
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            const SnackBar(
+                                                                content: Text(
+                                                                    'Error.')),
+                                                          );
+                                                        }
+                                                      },
+                                                      child: Padding(
+                                                        padding: EdgeInsets.all(
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.017),
+                                                        child: Text(
+                                                          'Submit',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Rubik Regular',
+                                                              fontSize: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.02),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ));
+                                    },
+                                  ),
+                                );
+                              },
+                            );
                           },
                         )
                       : null,
