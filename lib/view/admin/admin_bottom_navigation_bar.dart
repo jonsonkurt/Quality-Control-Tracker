@@ -566,6 +566,10 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         const Color(0xFF221540),
                                                   ),
                                                   onPressed: () async {
+                                                    // ignore: use_build_context_synchronously
+                                                    await provider.updloadImage(
+                                                        projectID);
+                                                    print(provider.imgURL);
                                                     String projName =
                                                         _projectNameController
                                                             .text;
@@ -644,6 +648,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         .clear();
                                                     _projectDeadlineController
                                                         .clear();
+
                                                     // Perform the desired action when the button is pressed
                                                     // ignore: use_build_context_synchronously
                                                     Navigator.pop(context);
