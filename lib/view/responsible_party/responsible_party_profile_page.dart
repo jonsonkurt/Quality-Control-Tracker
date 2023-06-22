@@ -52,6 +52,7 @@ class _ResponsiblePartyProfilePageState
           mediaQuery.size.height * 0.1,
         ),
         child: AppBar(
+          elevation: 0,
           leading: Padding(
             padding: EdgeInsets.fromLTRB(
               mediaQuery.size.width * 0.035,
@@ -78,6 +79,7 @@ class _ResponsiblePartyProfilePageState
               'Profile',
               style: TextStyle(
                 fontFamily: 'Rubik Bold',
+                fontWeight: FontWeight.bold,
                 fontSize: mediaQuery.size.height * 0.04,
                 color: const Color(0xFF221540),
               ),
@@ -105,108 +107,147 @@ class _ResponsiblePartyProfilePageState
                 String email = map['email'];
                 String mobileNumber = map['mobileNumber'];
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return DetailScreen(
-                              imageUrl: profilePic,
-                              projectID: accountID,
-                            );
-                          }));
-                        },
+                return Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DetailScreen(
+                                imageUrl: profilePic,
+                                projectID: accountID,
+                              );
+                            }));
+                          },
 
-                        // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
-                        child: Hero(
-                          tag: accountID,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: const Color(0xFF221540),
-                                  width: 2,
-                                ),
-                              ),
-                              child: profilePic == "None"
-                                  ? Image.asset(
-                                      'assets/images/no-image.png',
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(profilePic),
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        }
-                                        return const CircularProgressIndicator();
-                                      },
-                                      errorBuilder: (context, object, stack) {
-                                        return const Icon(
-                                          Icons.error_outline,
-                                          color: Color(0xFF221540),
-                                        );
-                                      },
+                          // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
+                          child: Container(
+                            decoration: BoxDecoration(
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      color: Colors.black54,
+                                      blurRadius: 15.0,
+                                      offset: Offset(0.0, 0.75))
+                                ],
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20))),
+                            width: MediaQuery.of(context).size.width / 0.5,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Hero(
+                                      tag: accountID,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child: Container(
+                                          width: 100,
+                                          height: 100,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: const Color(0xFF221540),
+                                              width: 2,
+                                            ),
+                                          ),
+                                          child: profilePic == "None"
+                                              ? Image.asset(
+                                                  'assets/images/no-image.png',
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Image(
+                                                  fit: BoxFit.cover,
+                                                  image:
+                                                      NetworkImage(profilePic),
+                                                  loadingBuilder: (context,
+                                                      child, loadingProgress) {
+                                                    if (loadingProgress ==
+                                                        null) {
+                                                      return child;
+                                                    }
+                                                    return const CircularProgressIndicator();
+                                                  },
+                                                  errorBuilder:
+                                                      (context, object, stack) {
+                                                    return const Icon(
+                                                      Icons.error_outline,
+                                                      color: Color(0xFF221540),
+                                                    );
+                                                  },
+                                                ),
+                                        ),
+                                      ),
                                     ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 10,
+                                  ),
+                                  child: Text(
+                                    "$fullName",
+                                    style: const TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 5.0, bottom: 20),
+                                  child: Text(
+                                    "$role",
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.grey),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        "Name: $fullName",
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        width: MediaQuery.of(context).size.width / 1,
+                        margin: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          "Email: $email",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        "Role: $role",
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        width: MediaQuery.of(context).size.width / 1,
+                        margin: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          "Mobile Number: $mobileNumber",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        "Email: $email",
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        "Mobile Number: $mobileNumber",
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               } else {
                 return const Center(
