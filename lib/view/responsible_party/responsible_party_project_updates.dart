@@ -90,11 +90,12 @@ class _ResponsiblePartyProjectUpdatesPageState
           mediaQuery.size.height * 0.1,
         ),
         child: AppBar(
+          toolbarHeight: mediaQuery.size.height * 0.1,
           backgroundColor: Colors.white,
           leading: Padding(
             padding: EdgeInsets.fromLTRB(
               mediaQuery.size.width * 0.035,
-              mediaQuery.size.height * 0.028,
+              mediaQuery.size.height * 0.01,
               0,
               0,
             ),
@@ -110,7 +111,7 @@ class _ResponsiblePartyProjectUpdatesPageState
           ),
           title: Padding(
             padding: EdgeInsets.only(
-              top: mediaQuery.size.height * 0.035,
+              top: mediaQuery.size.height * 0.01,
             ),
             child: Text(
               'Update',

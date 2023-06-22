@@ -92,11 +92,12 @@ class _ResponsiblePartyProjectUpdatesInformationPageState
           mediaQuery.size.height * 0.1,
         ),
         child: AppBar(
+          toolbarHeight: mediaQuery.size.height * 0.1,
           backgroundColor: Colors.white,
           leading: Padding(
             padding: EdgeInsets.fromLTRB(
               mediaQuery.size.width * 0.035,
-              mediaQuery.size.height * 0.028,
+              mediaQuery.size.height * 0.01,
               0,
               0,
             ),
@@ -112,7 +113,7 @@ class _ResponsiblePartyProjectUpdatesInformationPageState
           ),
           title: Padding(
             padding: EdgeInsets.only(
-              top: mediaQuery.size.height * 0.035,
+              top: mediaQuery.size.height * 0.01,
             ),
             child: Text(
               'Update',
@@ -159,109 +160,136 @@ class _ResponsiblePartyProjectUpdatesInformationPageState
 
                 return Center(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 20,
+                      SizedBox(
+                        height: mediaQuery.size.height * 0.05,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return DetailScreen(
-                                imageUrl: projectUpdatesPicture,
-                                projectID: widget.projectUpdatesID,
-                              );
-                            }));
-                          },
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return DetailScreen(
+                                    imageUrl: projectUpdatesPicture,
+                                    projectID: widget.projectUpdatesID,
+                                  );
+                                }));
+                              },
 
-                          // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
-                          child: Hero(
-                            tag: widget.projectUpdatesID,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: projectUpdatesPicture == "None"
-                                  ? Image.asset(
-                                      'assets/images/no-image.png',
-                                      fit: BoxFit.cover,
-                                      width: 300,
-                                      height: 200,
-                                    )
-                                  : Image(
-                                      width: 300,
-                                      height: 200,
-                                      fit: BoxFit.cover,
-                                      image:
-                                          NetworkImage(projectUpdatesPicture),
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        }
-                                        return const CircularProgressIndicator();
-                                      },
-                                      errorBuilder: (context, object, stack) {
-                                        return const Icon(
-                                          Icons.error_outline,
-                                          color:
-                                              Color.fromARGB(255, 35, 35, 35),
-                                        );
-                                      },
-                                    ),
+                              // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
+                              child: Material(
+                                borderRadius: BorderRadius.circular(10),
+                                elevation: 5,
+                                child: Hero(
+                                  tag: widget.projectUpdatesID,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: projectUpdatesPicture == "None"
+                                        ? Image.asset(
+                                            'assets/images/no-image.png',
+                                            fit: BoxFit.cover,
+                                            width: 300,
+                                            height: 200,
+                                          )
+                                        : Image(
+                                            width: mediaQuery.size.width * 0.8,
+                                            height:
+                                                mediaQuery.size.height * 0.25,
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                                projectUpdatesPicture),
+                                            loadingBuilder: (context, child,
+                                                loadingProgress) {
+                                              if (loadingProgress == null) {
+                                                return child;
+                                              }
+                                              return const CircularProgressIndicator();
+                                            },
+                                            errorBuilder:
+                                                (context, object, stack) {
+                                              return const Icon(
+                                                Icons.error_outline,
+                                                color: Color.fromARGB(
+                                                    255, 35, 35, 35),
+                                              );
+                                            },
+                                          ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
+                      SizedBox(height: mediaQuery.size.height * 0.02),
+                      //
+                      //
+                      // TEXT COLUMNS
                       Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          projectUpdatesTitle,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          'Accomplished by: $projectUpdatesOP',
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          "Submission Date: $projectUpdatesSubmissionDate",
-                          // "Submission Date: ",
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          "Tag: $projectUpdatesTag",
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          "Description: $projectUpdatesNotes",
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
+                        padding: EdgeInsets.only(
+                            left: mediaQuery.size.width * 0.025),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              projectUpdatesTitle,
+                              style: TextStyle(
+                                fontFamily: "Rubik Bold",
+                                fontSize: mediaQuery.size.height * 0.03,
+                                color: const Color(0xFF221540),
+                              ),
+                            ),
+                            SizedBox(height: mediaQuery.size.height * 0.01),
+                            Text(
+                              'Accomplished by: $projectUpdatesOP',
+                              style: TextStyle(
+                                fontFamily: "Karla Regular",
+                                fontSize: mediaQuery.size.height * 0.02,
+                                fontStyle: FontStyle.italic,
+                                color: const Color(0xFF221540),
+                              ),
+                            ),
+                            SizedBox(height: mediaQuery.size.height * 0.01),
+                            Text(
+                              "Submission Date: $projectUpdatesSubmissionDate",
+                              // "Submission Date: ",
+                              style: TextStyle(
+                                fontFamily: "Karla Regular",
+                                fontSize: mediaQuery.size.height * 0.02,
+                                color: const Color(0xFF221540),
+                              ),
+                            ),
+                            Text(
+                              "Tag: $projectUpdatesTag",
+                              style: TextStyle(
+                                fontFamily: "Karla Regular",
+                                fontSize: mediaQuery.size.height * 0.02,
+                                color: const Color(0xFF221540),
+                              ),
+                            ),
+                            SizedBox(height: mediaQuery.size.height * 0.02),
+                            Text(
+                              "Description:",
+                              style: TextStyle(
+                                fontFamily: "Rubik Bold",
+                                fontSize: mediaQuery.size.height * 0.022,
+                                color: const Color(0xFF221540),
+                              ),
+                            ),
+                            Text(
+                              "$projectUpdatesNotes",
+                              style: TextStyle(
+                                fontFamily: "Karla Regular",
+                                fontSize: mediaQuery.size.height * 0.02,
+                                color: const Color(0xFF221540),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
