@@ -198,7 +198,7 @@ class _ResponsiblePartyUpdatePageState
                         if (formKey.currentState!.validate()) {
                           String rpTitle = _rpTitleController.text;
                           String rpNotes = _rpNotesController.text;
-
+                          provider.updloadImage(context, projectUpdatesID);
                           // Updates database
                           DatabaseReference projectsRef = FirebaseDatabase
                               .instance

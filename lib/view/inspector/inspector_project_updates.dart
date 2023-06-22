@@ -610,7 +610,10 @@ class _InspectorProjectUpdatesPageState
                                                       String reworkDeadline =
                                                           reworkDeadlineController
                                                               .text;
-
+                                                      provider.updloadImage(
+                                                          context,
+                                                          widget
+                                                              .projectUpdatesID);
                                                       // Updates inspectorNotes
                                                       DatabaseReference
                                                           inspectorNotesRef =
@@ -671,6 +674,8 @@ class _InspectorProjectUpdatesPageState
                                                         "projectUpdatesPhotoURL":
                                                             provider.imgURL,
                                                       });
+                                                      
+
                                                       reworkDeadlineController
                                                           .clear();
                                                       Navigator.of(context)

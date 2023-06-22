@@ -234,7 +234,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                              .fromLTRB(
+                                                                  .fromLTRB(
                                                               12, 4, 4, 0),
                                                       border:
                                                           OutlineInputBorder(
@@ -288,7 +288,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                              .fromLTRB(
+                                                                  .fromLTRB(
                                                               12, 4, 4, 0),
                                                       border:
                                                           OutlineInputBorder(
@@ -342,13 +342,11 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         DropDownDecoratorProps(
                                                             dropdownSearchDecoration:
                                                                 InputDecoration(
-                                                                    contentPadding:
-                                                                        const EdgeInsets
-                                                                            .fromLTRB(
-                                                                            12,
-                                                                            4,
-                                                                            4,
-                                                                            0),
+                                                                    contentPadding: const EdgeInsets.fromLTRB(
+                                                                        12,
+                                                                        4,
+                                                                        4,
+                                                                        0),
                                                                     border: OutlineInputBorder(
                                                                         borderRadius:
                                                                             BorderRadius.circular(
@@ -558,6 +556,9 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         const Color(0xFF221540),
                                                   ),
                                                   onPressed: () async {
+                                                    // ignore: use_build_context_synchronously
+                                                    provider.updloadImage(
+                                                        context, projectID);
                                                     String projName =
                                                         _projectNameController
                                                             .text;
@@ -636,6 +637,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         .clear();
                                                     _projectDeadlineController
                                                         .clear();
+
                                                     // Perform the desired action when the button is pressed
                                                     // ignore: use_build_context_synchronously
                                                     Navigator.pop(context);

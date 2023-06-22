@@ -25,7 +25,7 @@ class ProfileController with ChangeNotifier {
       _image = XFile(pickedFile.path);
       notifyListeners();
       // ignore: use_build_context_synchronously
-      updloadImage(context, projectID);
+      // updloadImage(context, projectID);
     }
   }
 
@@ -37,7 +37,7 @@ class ProfileController with ChangeNotifier {
       _image = XFile(pickedFile.path);
       notifyListeners();
       // ignore: use_build_context_synchronously
-      updloadImage(context, projectID);
+      // updloadImage(context, projectID);
     }
   }
 
