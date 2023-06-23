@@ -87,11 +87,11 @@ class _AdminListPageState extends State<AdminListPage> {
                       itemCount: values.length,
                       itemBuilder: (context, index) {
                         String projectUpdatesID = values.keys.elementAt(index);
-                        String inspectorFirstName =
+                        String? inspectorFirstName =
                             values[projectUpdatesID]["firstName"];
-                        String inspectorLastName =
+                        String? inspectorLastName =
                             values[projectUpdatesID]["lastName"];
-                        String inspectorFullName =
+                        String? inspectorFullName =
                             "$inspectorFirstName $inspectorLastName";
 
                         int projectHandled =
