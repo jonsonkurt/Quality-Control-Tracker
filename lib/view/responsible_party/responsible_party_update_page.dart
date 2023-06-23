@@ -357,7 +357,7 @@ class _ResponsiblePartyUpdatePageState
         padding: const EdgeInsets.all(10.0),
         child: Container(
           height: mediaQuery.size.height * 0.7,
-          width: mediaQuery.size.width * 0.5,
+          width: mediaQuery.size.width,
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
