@@ -109,149 +109,154 @@ class _AdminInspectorCreationPageState
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFDCE4E9),
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(mediaQuery.size.height * 0.1),
-          child: AppBar(
-              toolbarHeight: 60,
-              backgroundColor: Colors.white,
-              leading: Padding(
-                padding: EdgeInsets.fromLTRB(
-                  mediaQuery.size.width * 0.035,
-                  mediaQuery.size.height * 0.028,
-                  0,
-                  0,
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Color(0xFF221540),
+    return WillPopScope(
+      onWillPop: () async {
+        return false; // Disable back button
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFDCE4E9),
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(mediaQuery.size.height * 0.1),
+            child: AppBar(
+                toolbarHeight: 60,
+                backgroundColor: Colors.white,
+                leading: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    mediaQuery.size.width * 0.035,
+                    mediaQuery.size.height * 0.028,
+                    0,
+                    0,
                   ),
-                ),
-              ),
-              title: Padding(
-                padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.03,
-                    mediaQuery.size.width * 0.06, 0),
-                child: Text(
-                  'Add inspector',
-                  style: TextStyle(
-                    fontFamily: 'Rubik Bold',
-                    fontSize: mediaQuery.size.height * 0.04,
-                    color: const Color(0xFF221540),
-                  ),
-                ),
-              ))),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: <Widget>[
-              Material(
-                borderRadius: BorderRadius.circular(30),
-                elevation: 5,
-                child: TextFormField(
-                  controller: _firstNameController,
-                  decoration: InputDecoration(
-                    hintText: 'First Name',
-                    labelStyle: const TextStyle(
-                      fontFamily: "Karla Regular",
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      color: Color(0xFF221540),
                     ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 16, // Adjust the vertical padding here
-                      horizontal: 24, // Adjust the horizontal padding here
-                    ),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(30)),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
+                ),
+                title: Padding(
+                  padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.03,
+                      mediaQuery.size.width * 0.06, 0),
+                  child: Text(
+                    'Add inspector',
+                    style: TextStyle(
+                      fontFamily: 'Rubik Bold',
+                      fontSize: mediaQuery.size.height * 0.04,
+                      color: const Color(0xFF221540),
+                    ),
+                  ),
+                ))),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: <Widget>[
+                Material(
+                  borderRadius: BorderRadius.circular(30),
+                  elevation: 5,
+                  child: TextFormField(
+                    controller: _firstNameController,
+                    decoration: InputDecoration(
+                      hintText: 'First Name',
+                      labelStyle: const TextStyle(
+                        fontFamily: "Karla Regular",
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 16, // Adjust the vertical padding here
+                        horizontal: 24, // Adjust the horizontal padding here
+                      ),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(30)),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        setState(() {
+                          validateFN = true;
+                        });
+                        return null;
+                      }
                       setState(() {
-                        validateFN = true;
+                        validateFN = false;
                       });
                       return null;
+                    },
+                  ),
+                ),
+                if (validateFN)
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(
+                      "Please enter your first name",
+                      style: TextStyle(
+                          fontFamily: 'Karla Regular',
+                          fontSize: 14,
+                          color: Colors.red),
+                    ),
+                  ),
+                TextFormField(
+                  controller: _lastNameController,
+                  decoration: const InputDecoration(labelText: 'Last Name'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your last name';
                     }
-                    setState(() {
-                      validateFN = false;
-                    });
                     return null;
                   },
                 ),
-              ),
-              if (validateFN)
-                const Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    "Please enter your first name",
-                    style: TextStyle(
-                        fontFamily: 'Karla Regular',
-                        fontSize: 14,
-                        color: Colors.red),
-                  ),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(labelText: 'Email'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    // You can add more email validation logic here if needed
+                    return null;
+                  },
                 ),
-              TextFormField(
-                controller: _lastNameController,
-                decoration: const InputDecoration(labelText: 'Last Name'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your last name';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  // You can add more email validation logic here if needed
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a password';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _confirmPasswordController,
-                decoration:
-                    const InputDecoration(labelText: 'Confirm Password'),
-                obscureText: true,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please confirm your password';
-                  }
-                  if (value != _passwordController.text) {
-                    return 'Passwords do not match';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: _signUp,
-                child: const Text('Create Inspector Account'),
-              ),
-            ],
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(labelText: 'Password'),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a password';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _confirmPasswordController,
+                  decoration:
+                      const InputDecoration(labelText: 'Confirm Password'),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please confirm your password';
+                    }
+                    if (value != _passwordController.text) {
+                      return 'Passwords do not match';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: _signUp,
+                  child: const Text('Create Inspector Account'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
