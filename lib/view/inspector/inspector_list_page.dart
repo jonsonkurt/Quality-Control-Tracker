@@ -75,7 +75,7 @@ class _InspectorListPageState extends State<InspectorListPage> {
 
     // Database reference and query for empty view
     DatabaseReference emptyPendingRef =
-        FirebaseDatabase.instance.ref('appointments');
+        FirebaseDatabase.instance.ref('projectUpdates');
     Query emptyPendingQuery = emptyPendingRef
         .orderByChild("inspectorProjectRemarks")
         .startAt("$inspectorID-${widget.projectIDQuery}-PENDING-")
@@ -140,72 +140,83 @@ class _InspectorListPageState extends State<InspectorListPage> {
       body: Container(
         height: 580,
         padding: const EdgeInsets.only(top: 10),
-        child: FirebaseAnimatedList(
-          query: ref
-              .orderByChild("inspectorProjectRemarks")
-              .startAt("$inspectorID-${widget.projectIDQuery}-PENDING-")
-              .endAt("$inspectorID-${widget.projectIDQuery}-PENDING-\uf8ff"),
-          itemBuilder: (context, snapshot, animation, index) {
-            String projectUpdatesID =
-                snapshot.child("projectUpdatesID").value.toString();
-            String rpName = snapshot.child("rpName").value.toString();
-            String rpRole = snapshot.child("rpRole").value.toString();
-            String jobTitle = convertJobTitle(rpRole);
+        child: Builder(
+          builder: (BuildContext context) {
+            if (isEmptyPending) {
+              // TODO: Edit this empty view
+              return const Center(child: Text("No Available Data"));
+            } else {
+              return FirebaseAnimatedList(
+                query: ref
+                    .orderByChild("inspectorProjectRemarks")
+                    .startAt("$inspectorID-${widget.projectIDQuery}-PENDING-")
+                    .endAt(
+                        "$inspectorID-${widget.projectIDQuery}-PENDING-\uf8ff"),
+                itemBuilder: (context, snapshot, animation, index) {
+                  String projectUpdatesID =
+                      snapshot.child("projectUpdatesID").value.toString();
+                  String rpName = snapshot.child("rpName").value.toString();
+                  String rpRole = snapshot.child("rpRole").value.toString();
+                  String jobTitle = convertJobTitle(rpRole);
 
-            String rpSubmissionDateLengthString =
-                snapshot.child("rpSubmissionDate").value.toString();
-            int rpSubmissionDateLengthInt =
-                rpSubmissionDateLengthString.split(":").length - 1;
-            String rpSubmissionDate = snapshot
-                .child(
-                    "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
-                .value
-                .toString();
+                  String rpSubmissionDateLengthString =
+                      snapshot.child("rpSubmissionDate").value.toString();
+                  int rpSubmissionDateLengthInt =
+                      rpSubmissionDateLengthString.split(":").length - 1;
+                  String rpSubmissionDate = snapshot
+                      .child(
+                          "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
+                      .value
+                      .toString();
 
-            String projectUpdatesTitle =
-                snapshot.child("projectUpdatesTitle").value.toString();
+                  String projectUpdatesTitle =
+                      snapshot.child("projectUpdatesTitle").value.toString();
 
-            String projectUpdatesPhotoURL =
-                snapshot.child("projectUpdatesPhotoURL").value.toString();
+                  String projectUpdatesPhotoURL =
+                      snapshot.child("projectUpdatesPhotoURL").value.toString();
 
-            DateTime dateTime =
-                DateFormat("MM-dd-yyyy").parse(rpSubmissionDate);
-            String formattedDate = DateFormat("MMMM d, yyyy").format(dateTime);
+                  DateTime dateTime =
+                      DateFormat("MM-dd-yyyy").parse(rpSubmissionDate);
+                  String formattedDate =
+                      DateFormat("MMMM d, yyyy").format(dateTime);
 
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => InspectorProjectUpdatesPage(
-                            projectUpdatesID: projectUpdatesID,
-                          )),
-                );
-              },
-              child: Card(
-                child: Row(
-                  children: [
-                    Image.network(
-                      fit: BoxFit.cover,
-                      projectUpdatesPhotoURL,
-                      width: 100,
-                      height: 100,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InspectorProjectUpdatesPage(
+                                  projectUpdatesID: projectUpdatesID,
+                                )),
+                      );
+                    },
+                    child: Card(
+                      child: Row(
+                        children: [
+                          Image.network(
+                            fit: BoxFit.cover,
+                            projectUpdatesPhotoURL,
+                            width: 100,
+                            height: 100,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                jobTitle,
+                                style: const TextStyle(fontSize: 8),
+                              ),
+                              Text(projectUpdatesTitle),
+                              Text("Accomplished by: $rpName"),
+                              Text(formattedDate),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                    Column(
-                      children: [
-                        Text(
-                          jobTitle,
-                          style: const TextStyle(fontSize: 8),
-                        ),
-                        Text(projectUpdatesTitle),
-                        Text("Accomplished by: $rpName"),
-                        Text(formattedDate),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            );
+                  );
+                },
+              );
+            }
           },
         ),
       ),
