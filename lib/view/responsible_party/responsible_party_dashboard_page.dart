@@ -432,7 +432,7 @@ class _ResponsiblePartyDashboardPageState
                       });
                 }
               }
-              return const Text("");
+              return const Center(child: Text("No Available Data"));
             }),
         floatingActionButton: FloatingActionButton(
           onPressed: _showDialog,

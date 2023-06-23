@@ -280,7 +280,7 @@ class _InspectorDashboardPageState extends State<InspectorDashboardPage> {
                     );
                   }
                 }
-                return const Text("");
+                return const Center(child: Text("No Available Data"));
               })),
     );
   }
