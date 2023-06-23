@@ -29,10 +29,11 @@ class _InspectorDashboardPageState extends State<InspectorDashboardPage> {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(mediaQuery.size.height * 0.1),
             child: AppBar(
+              toolbarHeight: mediaQuery.size.height * 0.1,
               backgroundColor: Colors.white,
               automaticallyImplyLeading: false,
               title: Padding(
-                padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.035,
+                padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.01,
                     mediaQuery.size.width * 0.06, 0),
                 child: Text(
                   'Dashboard',
@@ -47,7 +48,7 @@ class _InspectorDashboardPageState extends State<InspectorDashboardPage> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(
                     0,
-                    mediaQuery.size.height * 0.017,
+                    mediaQuery.size.height * 0.01,
                     mediaQuery.size.width * 0.035,
                     0,
                   ),
@@ -174,56 +175,98 @@ class _InspectorDashboardPageState extends State<InspectorDashboardPage> {
                                           ),
                                         ),
                                       ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Project Name: $projectName',
-                                            style: TextStyle(
-                                              fontFamily: 'Rubik Bold',
-                                              fontSize:
-                                                  mediaQuery.size.height * 0.02,
-                                              color: const Color(0xff221540),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: mediaQuery.size.width *
+                                                      0.05),
+                                              child: Text(
+                                                projectName,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.fade,
+                                                softWrap: false,
+                                                style: TextStyle(
+                                                  fontFamily: 'Rubik Bold',
+                                                  fontSize:
+                                                      mediaQuery.size.height *
+                                                          0.02,
+                                                  color:
+                                                      const Color(0xff221540),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                              height: mediaQuery.size.height *
-                                                  0.002),
-                                          Text(
-                                            'Project Location: $projectLocation',
-                                            style: TextStyle(
-                                              fontFamily: 'Karla Regular',
-                                              fontSize: mediaQuery.size.height *
-                                                  0.017,
-                                              color: const Color(0xff221540),
+                                            SizedBox(
+                                                height: mediaQuery.size.height *
+                                                    0.002),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: mediaQuery.size.width *
+                                                      0.05),
+                                              child: Text(
+                                                projectLocation,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.fade,
+                                                softWrap: false,
+                                                style: TextStyle(
+                                                  fontFamily: 'Karla Regular',
+                                                  fontSize:
+                                                      mediaQuery.size.height *
+                                                          0.017,
+                                                  color:
+                                                      const Color(0xff221540),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                              height: mediaQuery.size.height *
-                                                  0.002),
-                                          Text(
-                                            'Project Inspector: $projectInspector',
-                                            style: TextStyle(
-                                              fontFamily: 'Karla Regular',
-                                              fontSize: mediaQuery.size.height *
-                                                  0.017,
-                                              color: const Color(0xff221540),
+                                            SizedBox(
+                                                height: mediaQuery.size.height *
+                                                    0.002),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: mediaQuery.size.width *
+                                                      0.05),
+                                              child: Text(
+                                                projectInspector,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.fade,
+                                                softWrap: false,
+                                                style: TextStyle(
+                                                  fontFamily: 'Karla Regular',
+                                                  fontSize:
+                                                      mediaQuery.size.height *
+                                                          0.017,
+                                                  color:
+                                                      const Color(0xff221540),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                              height: mediaQuery.size.height *
-                                                  0.002),
-                                          Text(
-                                            'Project ID: $projectID',
-                                            style: TextStyle(
-                                              fontFamily: 'Karla Regular',
-                                              fontSize: mediaQuery.size.height *
-                                                  0.017,
-                                              color: const Color(0xff221540),
+                                            SizedBox(
+                                                height: mediaQuery.size.height *
+                                                    0.002),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: mediaQuery.size.width *
+                                                      0.05),
+                                              child: Text(
+                                                'Project ID: $projectID',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.fade,
+                                                softWrap: false,
+                                                style: TextStyle(
+                                                  fontFamily: 'Karla Regular',
+                                                  fontSize:
+                                                      mediaQuery.size.height *
+                                                          0.017,
+                                                  color:
+                                                      const Color(0xff221540),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),

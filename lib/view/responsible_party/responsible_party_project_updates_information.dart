@@ -166,7 +166,7 @@ class _ResponsiblePartyProjectUpdatesInformationPageState
                         height: mediaQuery.size.height * 0.05,
                       ),
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(10.0),

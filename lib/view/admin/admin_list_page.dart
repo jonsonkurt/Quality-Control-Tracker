@@ -45,122 +45,129 @@ class _AdminListPageState extends State<AdminListPage> {
       print('Error: $error');
     });
 
-    return Scaffold(
-        backgroundColor: const Color(0xFFDCE4E9),
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(
-            MediaQuery.of(context).size.height * 0.1,
-          ),
-          child: AppBar(
-            toolbarHeight: 60,
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
-            title: Padding(
-              padding: EdgeInsets.fromLTRB(
-                  0,
-                  MediaQuery.of(context).size.height * 0.035,
-                  MediaQuery.of(context).size.width * 0.06,
-                  0),
-              child: Text(
-                'Inspectors',
-                style: TextStyle(
-                  fontFamily: 'Rubik Bold',
-                  fontSize: MediaQuery.of(context).size.height * 0.04,
-                  color: const Color(0xFF221540),
+    return WillPopScope(
+      onWillPop: () async {
+        return false; // Disable back button
+      },
+      child: Scaffold(
+          backgroundColor: const Color(0xFFDCE4E9),
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(
+              MediaQuery.of(context).size.height * 0.1,
+            ),
+            child: AppBar(
+              toolbarHeight: 60,
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.white,
+              title: Padding(
+                padding: EdgeInsets.fromLTRB(
+                    0,
+                    MediaQuery.of(context).size.height * 0.035,
+                    MediaQuery.of(context).size.width * 0.06,
+                    0),
+                child: Text(
+                  'Inspectors',
+                  style: TextStyle(
+                    fontFamily: 'Rubik Bold',
+                    fontSize: MediaQuery.of(context).size.height * 0.04,
+                    color: const Color(0xFF221540),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        body: StreamBuilder(
-            stream: ref.orderByChild("firstName").onValue,
-            builder: (context, AsyncSnapshot snapshot) {
-              dynamic values;
+          body: StreamBuilder(
+              stream: ref.orderByChild("firstName").onValue,
+              builder: (context, AsyncSnapshot snapshot) {
+                dynamic values;
 
-              if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasData) {
-                DataSnapshot dataSnapshot = snapshot.data!.snapshot;
-                if (dataSnapshot.value != null) {
-                  values = dataSnapshot.value;
-                  return ListView.builder(
-                      itemCount: values.length,
-                      itemBuilder: (context, index) {
-                        String projectUpdatesID = values.keys.elementAt(index);
-                        String inspectorFirstName =
-                            values[projectUpdatesID]["firstName"];
-                        String inspectorLastName =
-                            values[projectUpdatesID]["lastName"];
-                        String inspectorFullName =
-                            "$inspectorFirstName $inspectorLastName";
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasData) {
+                  DataSnapshot dataSnapshot = snapshot.data!.snapshot;
+                  if (dataSnapshot.value != null) {
+                    values = dataSnapshot.value;
+                    return ListView.builder(
+                        itemCount: values.length,
+                        itemBuilder: (context, index) {
+                          String projectUpdatesID =
+                              values.keys.elementAt(index);
+                          String? inspectorFirstName =
+                              values[projectUpdatesID]["firstName"];
+                          String? inspectorLastName =
+                              values[projectUpdatesID]["lastName"];
+                          String? inspectorFullName =
+                              "$inspectorFirstName $inspectorLastName";
 
-                        int projectHandled =
-                            countProjects(projectList, inspectorFullName);
+                          int projectHandled =
+                              countProjects(projectList, inspectorFullName);
 
-                        return Padding(
-                          padding: EdgeInsets.fromLTRB(
-                            MediaQuery.of(context).size.width * 0.01,
-                            MediaQuery.of(context).size.height * 0.001,
-                            MediaQuery.of(context).size.width * 0.01,
-                            MediaQuery.of(context).size.height * 0.001,
-                          ),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Column(
+                          return Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              MediaQuery.of(context).size.width * 0.01,
+                              MediaQuery.of(context).size.height * 0.001,
+                              MediaQuery.of(context).size.width * 0.01,
+                              MediaQuery.of(context).size.height * 0.001,
+                            ),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Column(
 
-                                ///mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.all(15.0),
-                                        child: Icon(
-                                          Icons.person,
-                                          size: 50,
+                                  ///mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.all(15.0),
+                                          child: Icon(
+                                            Icons.person,
+                                            size: 50,
+                                          ),
                                         ),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            inspectorFullName,
-                                            style: TextStyle(
-                                                fontFamily: 'Rubik Bold',
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              inspectorFullName,
+                                              style: TextStyle(
+                                                  fontFamily: 'Rubik Bold',
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .height *
+                                                          0.023),
+                                            ),
+                                            SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.01,
+                                            ),
+                                            Text(
+                                              "Project handled:$projectHandled",
+                                              style: TextStyle(
+                                                fontFamily: 'Karla Regular',
                                                 fontSize: MediaQuery.of(context)
                                                         .size
                                                         .height *
-                                                    0.023),
-                                          ),
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.01,
-                                          ),
-                                          Text(
-                                            "Project handled:$projectHandled",
-                                            style: TextStyle(
-                                              fontFamily: 'Karla Regular',
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.018,
-                                              color: const Color(0xff221540),
+                                                    0.018,
+                                                color: const Color(0xff221540),
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ]),
-                          ),
-                        );
-                      });
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ]),
+                            ),
+                          );
+                        });
+                  }
                 }
-              }
-              return Text("helkko");
-            }));
+                return Text("helkko");
+              })),
+    );
   }
 }

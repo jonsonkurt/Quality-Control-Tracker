@@ -46,11 +46,9 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
             stream:
                 ref.orderByChild("projectID").equalTo(widget.projectID).onValue,
             builder: (context, AsyncSnapshot snapshot) {
-              
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasData) {
-                
                 Map<dynamic, dynamic> map = snapshot.data.snapshot.value;
                 // pang query sa lahat ng projectUpdates na match sa projectID ng pinindot na card sa admin_home_page.dart
                 for (var entry in map.entries) {
@@ -63,16 +61,18 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
                     // bale yung ipapasok sa selectedEvents is una yung RP submissionDate, rp name, rp notes kung meron man
                     // next is inspectiondate
                     // next is inspectionIssueDeadline
-                    // eto kasi yung may mga date na need makita sa calendar.
-                    if (selectedEvents[selectedDay] != null) {
-                      selectedEvents[selectedDay]!.add(
-                        Event(date: , name: , notes: ), // eto yung nasa project_summary_events.dart, date lang required dito
-                      );
-                    } else {
-                      selectedEvents[selectedDay] = [
-                        Event(date: , name: , notes: ),
-                      ];
-                    }
+                    // eto kasi yung may mga date na need makita sa calendar
+                    //  Pa uncomment na lang.
+                    // if (selectedEvents[selectedDay] != null) {
+                    //   selectedEvents[selectedDay]!.add(
+
+                    //     Event(date: , name: , notes: ), // eto yung nasa project_summary_events.dart, date lang required dito
+                    //   );
+                    // } else {
+                    //   selectedEvents[selectedDay] = [
+                    //     Event(date: , name: , notes: ),
+                    //   ];
+                    // }
                     print(projectUpdatesID);
                   }
                 }

@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 
 import '../../image_viewer.dart';
+import 'package:quality_control_tracker/view/responsible_party/update_image_rp_controller.dart';
 
 class ResponsiblePartyProjectUpdatesPage extends StatefulWidget {
   final String projectUpdatesID;
@@ -174,268 +177,341 @@ class _ResponsiblePartyProjectUpdatesPageState
                 String? inspectorNotes = map["inspectorNotes"]
                     ["inspectorNotes$inspectorNotesLength"];
 
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return DetailScreen(
-                              imageUrl: projectUpdatesPicture,
-                              projectID: widget.projectUpdatesID,
-                            );
-                          }));
-                        },
+                return SizedBox(
+                  width: mediaQuery.size.width,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DetailScreen(
+                                imageUrl: projectUpdatesPicture,
+                                projectID: widget.projectUpdatesID,
+                              );
+                            }));
+                          },
 
-                        // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
-                        child: Hero(
-                          tag: widget.projectUpdatesID,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: projectUpdatesPicture == "None"
-                                ? Image.asset(
-                                    'assets/images/no-image.png',
-                                    fit: BoxFit.cover,
-                                    width: 300,
-                                    height: 200,
-                                  )
-                                : Image(
-                                    width: 300,
-                                    height: 200,
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(projectUpdatesPicture),
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) {
-                                        return child;
-                                      }
-                                      return const CircularProgressIndicator();
-                                    },
-                                    errorBuilder: (context, object, stack) {
-                                      return const Icon(
-                                        Icons.error_outline,
-                                        color: Color.fromARGB(255, 35, 35, 35),
-                                      );
-                                    },
-                                  ),
+                          // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
+                          child: Hero(
+                            tag: widget.projectUpdatesID,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: projectUpdatesPicture == "None"
+                                  ? Image.asset(
+                                      'assets/images/no-image.png',
+                                      fit: BoxFit.cover,
+                                      width: 300,
+                                      height: 200,
+                                    )
+                                  : Image(
+                                      width: 300,
+                                      height: 200,
+                                      fit: BoxFit.cover,
+                                      image:
+                                          NetworkImage(projectUpdatesPicture),
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        }
+                                        return const CircularProgressIndicator();
+                                      },
+                                      errorBuilder: (context, object, stack) {
+                                        return const Icon(
+                                          Icons.error_outline,
+                                          color:
+                                              Color.fromARGB(255, 35, 35, 35),
+                                        );
+                                      },
+                                    ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        projectUpdatesTitle,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          projectUpdatesTitle,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        "Inspection Date: $inspectionDate",
-                        // "Submission Date: ",
-                        style: const TextStyle(
-                          fontSize: 16,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          "Inspection Date: $inspectionDate",
+                          // "Submission Date: ",
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        "Issue Deadline: $inspectionIssueDeadline",
-                        // "Submission Date: ",
-                        style: const TextStyle(
-                          fontSize: 16,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          "Issue Deadline: $inspectionIssueDeadline",
+                          // "Submission Date: ",
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        "Tag: $projectUpdatesTag",
-                        style: const TextStyle(
-                          fontSize: 16,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          "Tag: $projectUpdatesTag",
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        "Inspector Notes: $inspectorNotes",
-                        style: const TextStyle(
-                          fontSize: 16,
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          "Inspector Notes: $inspectorNotes",
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            // Dialog for rework
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                final mediaQuery = MediaQuery.of(context);
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              // Dialog for rework
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  final mediaQuery = MediaQuery.of(context);
 
-                                return AlertDialog(
-                                  backgroundColor: const Color(0xffDCE4E9),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  title: Text(
-                                    'Rework',
-                                    style: TextStyle(
-                                      fontFamily: 'Rubik Bold',
-                                      fontSize: mediaQuery.size.height * 0.03,
-                                      color: const Color(0xFF221540),
-                                    ),
-                                  ),
-                                  content: Form(
-                                    key: formKey,
-                                    child: SizedBox(
-                                      height: 300,
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(
-                                            height: 10,
+                                  return ChangeNotifierProvider(
+                                    create: (_) => ProfileController(),
+                                    child: Consumer<ProfileController>(
+                                        builder: (context, provider, child) {
+                                      return AlertDialog(
+                                        backgroundColor:
+                                            const Color(0xffDCE4E9),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        title: Text(
+                                          'Rework',
+                                          style: TextStyle(
+                                            fontFamily: 'Rubik Bold',
+                                            fontSize:
+                                                mediaQuery.size.height * 0.03,
+                                            color: const Color(0xFF221540),
                                           ),
-                                          TextFormField(
-                                            cursorColor:
-                                                const Color(0xFF221540),
-                                            controller: rpNotesController,
-                                            decoration: InputDecoration(
-                                              contentPadding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      12, 4, 4, 0),
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.0),
-                                                borderSide: BorderSide.none,
+                                        ),
+                                        content: Form(
+                                          key: formKey,
+                                          child: SizedBox(
+                                            height: 300,
+                                            child: Column(
+                                              children: [
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                TextFormField(
+                                                  cursorColor:
+                                                      const Color(0xFF221540),
+                                                  controller: rpNotesController,
+                                                  decoration: InputDecoration(
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                                .fromLTRB(
+                                                            12, 4, 4, 0),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30.0),
+                                                      borderSide:
+                                                          BorderSide.none,
+                                                    ),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      borderSide:
+                                                          BorderSide.none,
+                                                    ),
+                                                    filled: true,
+                                                    fillColor: Colors.white,
+                                                    hintText: 'Notes',
+                                                    labelStyle: TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: mediaQuery
+                                                              .size.height *
+                                                          0.02,
+                                                    ),
+                                                  ),
+                                                  validator: (value) {
+                                                    if (value!.isEmpty) {
+                                                      return 'Please enter your notes';
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    provider.pickImage(
+                                                        context,
+                                                        widget
+                                                            .projectUpdatesID);
+                                                  },
+                                                  child: Container(
+                                                    height:
+                                                        mediaQuery.size.height *
+                                                            0.15,
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.rectangle,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                        border: Border.all(
+                                                          color: const Color(
+                                                              0xff221540),
+                                                          width: 2,
+                                                        )),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      child: provider.image ==
+                                                              null
+                                                          ? const Icon(
+                                                              Icons.add_circle,
+                                                              size: 35,
+                                                              color: Color(
+                                                                  0xff221540),
+                                                            )
+                                                          : Image.file(
+                                                              fit: BoxFit.cover,
+                                                              File(provider
+                                                                      .image!
+                                                                      .path)
+                                                                  .absolute),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          Center(
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                ),
+                                                backgroundColor:
+                                                    const Color(0xFF221540),
                                               ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                                borderSide: BorderSide.none,
-                                              ),
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                              hintText: 'Notes',
-                                              labelStyle: TextStyle(
-                                                fontFamily: 'Karla Regular',
-                                                fontSize:
+                                              onPressed: () async {
+                                                if (formKey.currentState!
+                                                    .validate()) {
+                                                  String rpNotes =
+                                                      rpNotesController.text;
+                                                  await provider.updloadImage(
+                                                      widget.projectUpdatesID);
+                                                  // Updates rpNotes
+                                                  DatabaseReference rpNotesRef =
+                                                      FirebaseDatabase.instance
+                                                          .ref()
+                                                          .child(
+                                                              'projectUpdates/${widget.projectUpdatesID}/rpNotes');
+
+                                                  rpNotesRef.update({
+                                                    "rpNotes$rpNotesLength":
+                                                        rpNotes,
+                                                  });
+
+                                                  // Updates rpSubmissionDate
+                                                  DatabaseReference
+                                                      rpSubmissionDateRef =
+                                                      FirebaseDatabase.instance
+                                                          .ref()
+                                                          .child(
+                                                              'projectUpdates/${widget.projectUpdatesID}/rpSubmissionDate');
+
+                                                  rpSubmissionDateRef.update({
+                                                    "rpSubmissionDate$rpSubmissionDateLength":
+                                                        formattedDate
+                                                  });
+
+                                                  // Updates project remarks
+                                                  DatabaseReference
+                                                      projectsRef =
+                                                      FirebaseDatabase.instance
+                                                          .ref()
+                                                          .child(
+                                                              'projectUpdates/${widget.projectUpdatesID}');
+
+                                                  projectsRef.update({
+                                                    "rpProjectRemarks":
+                                                        "$userID-$projectID-PENDING-$combinedDateTime",
+                                                    "inspectorProjectRemarks":
+                                                        "$inspectorID-$projectID-PENDING-$combinedDateTime",
+                                                    "projectUpdatesPhotoURL":
+                                                        provider.imgURL,
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                  Navigator.pop(context);
+                                                }
+                                              },
+                                              child: Padding(
+                                                padding: EdgeInsets.all(
                                                     mediaQuery.size.height *
-                                                        0.02,
+                                                        0.017),
+                                                child: Text(
+                                                  'Submit',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Rubik Regular',
+                                                    fontSize:
+                                                        mediaQuery.size.height *
+                                                            0.02,
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                            validator: (value) {
-                                              if (value!.isEmpty) {
-                                                return 'Please enter your notes';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
                                           ),
                                         ],
-                                      ),
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    Center(
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                          ),
-                                          backgroundColor:
-                                              const Color(0xFF221540),
-                                        ),
-                                        onPressed: () async {
-                                          if (formKey.currentState!
-                                              .validate()) {
-                                            String rpNotes =
-                                                rpNotesController.text;
-
-                                            // Updates rpNotes
-                                            DatabaseReference rpNotesRef =
-                                                FirebaseDatabase.instance
-                                                    .ref()
-                                                    .child(
-                                                        'projectUpdates/${widget.projectUpdatesID}/rpNotes');
-
-                                            rpNotesRef.update({
-                                              "rpNotes$rpNotesLength": rpNotes,
-                                            });
-
-                                            // Updates rpSubmissionDate
-                                            DatabaseReference
-                                                rpSubmissionDateRef =
-                                                FirebaseDatabase.instance
-                                                    .ref()
-                                                    .child(
-                                                        'projectUpdates/${widget.projectUpdatesID}/rpSubmissionDate');
-
-                                            rpSubmissionDateRef.update({
-                                              "rpSubmissionDate$rpSubmissionDateLength":
-                                                  formattedDate
-                                            });
-
-                                            // Updates project remarks
-                                            DatabaseReference projectsRef =
-                                                FirebaseDatabase.instance
-                                                    .ref()
-                                                    .child(
-                                                        'projectUpdates/${widget.projectUpdatesID}');
-
-                                            projectsRef.update({
-                                              "rpProjectRemarks":
-                                                  "$userID-$projectID-PENDING-$combinedDateTime",
-                                              "inspectorProjectRemarks":
-                                                  "$inspectorID-$projectID-PENDING-$combinedDateTime",
-                                            });
-                                            Navigator.of(context).pop();
-                                            Navigator.pop(context);
-                                          }
-                                        },
-                                        child: Padding(
-                                          padding: EdgeInsets.all(
-                                              mediaQuery.size.height * 0.017),
-                                          child: Text(
-                                            'Submit',
-                                            style: TextStyle(
-                                              fontFamily: 'Rubik Regular',
-                                              fontSize:
-                                                  mediaQuery.size.height * 0.02,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          child: const Text('Update'),
-                        ),
-                      ],
-                    ),
-                  ],
+                                      );
+                                    }),
+                                  );
+                                },
+                              );
+                            },
+                            child: const Text('Update'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 );
               } else {
                 return const Center(
