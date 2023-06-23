@@ -100,12 +100,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       ),
                       child: GestureDetector(
                         onTap: () {
-                          print(index);
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => ProjectSummaryPage()),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProjectSummaryPage(
+                                      projectID: projectID,
+                                    )),
+                          );
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(
