@@ -750,53 +750,6 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                                 .height *
                                                             0.03,
                                                       ),
-                                                      // TODO: Heron pa-add po ng adding of photo dito
-                                                      // GestureDetector(
-                                                      //   onTap: () {
-                                                      //     provider.pickImage(
-                                                      //         context, projectID);
-                                                      //   },
-                                                      //   child: Container(
-                                                      //     height: 130,
-                                                      //     width: 130,
-                                                      //     decoration:
-                                                      //         BoxDecoration(
-                                                      //             shape: BoxShape
-                                                      //                 .rectangle,
-                                                      //             borderRadius:
-                                                      //                 BorderRadius
-                                                      //                     .circular(
-                                                      //                         15),
-                                                      //             border:
-                                                      //                 Border.all(
-                                                      //               color: const Color(
-                                                      //                   0xff221540),
-                                                      //               width: 2,
-                                                      //             )),
-                                                      //     child: ClipRRect(
-                                                      //         borderRadius:
-                                                      //             BorderRadius
-                                                      //                 .circular(
-                                                      //                     15),
-                                                      //         child: provider
-                                                      //                     .image ==
-                                                      //                 null
-                                                      //             ? const Icon(
-                                                      //                 Icons
-                                                      //                     .add_circle,
-                                                      //                 size: 35,
-                                                      //                 color: Color(
-                                                      //                     0xff221540),
-                                                      //               )
-                                                      //             : Image.file(
-                                                      //                 fit: BoxFit
-                                                      //                     .cover,
-                                                      //                 File(provider
-                                                      //                         .image!
-                                                      //                         .path)
-                                                      //                     .absolute)),
-                                                      //   ),
-                                                      // ),
                                                       SizedBox(
                                                         height: MediaQuery.of(
                                                                     context)
@@ -855,7 +808,6 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                           return null;
                                                         },
                                                       ),
-
                                                       SizedBox(
                                                         height: MediaQuery.of(
                                                                     context)
@@ -913,7 +865,6 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                           return null;
                                                         },
                                                       ),
-
                                                       SizedBox(
                                                         height: MediaQuery.of(
                                                                     context)
@@ -980,7 +931,6 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             TextInputType
                                                                 .emailAddress,
                                                       ),
-
                                                       SizedBox(
                                                           height: MediaQuery.of(
                                                                       context)
@@ -1037,7 +987,6 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                           return null;
                                                         },
                                                       ),
-
                                                       SizedBox(
                                                         height: MediaQuery.of(
                                                                     context)
@@ -1102,7 +1051,6 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                           return null; // Return null if there is no error
                                                         },
                                                       ),
-
                                                       SizedBox(
                                                           height: MediaQuery.of(
                                                                       context)
