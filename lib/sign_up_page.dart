@@ -24,7 +24,8 @@ class _SignUpPageState extends State<SignUpPage> {
     'Welder',
     'Carpenter',
     'Landscaper',
-    'HVAC Technician'
+    'HVAC',
+    'Technician'
   ];
 
   String? _selectedRole;
