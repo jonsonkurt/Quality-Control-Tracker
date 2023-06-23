@@ -32,11 +32,11 @@ class _AdminHomePageState extends State<AdminHomePage> {
             mediaQuery.size.height * 0.1,
           ),
           child: AppBar(
-            toolbarHeight: 60,
+            toolbarHeight: mediaQuery.size.height * 0.1,
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             title: Padding(
-              padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.035,
+              padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.01,
                   mediaQuery.size.width * 0.06, 0),
               child: Text(
                 'Dashboard',
@@ -51,7 +51,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               Padding(
                 padding: EdgeInsets.fromLTRB(
                   0,
-                  mediaQuery.size.height * 0.017,
+                  mediaQuery.size.height * 0.01,
                   mediaQuery.size.width * 0.035,
                   0,
                 ),
@@ -164,49 +164,40 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                       ),
                                     ),
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Project $projectName',
-                                        style: TextStyle(
-                                          fontFamily: 'Rubik Bold',
-                                          fontSize:
-                                              mediaQuery.size.height * 0.02,
-                                          color: const Color(0xff221540),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              right:
+                                                  mediaQuery.size.width * 0.05),
+                                          child: Text(
+                                            projectName,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.fade,
+                                            softWrap: false,
+                                            style: TextStyle(
+                                              fontFamily: 'Rubik Bold',
+                                              fontSize:
+                                                  mediaQuery.size.height * 0.02,
+                                              color: const Color(0xff221540),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              mediaQuery.size.height * 0.002),
-                                      Text(
-                                        projectLocation,
-                                        style: TextStyle(
-                                          fontFamily: 'Karla Regular',
-                                          fontSize:
-                                              mediaQuery.size.height * 0.017,
-                                          color: const Color(0xff221540),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              mediaQuery.size.height * 0.002),
-                                      // Text(
-                                      //   'Project Inspector: $projectInspector',
-                                      //   style: TextStyle(
-                                      //     fontFamily: 'Karla Regular',
-                                      //     fontSize:
-                                      //         mediaQuery.size.height * 0.017,
-                                      //     color: const Color(0xff221540),
-                                      //   ),
-                                      // ),
-                                      // SizedBox(
-                                      //     height: mediaQuery.size.height * 0.002),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'Project ID: \n$projectID',
+                                        SizedBox(
+                                            height:
+                                                mediaQuery.size.height * 0.002),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              right:
+                                                  mediaQuery.size.width * 0.05),
+                                          child: Text(
+                                            projectLocation,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.fade,
+                                            softWrap: false,
                                             style: TextStyle(
                                               fontFamily: 'Karla Regular',
                                               fontSize: mediaQuery.size.height *
@@ -214,29 +205,46 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                               color: const Color(0xff221540),
                                             ),
                                           ),
-                                          IconButton(
-                                            onPressed: () {
-                                              Clipboard.setData(ClipboardData(
-                                                  text: projectID));
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                    content: Text(
-                                                        'Project ID copied to clipboard')),
-                                              );
-                                            },
-                                            icon: Icon(
-                                              Icons.copy,
-                                              color: const Color(0xFF221540),
-                                              size: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.02,
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                mediaQuery.size.height * 0.002),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'Project ID: \n$projectID',
+                                              style: TextStyle(
+                                                fontFamily: 'Karla Regular',
+                                                fontSize:
+                                                    mediaQuery.size.height *
+                                                        0.017,
+                                                color: const Color(0xff221540),
+                                              ),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                    ],
+                                            IconButton(
+                                              onPressed: () {
+                                                Clipboard.setData(ClipboardData(
+                                                    text: projectID));
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                      content: Text(
+                                                          'Project ID copied to clipboard')),
+                                                );
+                                              },
+                                              icon: Icon(
+                                                Icons.copy,
+                                                color: const Color(0xFF221540),
+                                                size: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.02,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
