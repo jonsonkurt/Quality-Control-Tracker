@@ -31,6 +31,7 @@ class _ResponsiblePartyDashboardPageState
   String? userID = FirebaseAuth.instance.currentUser?.uid;
   String name = '';
   var logger = Logger();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isLoading = true;
 
   @override
@@ -73,22 +74,21 @@ class _ResponsiblePartyDashboardPageState
       context: context,
       builder: (BuildContext context) {
         final mediaQuery = MediaQuery.of(context);
-        return AlertDialog(
-          backgroundColor: const Color(0xffDCE4E9),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          title: Text(
-            'Add Project',
-            style: TextStyle(
-                fontFamily: 'Rubik Bold',
-                fontSize: mediaQuery.size.height * 0.03,
-                color: const Color(0xFF221540)),
-          ),
-          content: Material(
-            borderRadius: BorderRadius.circular(30),
-            elevation: 5,
-            child: TextField(
+        return Form(
+          key: formKey,
+          child: AlertDialog(
+            backgroundColor: const Color(0xffDCE4E9),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: Text(
+              'Add Project',
+              style: TextStyle(
+                  fontFamily: 'Rubik Bold',
+                  fontSize: mediaQuery.size.height * 0.03,
+                  color: const Color(0xFF221540)),
+            ),
+            content: TextFormField(
               cursorColor: const Color(0xFF221540),
               controller: _projectIdController,
               decoration: InputDecoration(
@@ -108,58 +108,66 @@ class _ResponsiblePartyDashboardPageState
                   fontSize: mediaQuery.size.height * 0.02,
                 ),
               ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter a project ID';
+                }
+                return null;
+              },
             ),
-          ),
-          actions: <Widget>[
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    backgroundColor: const Color(0xFF221540)),
-                onPressed: () async {
-                  String projectId = _projectIdController.text;
+            actions: <Widget>[
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      backgroundColor: const Color(0xFF221540)),
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      String projectId = _projectIdController.text;
 
-                  // Updates database
-                  DatabaseReference projectsRef = FirebaseDatabase.instance
-                      .ref()
-                      .child('projects/$projectId');
+                      // Updates database
+                      DatabaseReference projectsRef = FirebaseDatabase.instance
+                          .ref()
+                          .child('projects/$projectId');
 
-                  projectSubscription = projectsRef.onValue.listen((event) {
-                    try {
-                      if (event.snapshot.value != null) {
-                        projectsRef.update({
-                          rpRole: name,
-                          rpRoleQuery: userID,
-                        });
-                        _projectIdController.text = "";
-                      } else {
-                        // Project does not exist, show SnackBar
-                        _projectIdController.text = "";
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text("Project does not exist")),
-                        );
-                      }
-                    } catch (error, stackTrace) {
-                      logger.d('Error occurred: $error');
-                      logger.d('Stack trace: $stackTrace');
+                      projectSubscription = projectsRef.onValue.listen((event) {
+                        try {
+                          if (event.snapshot.value != null) {
+                            projectsRef.update({
+                              rpRole: name,
+                              rpRoleQuery: userID,
+                            });
+                            _projectIdController.text = "";
+                          } else {
+                            // Project does not exist, show SnackBar
+                            _projectIdController.text = "";
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text("Project does not exist")),
+                            );
+                          }
+                        } catch (error, stackTrace) {
+                          logger.d('Error occurred: $error');
+                          logger.d('Stack trace: $stackTrace');
+                        }
+                      });
+                      Navigator.of(context).pop();
                     }
-                  });
-                  Navigator.of(context).pop();
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(mediaQuery.size.height * 0.017),
-                  child: Text(
-                    'Add Project',
-                    style: TextStyle(
-                        fontFamily: 'Rubik Regular',
-                        fontSize: mediaQuery.size.height * 0.02),
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(mediaQuery.size.height * 0.017),
+                    child: Text(
+                      'Add Project',
+                      style: TextStyle(
+                          fontFamily: 'Rubik Regular',
+                          fontSize: mediaQuery.size.height * 0.02),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
