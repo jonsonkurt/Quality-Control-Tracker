@@ -54,6 +54,18 @@ class _ResponsiblePartyProfilePageState
         ),
         child: AppBar(
           elevation: 0,
+          title: Padding(
+            padding: EdgeInsets.only(top: mediaQuery.size.height * 0.035),
+            child: Text(
+              'Profile',
+              style: TextStyle(
+                fontFamily: 'Rubik Bold',
+                fontSize: mediaQuery.size.height * 0.04,
+                color: const Color(0xFF221540),
+              ),
+            ),
+          ),
+          backgroundColor: Colors.white,
           leading: Padding(
             padding: EdgeInsets.fromLTRB(
               mediaQuery.size.width * 0.035,
@@ -71,21 +83,31 @@ class _ResponsiblePartyProfilePageState
               ),
             ),
           ),
-          backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          title: Padding(
-            padding:
-                EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.035, 0, 0),
-            child: Text(
-              'Profile',
-              style: TextStyle(
-                fontFamily: 'Rubik Bold',
-                fontWeight: FontWeight.bold,
-                fontSize: mediaQuery.size.height * 0.04,
-                color: const Color(0xFF221540),
+          actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                mediaQuery.size.width * 0.035,
+                mediaQuery.size.height * 0.025,
+                mediaQuery.size.width * 0.035,
+                0,
+              ),
+              child: IconButton(
+                onPressed: () {
+                  // Handle edit button press
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ResponsiblePartyEditProfile(),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.edit,
+                  color: Color(0xFF221540),
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
       body: SafeArea(
@@ -190,10 +212,11 @@ class _ResponsiblePartyProfilePageState
                                   top: 10,
                                 ),
                                 child: Text(
-                                  "$fullName",
-                                  style: const TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
+                                  fullName,
+                                  style: TextStyle(
+                                    fontFamily: 'Rubik Regular',
+                                    fontSize: mediaQuery.size.height * 0.035,
+                                    color: const Color(0xFF221540),
                                   ),
                                 ),
                               ),
@@ -201,58 +224,81 @@ class _ResponsiblePartyProfilePageState
                                 padding:
                                     const EdgeInsets.only(top: 5.0, bottom: 20),
                                 child: Text(
-                                  "$role",
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.grey),
+                                  role,
+                                  style: TextStyle(
+                                    fontFamily: 'Karla Regular',
+                                    fontSize: mediaQuery.size.height * 0.025,
+                                    fontStyle: FontStyle.italic,
+                                    color: const Color(0xFF221540),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: MediaQuery.of(context).size.width / 1,
-                        margin: const EdgeInsets.all(10),
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Email: $email",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
+                      const SizedBox(
+                        height: 20,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: MediaQuery.of(context).size.width / 1,
-                        margin: const EdgeInsets.all(10),
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Mobile Number: $mobileNumber",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
                         ),
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push<void>(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const ResponsiblePartyEditProfile(),
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFFDCE4E9),
+                                  borderRadius: BorderRadius.circular(10)),
+                              width: MediaQuery.of(context).size.width / 1,
+                              margin: const EdgeInsets.all(10),
+                              // padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    size: 30,
+                                    Icons.email,
+                                    color: Color(0xFF221540),
+                                  ),
+                                  const SizedBox(width: 15), // Ad
+                                  Text(
+                                    email,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                          child: const Text('Edit Profile'))
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFFDCE4E9),
+                                  borderRadius: BorderRadius.circular(10)),
+                              width: MediaQuery.of(context).size.width / 1,
+                              margin: const EdgeInsets.all(10),
+                              // padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.phone,
+                                    size: 30,
+                                    color: Color(0xFF221540),
+                                  ),
+                                  const SizedBox(width: 15),
+                                  Text(
+                                    mobileNumber,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 );
