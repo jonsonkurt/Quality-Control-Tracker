@@ -15,6 +15,9 @@ class InspectorProfilePage extends StatefulWidget {
 
 class _InspectorProfilePageState extends State<InspectorProfilePage> {
   String? userID = FirebaseAuth.instance.currentUser?.uid;
+  String? firstName;
+  String? lastName;
+  String? mobileNumber;
 
   Future<void> _logout() async {
     if (FirebaseAuth.instance.currentUser != null) {
@@ -101,7 +104,11 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
                   Navigator.push<void>(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const InspectorsEditProfile(),
+                      builder: (context) => InspectorsEditProfile(
+                        firstName: firstName!,
+                        lastName: lastName!,
+                        mobileNumber: mobileNumber!,
+                      ),
                     ),
                   );
                 },
@@ -127,12 +134,12 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
 
                 String profilePic = map['profilePicStatus'];
                 String accountID = map['inspectorID'];
-                String firstName = map['firstName'];
-                String lastName = map['lastName'];
+                firstName = map['firstName'];
+                lastName = map['lastName'];
                 String fullName = "$firstName $lastName";
                 String role = map['role'];
                 String email = map['email'];
-                String mobileNumber = map['mobileNumber'];
+                mobileNumber = map['mobileNumber'];
 
                 return SizedBox(
                   child: Column(
@@ -298,7 +305,7 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
                                       width:
                                           15), // Adjust the spacing between the icon and text
                                   Text(
-                                    mobileNumber,
+                                    mobileNumber!,
                                     style: TextStyle(
                                       fontFamily: 'Karla Regular',
                                       fontSize: mediaQuery.size.height * 0.030,

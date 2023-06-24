@@ -7,7 +7,16 @@ import 'package:provider/provider.dart';
 import 'package:quality_control_tracker/view/responsible_party/responsible_party_profile_controller.dart';
 
 class InspectorsEditProfile extends StatefulWidget {
-  const InspectorsEditProfile({super.key});
+  final String firstName;
+  final String lastName;
+  final String mobileNumber;
+
+  const InspectorsEditProfile({
+    Key? key,
+    required this.firstName,
+    required this.lastName,
+    required this.mobileNumber,
+  }) : super(key: key);
 
   @override
   State<InspectorsEditProfile> createState() => _InspectorsEditProfile();
@@ -15,11 +24,20 @@ class InspectorsEditProfile extends StatefulWidget {
 
 class _InspectorsEditProfile extends State<InspectorsEditProfile> {
   String? userID = FirebaseAuth.instance.currentUser?.uid;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DatabaseReference ref = FirebaseDatabase.instance.ref().child('inspectors');
 
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _phonenumberController = TextEditingController();
+
+  @override
+  void initState() {
+    _firstNameController.text = widget.firstName;
+    _lastNameController.text = widget.lastName;
+    _phonenumberController.text = widget.mobileNumber;
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -84,13 +102,13 @@ class _InspectorsEditProfile extends State<InspectorsEditProfile> {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasData) {
                     Map<dynamic, dynamic> map = snapshot.data.snapshot.value;
-                    String email = map["email"];
-                    String fcmInspectorToken = map["fcmInspectorToken"];
-                    String firstName = map["firstName"];
-                    String lastName = map["lastName"];
-                    String mobileNumber = map["mobileNumber"];
+                    // String email = map["email"];
+                    // String fcmInspectorToken = map["fcmInspectorToken"];
+                    // String firstName = map["firstName"];
+                    // String lastName = map["lastName"];
+                    // String mobileNumber = map["mobileNumber"];
                     String profilePicStatus = map["profilePicStatus"];
-                    String inspectorID = map["inspectorID"];
+                    // String inspectorID = map["inspectorID"];
 
                     return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -211,91 +229,118 @@ class _InspectorsEditProfile extends State<InspectorsEditProfile> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  controller: _firstNameController,
-                                  cursorColor: const Color(0xFF221540),
-                                  style: const TextStyle(color: Colors.black),
-                                  decoration: InputDecoration(
-                                    hintText: 'First Name',
-                                    labelStyle: const TextStyle(
-                                      fontFamily: "Karla Regular",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black,
+                          Form(
+                            key: formKey,
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    controller: _firstNameController,
+                                    cursorColor: const Color(0xFF221540),
+                                    style: const TextStyle(color: Colors.black),
+                                    decoration: InputDecoration(
+                                      hintText: 'First Name',
+                                      labelStyle: const TextStyle(
+                                        fontFamily: "Karla Regular",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                        vertical:
+                                            16, // Adjust the vertical padding here
+                                        horizontal:
+                                            24, // Adjust the horizontal padding here
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
+                                      ),
                                     ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      vertical:
-                                          16, // Adjust the vertical padding here
-                                      horizontal:
-                                          24, // Adjust the horizontal padding here
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                      borderRadius: BorderRadius.circular(25.0),
-                                    ),
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter your first name';
+                                      }
+                                      return null;
+                                    },
                                   ),
-                                ),
-                                const SizedBox(height: 15),
-                                TextFormField(
-                                  // controller: _lastNameController,
-                                  cursorColor: const Color(0xFF221540),
-                                  style: const TextStyle(color: Colors.black),
-                                  decoration: InputDecoration(
-                                    hintText: 'Last Name',
-                                    labelStyle: const TextStyle(
-                                      fontFamily: "Karla Regular",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black,
+                                  const SizedBox(height: 15),
+                                  TextFormField(
+                                    controller: _lastNameController,
+                                    cursorColor: const Color(0xFF221540),
+                                    style: const TextStyle(color: Colors.black),
+                                    decoration: InputDecoration(
+                                      hintText: 'Last Name',
+                                      labelStyle: const TextStyle(
+                                        fontFamily: "Karla Regular",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                        vertical:
+                                            16, // Adjust the vertical padding here
+                                        horizontal:
+                                            24, // Adjust the horizontal padding here
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
+                                      ),
                                     ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      vertical:
-                                          16, // Adjust the vertical padding here
-                                      horizontal:
-                                          24, // Adjust the horizontal padding here
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                      borderRadius: BorderRadius.circular(25.0),
-                                    ),
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter your last name';
+                                      }
+                                      return null;
+                                    },
                                   ),
-                                ),
-                                const SizedBox(height: 15),
-                                TextFormField(
-                                  // controller: _lastNameController,
-                                  cursorColor: const Color(0xFF221540),
-                                  style: const TextStyle(color: Colors.black),
-                                  decoration: InputDecoration(
-                                    hintText: 'Mobile Number',
-                                    labelStyle: const TextStyle(
-                                      fontFamily: "Karla Regular",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black,
+                                  const SizedBox(height: 15),
+                                  TextFormField(
+                                    controller: _phonenumberController,
+                                    cursorColor: const Color(0xFF221540),
+                                    style: const TextStyle(color: Colors.black),
+                                    decoration: InputDecoration(
+                                      hintText: 'Mobile Number',
+                                      labelStyle: const TextStyle(
+                                        fontFamily: "Karla Regular",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                        vertical:
+                                            16, // Adjust the vertical padding here
+                                        horizontal:
+                                            24, // Adjust the horizontal padding here
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
+                                      ),
                                     ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      vertical:
-                                          16, // Adjust the vertical padding here
-                                      horizontal:
-                                          24, // Adjust the horizontal padding here
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                      borderRadius: BorderRadius.circular(25.0),
-                                    ),
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter your mobile number';
+                                      }
+                                      return null;
+                                    },
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                           ElevatedButton(
@@ -308,14 +353,24 @@ class _InspectorsEditProfile extends State<InspectorsEditProfile> {
                                 ),
                               ),
                               onPressed: () async {
-                                await provider.updloadImage();
-                                await ref.child(userID!).update({
-                                  'profilePicStatus': provider.imgURL,
-                                });
-                                // ignore: use_build_context_synchronously
-                                Navigator.pop(
-                                  context,
-                                );
+                                if (formKey.currentState!.validate()) {
+                                  String firstName = _firstNameController.text;
+                                  String lastName = _lastNameController.text;
+                                  String mobileNumber =
+                                      _phonenumberController.text;
+
+                                  await provider.updloadImage();
+                                  await ref.child(userID!).update({
+                                    'profilePicStatus': provider.imgURL,
+                                    'firstName': firstName,
+                                    'lastName': lastName,
+                                    'mobileNumber': mobileNumber,
+                                  });
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.pop(
+                                    context,
+                                  );
+                                }
                               },
                               child: const Text('Confirm')),
                           const SizedBox(height: 10),
