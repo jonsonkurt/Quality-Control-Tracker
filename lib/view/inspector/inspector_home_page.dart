@@ -306,364 +306,626 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                         const SizedBox(
                                           height: 15,
                                         ),
-                                        Row(
-                                          children: [
-                                            const Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 10,
-                                                    bottom: 5,
-                                                  ),
-                                                  child: Text(
-                                                    "Project Manager:",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13,
-                                                      color: Color(0xFF221540),
+                                        SizedBox(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 10,
+                                                  bottom: 5,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    const Text(
+                                                      "Project Manager:",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF221540),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 2,
-                                                    bottom: 5,
-                                                  ),
-                                                  child: Text(
-                                                    "Owner:",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13,
-                                                      color: Color(0xFF221540),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              5),
+                                                      child: Text(
+                                                        projectManager,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Rubik',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 2,
-                                                    bottom: 5,
-                                                  ),
-                                                  child: Text(
-                                                    "Plumber: ",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13,
-                                                      color: Color(0xFF221540),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 2,
+                                                  bottom: 5,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "Owner:",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF221540),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 2,
-                                                    bottom: 5,
-                                                  ),
-                                                  child: Text(
-                                                    "Painter: ",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13,
-                                                      color: Color(0xFF221540),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              2.8),
+                                                      child: Text(
+                                                        owner,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Rubik',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 2,
-                                                    bottom: 5,
-                                                  ),
-                                                  child: Text(
-                                                    "Mason: ",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13,
-                                                      color: Color(0xFF221540),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 2,
+                                                  bottom: 5,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "Plumber: ",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF221540),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 2,
-                                                    bottom: 5,
-                                                  ),
-                                                  child: Text(
-                                                    "Laborer: ",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13,
-                                                      color: Color(0xFF221540),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              3.140),
+                                                      child: Text(
+                                                        plumber,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Rubik',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 2,
-                                                    bottom: 5,
-                                                  ),
-                                                  child: Text(
-                                                    "Electrician: ",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13,
-                                                      color: Color(0xFF221540),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 2,
+                                                  bottom: 5,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "Painter: ",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF221540),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 2,
-                                                    bottom: 5,
-                                                  ),
-                                                  child: Text(
-                                                    "Welder:",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13,
-                                                      color: Color(0xFF221540),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              2.97),
+                                                      child: Text(
+                                                        painter,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Rubik',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 2,
-                                                    bottom: 5,
-                                                  ),
-                                                  child: Text(
-                                                    "Carpenter: ",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13,
-                                                      color: Color(0xFF221540),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 2,
+                                                  bottom: 5,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "Mason: ",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF221540),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 2,
-                                                    bottom: 5,
-                                                  ),
-                                                  child: Text(
-                                                    "Landscaper: ",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13,
-                                                      color: Color(0xFF221540),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              2.89),
+                                                      child: Text(
+                                                        mason,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Rubik',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 2,
-                                                    bottom: 5,
-                                                  ),
-                                                  child: Text(
-                                                    "HVAC: ",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13,
-                                                      color: Color(0xFF221540),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 2,
+                                                  bottom: 5,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "Laborer: ",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF221540),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 2,
-                                                    bottom: 5,
-                                                  ),
-                                                  child: Text(
-                                                    "Technician: ",
-                                                    style: TextStyle(
-                                                      fontFamily: 'Rubik',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13,
-                                                      color: Color(0xFF221540),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              3),
+                                                      child: Text(
+                                                        laborer,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Rubik',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              width: 80,
-                                            ),
-                                            Column(
-                                              children: [
-                                                const SizedBox(
-                                                  height: 2,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 2,
+                                                  bottom: 5,
                                                 ),
-                                                Text(
-                                                  projectManager,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Color(0xFF221540),
-                                                  ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "Electrician: ",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF221540),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              3.5),
+                                                      child: Text(
+                                                        electrician,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Rubik',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                const SizedBox(
-                                                  height: 10,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 2,
+                                                  bottom: 5,
                                                 ),
-                                                Text(
-                                                  owner,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Color(0xFF221540),
-                                                  ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "Welder:",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF221540),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              2.85),
+                                                      child: Text(
+                                                        welder,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Rubik',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                const SizedBox(
-                                                  height: 10,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 2,
+                                                  bottom: 5,
                                                 ),
-                                                Text(
-                                                  plumber,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Color(0xFF221540),
-                                                  ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "Carpenter: ",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF221540),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              3.3),
+                                                      child: Text(
+                                                        carpenter,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Rubik',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                const SizedBox(
-                                                  height: 10,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 2,
+                                                  bottom: 5,
                                                 ),
-                                                Text(
-                                                  painter,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Color(0xFF221540),
-                                                  ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "Landscaper: ",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF221540),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              3.65),
+                                                      child: Text(
+                                                        landscaper,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Rubik',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                const SizedBox(
-                                                  height: 10,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 2,
+                                                  bottom: 5,
                                                 ),
-                                                Text(
-                                                  mason,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Color(0xFF221540),
-                                                  ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "HVAC: ",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF221540),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              2.77),
+                                                      child: Text(
+                                                        hvac,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Rubik',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                const SizedBox(
-                                                  height: 10,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 2,
+                                                  bottom: 5,
                                                 ),
-                                                Text(
-                                                  laborer,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Color(0xFF221540),
-                                                  ),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "Technician: ",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Rubik',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFF221540),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              3.46),
+                                                      child: Text(
+                                                        technician,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Rubik',
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  electrician,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Color(0xFF221540),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  welder,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Color(0xFF221540),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  carpenter,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Color(0xFF221540),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  landscaper,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Color(0xFF221540),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  hvac,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Color(0xFF221540),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  technician,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Color(0xFF221540),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                              ),
+                                            ],
+                                          ),
+                                          // Column(
+                                          //   children: [
+                                          //     const SizedBox(
+                                          //       height: 15,
+                                          //     ),
+                                          //     const SizedBox(
+                                          //       height: 15,
+                                          //     ),
+                                          //     Text(
+                                          //       owner,
+                                          //       style: const TextStyle(
+                                          //         fontFamily: 'Rubik',
+                                          //         fontWeight: FontWeight.normal,
+                                          //         fontSize: 12,
+                                          //         color: Color(0xFF221540),
+                                          //       ),
+                                          //     ),
+                                          //     const SizedBox(
+                                          //       height: 15,
+                                          //     ),
+                                          //     Text(
+                                          //       plumber,
+                                          //       style: const TextStyle(
+                                          //         fontFamily: 'Rubik',
+                                          //         fontWeight: FontWeight.normal,
+                                          //         fontSize: 12,
+                                          //         color: Color(0xFF221540),
+                                          //       ),
+                                          //     ),
+                                          //     const SizedBox(
+                                          //       height: 10,
+                                          //     ),
+                                          //     Text(
+                                          //       painter,
+                                          //       style: const TextStyle(
+                                          //         fontFamily: 'Rubik',
+                                          //         fontWeight: FontWeight.normal,
+                                          //         fontSize: 12,
+                                          //         color: Color(0xFF221540),
+                                          //       ),
+                                          //     ),
+                                          //     const SizedBox(
+                                          //       height: 10,
+                                          //     ),
+                                          //     Text(
+                                          //       mason,
+                                          //       style: const TextStyle(
+                                          //         fontFamily: 'Rubik',
+                                          //         fontWeight: FontWeight.normal,
+                                          //         fontSize: 12,
+                                          //         color: Color(0xFF221540),
+                                          //       ),
+                                          //     ),
+                                          //     const SizedBox(
+                                          //       height: 10,
+                                          //     ),
+                                          //     Text(
+                                          //       laborer,
+                                          //       style: const TextStyle(
+                                          //         fontFamily: 'Rubik',
+                                          //         fontWeight: FontWeight.normal,
+                                          //         fontSize: 12,
+                                          //         color: Color(0xFF221540),
+                                          //       ),
+                                          //     ),
+                                          //     const SizedBox(
+                                          //       height: 10,
+                                          //     ),
+                                          //     Text(
+                                          //       electrician,
+                                          //       style: const TextStyle(
+                                          //         fontFamily: 'Rubik',
+                                          //         fontWeight: FontWeight.normal,
+                                          //         fontSize: 12,
+                                          //         color: Color(0xFF221540),
+                                          //       ),
+                                          //     ),
+                                          //     const SizedBox(
+                                          //       height: 10,
+                                          //     ),
+                                          //     Text(
+                                          //       welder,
+                                          //       style: const TextStyle(
+                                          //         fontFamily: 'Rubik',
+                                          //         fontWeight: FontWeight.normal,
+                                          //         fontSize: 12,
+                                          //         color: Color(0xFF221540),
+                                          //       ),
+                                          //     ),
+                                          //     const SizedBox(
+                                          //       height: 10,
+                                          //     ),
+                                          //     Text(
+                                          //       carpenter,
+                                          //       style: const TextStyle(
+                                          //         fontFamily: 'Rubik',
+                                          //         fontWeight: FontWeight.normal,
+                                          //         fontSize: 12,
+                                          //         color: Color(0xFF221540),
+                                          //       ),
+                                          //     ),
+                                          //     const SizedBox(
+                                          //       height: 10,
+                                          //     ),
+                                          //     Text(
+                                          //       landscaper,
+                                          //       style: const TextStyle(
+                                          //         fontFamily: 'Rubik',
+                                          //         fontWeight: FontWeight.normal,
+                                          //         fontSize: 12,
+                                          //         color: Color(0xFF221540),
+                                          //       ),
+                                          //     ),
+                                          //     Text(
+                                          //       hvac,
+                                          //       style: const TextStyle(
+                                          //         fontFamily: 'Rubik',
+                                          //         fontWeight: FontWeight.normal,
+                                          //         fontSize: 12,
+                                          //         color: Color(0xFF221540),
+                                          //       ),
+                                          //     ),
+                                          //     Text(
+                                          //       technician,
+                                          //       style: const TextStyle(
+                                          //         fontFamily: 'Rubik',
+                                          //         fontWeight: FontWeight.normal,
+                                          //         fontSize: 12,
+                                          //         color: Color(0xFF221540),
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // ),
                                         ),
                                       ],
                                     ),
