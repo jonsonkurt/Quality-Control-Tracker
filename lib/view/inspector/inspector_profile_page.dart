@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:quality_control_tracker/view/inspector/inspector_edit_profile.dart';
 
 import '../../image_viewer.dart';
 import '../../sign_in_page.dart';
@@ -14,6 +15,9 @@ class InspectorProfilePage extends StatefulWidget {
 
 class _InspectorProfilePageState extends State<InspectorProfilePage> {
   String? userID = FirebaseAuth.instance.currentUser?.uid;
+  String? firstName;
+  String? lastName;
+  String? mobileNumber;
 
   Future<void> _logout() async {
     if (FirebaseAuth.instance.currentUser != null) {
@@ -86,6 +90,35 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
               ),
             ),
           ),
+          actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                mediaQuery.size.width * 0.035,
+                mediaQuery.size.height * 0.025,
+                mediaQuery.size.width * 0.035,
+                0,
+              ),
+              child: IconButton(
+                onPressed: () {
+                  // Handle edit button press
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InspectorsEditProfile(
+                        firstName: firstName!,
+                        lastName: lastName!,
+                        mobileNumber: mobileNumber!,
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.edit,
+                  color: Color(0xFF221540),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       body: SafeArea(
@@ -101,12 +134,12 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
 
                 String profilePic = map['profilePicStatus'];
                 String accountID = map['inspectorID'];
-                String firstName = map['firstName'];
-                String lastName = map['lastName'];
+                firstName = map['firstName'];
+                lastName = map['lastName'];
                 String fullName = "$firstName $lastName";
                 String role = map['role'];
                 String email = map['email'];
-                String mobileNumber = map['mobileNumber'];
+                mobileNumber = map['mobileNumber'];
 
                 return SizedBox(
                   child: Column(
@@ -190,10 +223,11 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
                                   top: 10,
                                 ),
                                 child: Text(
-                                  "$fullName",
-                                  style: const TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
+                                  fullName,
+                                  style: TextStyle(
+                                    fontFamily: 'Rubik Regular',
+                                    fontSize: mediaQuery.size.height * 0.035,
+                                    color: const Color(0xFF221540),
                                   ),
                                 ),
                               ),
@@ -201,47 +235,111 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
                                 padding:
                                     const EdgeInsets.only(top: 5.0, bottom: 20),
                                 child: Text(
-                                  "$role",
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.grey),
+                                  role,
+                                  style: TextStyle(
+                                    fontFamily: 'Karla Regular',
+                                    fontSize: mediaQuery.size.height * 0.025,
+                                    fontStyle: FontStyle.italic,
+                                    color: const Color(0xFF221540),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: MediaQuery.of(context).size.width / 1,
-                        margin: const EdgeInsets.all(10),
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Email: $email",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                          ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFDCE4E9),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              width: MediaQuery.of(context).size.width / 1,
+                              margin: const EdgeInsets.all(10),
+                              // padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    size: 30,
+                                    Icons.email,
+                                    color: Color(0xFF221540),
+                                  ),
+                                  const SizedBox(
+                                      width:
+                                          15), // Adjust the spacing between the icon and text
+                                  Text(
+                                    email,
+                                    style: TextStyle(
+                                      fontFamily: 'Karla Regular',
+                                      fontSize: mediaQuery.size.height * 0.030,
+                                      color: const Color(0xFF221540),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFDCE4E9),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              width: MediaQuery.of(context).size.width / 1,
+                              margin: const EdgeInsets.all(10),
+                              // padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.phone,
+                                    size: 30,
+                                    color: Color(0xFF221540),
+                                  ),
+                                  const SizedBox(
+                                      width:
+                                          15), // Adjust the spacing between the icon and text
+                                  Text(
+                                    mobileNumber!,
+                                    style: TextStyle(
+                                      fontFamily: 'Karla Regular',
+                                      fontSize: mediaQuery.size.height * 0.030,
+                                      color: const Color(0xFF221540),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: MediaQuery.of(context).size.width / 1,
-                        margin: const EdgeInsets.all(10),
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Mobile Number: $mobileNumber",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
+                      // Center(
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(15.0),
+                      //     child: ElevatedButton(
+                      //         style: ElevatedButton.styleFrom(
+                      //           shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(30),
+                      //           ),
+                      //           backgroundColor: const Color(0xFF221540),
+                      //         ),
+                      //         onPressed: () {
+                      //           Navigator.push<void>(
+                      //             context,
+                      //             MaterialPageRoute(
+                      //               builder: (context) =>
+                      //                   const InspectorsEditProfile(),
+                      //             ),
+                      //           );
+                      //         },
+                      //         child: const Text('Edit Profile')),
+                      //   ),
+                      // )
                     ],
                   ),
                 );
