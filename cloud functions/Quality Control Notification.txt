@@ -1,0 +1,12 @@
+Quality Control Notification: 
+Inspector:
+	identifier: inspectorProjectRemarks (all PENDING <inspectorID>-<projectID>-PENDING-<Date>-<Time>)
+
+RP:
+	identifier: rpRole (change to Title case) -> get RP from "responsibleParties"
+		or
+	rpProjectRemarks (<rpuserID>-<projectID>-REWORK-<Date>-<Time>)
+						    |
+						    v
+						 COMPLETED
+

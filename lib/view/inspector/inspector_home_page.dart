@@ -187,7 +187,7 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                               fontSize: MediaQuery.of(context)
                                                       .size
                                                       .height /
-                                                  50,
+                                                  55,
                                               color: const Color(0xFF221540),
                                             ),
                                           ),
@@ -199,7 +199,7 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                             fontSize: MediaQuery.of(context)
                                                     .size
                                                     .height /
-                                                35,
+                                                40,
                                             color: const Color(0xFF221540),
                                           ),
                                         ),
@@ -215,7 +215,7 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                               fontSize: MediaQuery.of(context)
                                                       .size
                                                       .height /
-                                                  50,
+                                                  55,
                                               color: const Color(0xFF221540),
                                             ),
                                           ),
@@ -227,13 +227,13 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                             fontSize: MediaQuery.of(context)
                                                     .size
                                                     .height /
-                                                35,
+                                                40,
                                             color: const Color(0xFF221540),
                                           ),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                            top: 20,
+                                            top: 15,
                                             bottom: 5,
                                           ),
                                           child: Text(
@@ -243,7 +243,7 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                               fontSize: MediaQuery.of(context)
                                                       .size
                                                       .height /
-                                                  50,
+                                                  55,
                                               color: const Color(0xFF221540),
                                             ),
                                           ),
@@ -255,7 +255,7 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                             fontSize: MediaQuery.of(context)
                                                     .size
                                                     .height /
-                                                35,
+                                                40,
                                             color: const Color(0xFF221540),
                                           ),
                                         ),
@@ -272,7 +272,7 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                               fontSize: MediaQuery.of(context)
                                                       .size
                                                       .height /
-                                                  50,
+                                                  55,
                                               color: const Color(0xFF221540),
                                             ),
                                           ),
@@ -285,7 +285,7 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                             fontSize: MediaQuery.of(context)
                                                     .size
                                                     .height /
-                                                35,
+                                                40,
                                             color: const Color(0xFF221540),
                                           ),
                                         ),

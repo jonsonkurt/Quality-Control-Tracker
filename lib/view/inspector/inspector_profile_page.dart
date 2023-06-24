@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:quality_control_tracker/view/inspector/inspector_edit_profile.dart';
 
 import '../../image_viewer.dart';
 import '../../sign_in_page.dart';
@@ -86,6 +87,31 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
               ),
             ),
           ),
+          actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                mediaQuery.size.width * 0.035,
+                mediaQuery.size.height * 0.025,
+                mediaQuery.size.width * 0.035,
+                0,
+              ),
+              child: IconButton(
+                onPressed: () {
+                  // Handle edit button press
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const InspectorsEditProfile(),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.edit,
+                  color: Color(0xFF221540),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       body: SafeArea(
@@ -108,145 +134,205 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
                 String email = map['email'];
                 String mobileNumber = map['mobileNumber'];
 
-                return Expanded(
+                return SizedBox(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return DetailScreen(
-                                imageUrl: profilePic,
-                                projectID: accountID,
-                              );
-                            }));
-                          },
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return DetailScreen(
+                              imageUrl: profilePic,
+                              projectID: accountID,
+                            );
+                          }));
+                        },
 
-                          // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
-                          child: Container(
-                            decoration: BoxDecoration(
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      color: Colors.black54,
-                                      blurRadius: 15.0,
-                                      offset: Offset(0.0, 0.75))
-                                ],
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20))),
-                            width: MediaQuery.of(context).size.width / 0.5,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Hero(
-                                      tag: accountID,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        child: Container(
-                                          width: 100,
-                                          height: 100,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                              color: const Color(0xFF221540),
-                                              width: 2,
-                                            ),
+                        // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.black54,
+                                    blurRadius: 15.0,
+                                    offset: Offset(0.0, 0.75))
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20))),
+                          width: MediaQuery.of(context).size.width / 0.5,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Hero(
+                                    tag: accountID,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Container(
+                                        width: 100,
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: const Color(0xFF221540),
+                                            width: 2,
                                           ),
-                                          child: profilePic == "None"
-                                              ? Image.asset(
-                                                  'assets/images/no-image.png',
-                                                  fit: BoxFit.cover,
-                                                )
-                                              : Image(
-                                                  fit: BoxFit.cover,
-                                                  image:
-                                                      NetworkImage(profilePic),
-                                                  loadingBuilder: (context,
-                                                      child, loadingProgress) {
-                                                    if (loadingProgress ==
-                                                        null) {
-                                                      return child;
-                                                    }
-                                                    return const CircularProgressIndicator();
-                                                  },
-                                                  errorBuilder:
-                                                      (context, object, stack) {
-                                                    return const Icon(
-                                                      Icons.error_outline,
-                                                      color: Color(0xFF221540),
-                                                    );
-                                                  },
-                                                ),
                                         ),
+                                        child: profilePic == "None"
+                                            ? Image.asset(
+                                                'assets/images/no-image.png',
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Image(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(profilePic),
+                                                loadingBuilder: (context, child,
+                                                    loadingProgress) {
+                                                  if (loadingProgress == null) {
+                                                    return child;
+                                                  }
+                                                  return const CircularProgressIndicator();
+                                                },
+                                                errorBuilder:
+                                                    (context, object, stack) {
+                                                  return const Icon(
+                                                    Icons.error_outline,
+                                                    color: Color(0xFF221540),
+                                                  );
+                                                },
+                                              ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 10,
                                   ),
-                                  child: Text(
-                                    "$fullName",
-                                    style: const TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 10,
+                                ),
+                                child: Text(
+                                  fullName,
+                                  style: TextStyle(
+                                    fontFamily: 'Rubik Regular',
+                                    fontSize: mediaQuery.size.height * 0.035,
+                                    color: const Color(0xFF221540),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5.0, bottom: 20),
+                                child: Text(
+                                  role,
+                                  style: TextStyle(
+                                    fontFamily: 'Karla Regular',
+                                    fontSize: mediaQuery.size.height * 0.025,
+                                    fontStyle: FontStyle.italic,
+                                    color: const Color(0xFF221540),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFDCE4E9),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              width: MediaQuery.of(context).size.width / 1,
+                              margin: const EdgeInsets.all(10),
+                              // padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    size: 30,
+                                    Icons.email,
+                                    color: Color(0xFF221540),
+                                  ),
+                                  const SizedBox(
+                                      width:
+                                          15), // Adjust the spacing between the icon and text
+                                  Text(
+                                    email,
+                                    style: TextStyle(
+                                      fontFamily: 'Karla Regular',
+                                      fontSize: mediaQuery.size.height * 0.030,
+                                      color: const Color(0xFF221540),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 5.0, bottom: 20),
-                                  child: Text(
-                                    "$role",
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.grey),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFDCE4E9),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              width: MediaQuery.of(context).size.width / 1,
+                              margin: const EdgeInsets.all(10),
+                              // padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.phone,
+                                    size: 30,
+                                    color: Color(0xFF221540),
+                                  ),
+                                  const SizedBox(
+                                      width:
+                                          15), // Adjust the spacing between the icon and text
+                                  Text(
+                                    mobileNumber,
+                                    style: TextStyle(
+                                      fontFamily: 'Karla Regular',
+                                      fontSize: mediaQuery.size.height * 0.030,
+                                      color: const Color(0xFF221540),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: MediaQuery.of(context).size.width / 1,
-                        margin: EdgeInsets.all(10),
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Email: $email",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: MediaQuery.of(context).size.width / 1,
-                        margin: EdgeInsets.all(10),
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Mobile Number: $mobileNumber",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
+                      // Center(
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(15.0),
+                      //     child: ElevatedButton(
+                      //         style: ElevatedButton.styleFrom(
+                      //           shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(30),
+                      //           ),
+                      //           backgroundColor: const Color(0xFF221540),
+                      //         ),
+                      //         onPressed: () {
+                      //           Navigator.push<void>(
+                      //             context,
+                      //             MaterialPageRoute(
+                      //               builder: (context) =>
+                      //                   const InspectorsEditProfile(),
+                      //             ),
+                      //           );
+                      //         },
+                      //         child: const Text('Edit Profile')),
+                      //   ),
+                      // )
                     ],
                   ),
                 );
