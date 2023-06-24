@@ -449,7 +449,23 @@ class _ResponsiblePartyUpdatePageState
               Builder(builder: (BuildContext context) {
                 if (isEmptyPending) {
                   // TODO: Edit this empty view for "For Inspection"
-                  return const Text("No Available Data");
+                  return SizedBox(
+                      height: mediaQuery.size.height * 0.19,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "No Available Data",
+                              style: TextStyle(
+                                fontFamily: 'Karla Regular',
+                                fontSize: mediaQuery.size.height * 0.02,
+                                color: const Color(0xff221540),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ));
                 } else {
                   return Flexible(
                     child: FirebaseAnimatedList(
@@ -579,7 +595,24 @@ class _ResponsiblePartyUpdatePageState
                 builder: (BuildContext context) {
                   if (isEmptyRework) {
                     // TODO: Edit this empty view for "For Rework"
-                    return const Text("No Available Data");
+                    return SizedBox(
+                        height: mediaQuery.size.height * 0.19,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "No Available Data",
+                                style: TextStyle(
+                                  fontFamily: 'Karla Regular',
+                                  fontSize: mediaQuery.size.height * 0.02,
+                                  color: const Color(0xff221540),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ));
                   } else {
                     return Flexible(
                       child: FirebaseAnimatedList(
@@ -703,7 +736,26 @@ class _ResponsiblePartyUpdatePageState
                 builder: (BuildContext context) {
                   if (isEmptyCompleted) {
                     // TODO: Edit this empty view for "Completed"
-                    return const Text("No Available Data");
+                    return Flexible(
+                      child: SizedBox(
+                          height: mediaQuery.size.height * 0.19,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "No Available Data",
+                                  style: TextStyle(
+                                    fontFamily: 'Karla Regular',
+                                    fontSize: mediaQuery.size.height * 0.02,
+                                    color: const Color(0xff221540),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                    );
                   } else {
                     return Flexible(
                       child: FirebaseAnimatedList(
