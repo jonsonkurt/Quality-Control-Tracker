@@ -437,18 +437,18 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .height *
-                                                            0.02),
+                                                            0.01),
                                                 SizedBox(
                                                   height: MediaQuery.of(context)
                                                           .size
                                                           .height *
-                                                      0.06,
+                                                      .095,
                                                   child: TextfieldDatePicker(
                                                     textfieldDatePickerWidth:
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width *
-                                                            0.4,
+                                                            1,
                                                     textAlignVertical:
                                                         TextAlignVertical
                                                             .bottom,
@@ -495,7 +495,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                       contentPadding:
                                                           const EdgeInsets
                                                                   .fromLTRB(
-                                                              12, 4, 4, 0),
+                                                              12, 4, 4, 18),
                                                       border:
                                                           OutlineInputBorder(
                                                               borderRadius:
@@ -539,7 +539,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .height *
-                                                            0.04),
+                                                            0.012),
                                                 ElevatedButton(
                                                   style:
                                                       ElevatedButton.styleFrom(
