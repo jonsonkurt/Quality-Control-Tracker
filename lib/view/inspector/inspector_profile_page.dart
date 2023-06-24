@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:quality_control_tracker/view/inspector/inspector_edit_profile.dart';
 
 import '../../image_viewer.dart';
 import '../../sign_in_page.dart';
@@ -242,6 +243,17 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
                           ),
                         ),
                       ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.push<void>(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const InspectorsEditProfile(),
+                              ),
+                            );
+                          },
+                          child: const Text('Edit Profile'))
                     ],
                   ),
                 );
