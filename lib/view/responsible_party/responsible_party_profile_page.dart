@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:quality_control_tracker/view/responsible_party/responsible_party_edit_profile.dart';
 
 import '../../image_viewer.dart';
 import '../../sign_in_page.dart';
@@ -125,7 +126,7 @@ class _ResponsiblePartyProfilePageState
 
                           // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                       color: Colors.black54,
@@ -246,6 +247,17 @@ class _ResponsiblePartyProfilePageState
                           ),
                         ),
                       ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.push<void>(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const ResponsiblePartyEditProfile(),
+                              ),
+                            );
+                          },
+                          child: const Text('Edit Profile'))
                     ],
                   ),
                 );
