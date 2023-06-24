@@ -358,7 +358,7 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       "Owner:",
                                                       style: TextStyle(
                                                         fontFamily: 'Rubik',
@@ -392,13 +392,13 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                   top: 2,
                                                   bottom: 5,
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       "Plumber: ",
                                                       style: TextStyle(
                                                         fontFamily: 'Rubik',
@@ -432,13 +432,13 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                   top: 2,
                                                   bottom: 5,
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       "Painter: ",
                                                       style: TextStyle(
                                                         fontFamily: 'Rubik',
@@ -472,13 +472,13 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                   top: 2,
                                                   bottom: 5,
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       "Mason: ",
                                                       style: TextStyle(
                                                         fontFamily: 'Rubik',
@@ -512,13 +512,13 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                   top: 2,
                                                   bottom: 5,
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       "Laborer: ",
                                                       style: TextStyle(
                                                         fontFamily: 'Rubik',
@@ -552,13 +552,13 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                   top: 2,
                                                   bottom: 5,
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       "Electrician: ",
                                                       style: TextStyle(
                                                         fontFamily: 'Rubik',
@@ -592,13 +592,13 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                   top: 2,
                                                   bottom: 5,
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       "Welder:",
                                                       style: TextStyle(
                                                         fontFamily: 'Rubik',
@@ -632,13 +632,13 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                   top: 2,
                                                   bottom: 5,
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       "Carpenter: ",
                                                       style: TextStyle(
                                                         fontFamily: 'Rubik',
@@ -672,13 +672,13 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                   top: 2,
                                                   bottom: 5,
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       "Landscaper: ",
                                                       style: TextStyle(
                                                         fontFamily: 'Rubik',
@@ -712,13 +712,13 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                   top: 2,
                                                   bottom: 5,
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       "HVAC: ",
                                                       style: TextStyle(
                                                         fontFamily: 'Rubik',
@@ -752,13 +752,13 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                   top: 2,
                                                   bottom: 5,
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       "Technician: ",
                                                       style: TextStyle(
                                                         fontFamily: 'Rubik',
@@ -793,139 +793,6 @@ class _InspectorHomePageState extends State<InspectorHomePage> {
                                               ),
                                             ],
                                           ),
-                                          // Column(
-                                          //   children: [
-                                          //     const SizedBox(
-                                          //       height: 15,
-                                          //     ),
-                                          //     const SizedBox(
-                                          //       height: 15,
-                                          //     ),
-                                          //     Text(
-                                          //       owner,
-                                          //       style: const TextStyle(
-                                          //         fontFamily: 'Rubik',
-                                          //         fontWeight: FontWeight.normal,
-                                          //         fontSize: 12,
-                                          //         color: Color(0xFF221540),
-                                          //       ),
-                                          //     ),
-                                          //     const SizedBox(
-                                          //       height: 15,
-                                          //     ),
-                                          //     Text(
-                                          //       plumber,
-                                          //       style: const TextStyle(
-                                          //         fontFamily: 'Rubik',
-                                          //         fontWeight: FontWeight.normal,
-                                          //         fontSize: 12,
-                                          //         color: Color(0xFF221540),
-                                          //       ),
-                                          //     ),
-                                          //     const SizedBox(
-                                          //       height: 10,
-                                          //     ),
-                                          //     Text(
-                                          //       painter,
-                                          //       style: const TextStyle(
-                                          //         fontFamily: 'Rubik',
-                                          //         fontWeight: FontWeight.normal,
-                                          //         fontSize: 12,
-                                          //         color: Color(0xFF221540),
-                                          //       ),
-                                          //     ),
-                                          //     const SizedBox(
-                                          //       height: 10,
-                                          //     ),
-                                          //     Text(
-                                          //       mason,
-                                          //       style: const TextStyle(
-                                          //         fontFamily: 'Rubik',
-                                          //         fontWeight: FontWeight.normal,
-                                          //         fontSize: 12,
-                                          //         color: Color(0xFF221540),
-                                          //       ),
-                                          //     ),
-                                          //     const SizedBox(
-                                          //       height: 10,
-                                          //     ),
-                                          //     Text(
-                                          //       laborer,
-                                          //       style: const TextStyle(
-                                          //         fontFamily: 'Rubik',
-                                          //         fontWeight: FontWeight.normal,
-                                          //         fontSize: 12,
-                                          //         color: Color(0xFF221540),
-                                          //       ),
-                                          //     ),
-                                          //     const SizedBox(
-                                          //       height: 10,
-                                          //     ),
-                                          //     Text(
-                                          //       electrician,
-                                          //       style: const TextStyle(
-                                          //         fontFamily: 'Rubik',
-                                          //         fontWeight: FontWeight.normal,
-                                          //         fontSize: 12,
-                                          //         color: Color(0xFF221540),
-                                          //       ),
-                                          //     ),
-                                          //     const SizedBox(
-                                          //       height: 10,
-                                          //     ),
-                                          //     Text(
-                                          //       welder,
-                                          //       style: const TextStyle(
-                                          //         fontFamily: 'Rubik',
-                                          //         fontWeight: FontWeight.normal,
-                                          //         fontSize: 12,
-                                          //         color: Color(0xFF221540),
-                                          //       ),
-                                          //     ),
-                                          //     const SizedBox(
-                                          //       height: 10,
-                                          //     ),
-                                          //     Text(
-                                          //       carpenter,
-                                          //       style: const TextStyle(
-                                          //         fontFamily: 'Rubik',
-                                          //         fontWeight: FontWeight.normal,
-                                          //         fontSize: 12,
-                                          //         color: Color(0xFF221540),
-                                          //       ),
-                                          //     ),
-                                          //     const SizedBox(
-                                          //       height: 10,
-                                          //     ),
-                                          //     Text(
-                                          //       landscaper,
-                                          //       style: const TextStyle(
-                                          //         fontFamily: 'Rubik',
-                                          //         fontWeight: FontWeight.normal,
-                                          //         fontSize: 12,
-                                          //         color: Color(0xFF221540),
-                                          //       ),
-                                          //     ),
-                                          //     Text(
-                                          //       hvac,
-                                          //       style: const TextStyle(
-                                          //         fontFamily: 'Rubik',
-                                          //         fontWeight: FontWeight.normal,
-                                          //         fontSize: 12,
-                                          //         color: Color(0xFF221540),
-                                          //       ),
-                                          //     ),
-                                          //     Text(
-                                          //       technician,
-                                          //       style: const TextStyle(
-                                          //         fontFamily: 'Rubik',
-                                          //         fontWeight: FontWeight.normal,
-                                          //         fontSize: 12,
-                                          //         color: Color(0xFF221540),
-                                          //       ),
-                                          //     ),
-                                          //   ],
-                                          // ),
                                         ),
                                       ],
                                     ),
