@@ -1003,7 +1003,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                                     context)
                                                                 .size
                                                                 .height *
-                                                            0.03,
+                                                            0.02,
                                                       ),
                                                       TextFormField(
                                                         cursorColor:

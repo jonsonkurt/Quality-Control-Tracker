@@ -36,9 +36,9 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
       isScrollControlled: true,
       builder: (context) => Padding(
         padding: EdgeInsets.only(
-            top: 20,
-            right: 20,
-            left: 20,
+            top: MediaQuery.of(context).size.height / 25,
+            right: MediaQuery.of(context).size.width / 20,
+            left: MediaQuery.of(context).size.width / 20,
             bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Wrap(
           spacing: 8.0, // gap between adjacent chips
