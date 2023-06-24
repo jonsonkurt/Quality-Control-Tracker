@@ -115,24 +115,28 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                       backgroundColor: const Color(0xFF221540),
                       child: const Icon(Icons.add),
                       onPressed: () async {
-                        // ignore: use_build_context_synchronously
-                        showModalBottomSheet(
+                        final screenHeight = MediaQuery.of(context).size.height;
+                        const desiredHeightFactor =
+                            0.8; // Set the desired height factor (80%)
+                        final desiredHeight =
+                            screenHeight * desiredHeightFactor;
+                        showModalBottomSheet<dynamic>(
                           backgroundColor: const Color(0xffDCE4E9),
                           shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(30),
-                          )),
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(30),
+                            ),
+                          ),
                           isScrollControlled: true,
                           context: context,
-                          builder: (BuildContext context) {
-                            final screenHeight =
-                                MediaQuery.of(context).size.height;
-                            const desiredHeightFactor =
-                                0.8; // Set the desired height factor (80%)
-                            final desiredHeight =
-                                screenHeight * desiredHeightFactor;
-
-                            return Form(
+                          builder: (BuildContext context) => Padding(
+                            padding: EdgeInsets.only(
+                                top: 20,
+                                right: 20,
+                                left: 20,
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom),
+                            child: Form(
                               key: formKey,
                               child: ChangeNotifierProvider(
                                 create: (_) => ProfileController(),
@@ -668,8 +672,8 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                   },
                                 ),
                               ),
-                            );
-                          },
+                            ),
+                          ),
                         );
                       },
                     )
@@ -678,7 +682,14 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                           backgroundColor: const Color(0xFF221540),
                           child: const Icon(Icons.add),
                           onPressed: () {
-                            showModalBottomSheet(
+                            final screenHeight =
+                                MediaQuery.of(context).size.height;
+                            const desiredHeightFactor =
+                                0.8; // Set the desired height factor (80%)
+                            final desiredHeight =
+                                screenHeight * desiredHeightFactor;
+
+                            showModalBottomSheet<dynamic>(
                               backgroundColor: const Color(0xffDCE4E9),
                               shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(
@@ -686,15 +697,15 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                               )),
                               isScrollControlled: true,
                               context: context,
-                              builder: (BuildContext context) {
-                                final screenHeight =
-                                    MediaQuery.of(context).size.height;
-                                const desiredHeightFactor =
-                                    0.8; // Set the desired height factor (80%)
-                                final desiredHeight =
-                                    screenHeight * desiredHeightFactor;
-
-                                return Form(
+                              builder: (context) => Padding(
+                                padding: EdgeInsets.only(
+                                    top: 20,
+                                    right: 20,
+                                    left: 20,
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: Form(
                                   key: formKey,
                                   child: ChangeNotifierProvider(
                                     create: (_) => ProfileController(),
@@ -1202,8 +1213,8 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                       },
                                     ),
                                   ),
-                                );
-                              },
+                                ),
+                              ),
                             );
                           },
                         )

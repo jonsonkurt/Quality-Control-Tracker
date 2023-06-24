@@ -108,21 +108,20 @@ class _ResponsiblePartyProfilePageState
                 String email = map['email'];
                 String mobileNumber = map['mobileNumber'];
 
-                return Expanded(
+                return SizedBox(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return DetailScreen(
-                                imageUrl: profilePic,
-                                projectID: accountID,
-                              );
-                            }));
-                          },
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return DetailScreen(
+                              imageUrl: profilePic,
+                              projectID: accountID,
+                            );
+                          }));
+                        },
 
                           // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
                           child: Container(
@@ -216,13 +215,13 @@ class _ResponsiblePartyProfilePageState
                             ),
                           ),
                         ),
-                      ),
+                     
                       Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         width: MediaQuery.of(context).size.width / 1,
-                        margin: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
                         padding: const EdgeInsets.all(10.0),
                         child: Text(
                           "Email: $email",
@@ -237,7 +236,7 @@ class _ResponsiblePartyProfilePageState
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         width: MediaQuery.of(context).size.width / 1,
-                        margin: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
                         padding: const EdgeInsets.all(10.0),
                         child: Text(
                           "Mobile Number: $mobileNumber",
