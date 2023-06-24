@@ -177,12 +177,12 @@ class _ResponsiblePartyProjectUpdatesPageState
                 String? inspectorNotes = map["inspectorNotes"]
                     ["inspectorNotes$inspectorNotesLength"];
 
-                return SizedBox(
-                  width: mediaQuery.size.width,
+                return Center(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(
-                        height: 20,
+                      SizedBox(
+                        height: mediaQuery.size.height * 0.05,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
@@ -198,97 +198,164 @@ class _ResponsiblePartyProjectUpdatesPageState
                           },
 
                           // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
-                          child: Hero(
-                            tag: widget.projectUpdatesID,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: projectUpdatesPicture == "None"
-                                  ? Image.asset(
-                                      'assets/images/no-image.png',
-                                      fit: BoxFit.cover,
-                                      width: 300,
-                                      height: 200,
-                                    )
-                                  : Image(
-                                      width: 300,
-                                      height: 200,
-                                      fit: BoxFit.cover,
-                                      image:
-                                          NetworkImage(projectUpdatesPicture),
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        }
-                                        return const CircularProgressIndicator();
-                                      },
-                                      errorBuilder: (context, object, stack) {
-                                        return const Icon(
-                                          Icons.error_outline,
-                                          color:
-                                              Color.fromARGB(255, 35, 35, 35),
-                                        );
-                                      },
-                                    ),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(10),
+                            elevation: 5,
+                            child: Hero(
+                              tag: widget.projectUpdatesID,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: projectUpdatesPicture == "None"
+                                    ? Image.asset(
+                                        'assets/images/no-image.png',
+                                        fit: BoxFit.cover,
+                                        width: mediaQuery.size.width * 0.8,
+                                        height: mediaQuery.size.height * 0.25,
+                                      )
+                                    : Image(
+                                        width: mediaQuery.size.width * 0.8,
+                                        height: mediaQuery.size.height * 0.25,
+                                        fit: BoxFit.cover,
+                                        image:
+                                            NetworkImage(projectUpdatesPicture),
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return child;
+                                          }
+                                          return const CircularProgressIndicator();
+                                        },
+                                        errorBuilder: (context, object, stack) {
+                                          return const Icon(
+                                            Icons.error_outline,
+                                            color:
+                                                Color.fromARGB(255, 35, 35, 35),
+                                          );
+                                        },
+                                      ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          projectUpdatesTitle,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      SizedBox(height: mediaQuery.size.height * 0.02),
+                      //
+                      //
+                      // This is text column
+                      Container(
+                        padding: EdgeInsets.fromLTRB(
+                            mediaQuery.size.width * 0.1,
+                            0,
+                            mediaQuery.size.width * 0.1,
+                            0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              projectUpdatesTitle,
+                              style: TextStyle(
+                                fontFamily: "Rubik Bold",
+                                fontSize: mediaQuery.size.height * 0.03,
+                                color: const Color(0xFF221540),
+                              ),
+                            ),
+                            SizedBox(height: mediaQuery.size.height * 0.01),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(
+                                      mediaQuery.size.width * 0.01),
+                                  child: Icon(
+                                    Icons.calendar_today,
+                                    color: const Color(0xFF221540),
+                                    size: mediaQuery.size.height * 0.03,
+                                  ),
+                                ),
+                                Text(
+                                  "$inspectionDate",
+                                  // "Submission Date: ",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(
+                                      mediaQuery.size.width * 0.01),
+                                  child: Icon(
+                                    Icons.event_busy,
+                                    color: const Color(0xFF221540),
+                                    size: mediaQuery.size.height * 0.03,
+                                  ),
+                                ),
+                                Text(
+                                  "$inspectionIssueDeadline",
+                                  // "Submission Date: ",
+                                  style: TextStyle(
+                                    fontFamily: "Karla Regular",
+                                    fontSize: mediaQuery.size.height * 0.02,
+                                    color: const Color(0xFF221540),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(
+                                      mediaQuery.size.width * 0.01),
+                                  child: Icon(
+                                    Icons.search,
+                                    color: const Color(0xFF221540),
+                                    size: mediaQuery.size.height * 0.03,
+                                  ),
+                                ),
+                                Text(
+                                  projectUpdatesTag,
+                                  style: TextStyle(
+                                    fontFamily: "Karla Regular",
+                                    fontSize: mediaQuery.size.height * 0.02,
+                                    color: const Color(0xFF221540),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: mediaQuery.size.height * 0.02),
+                            Text(
+                              "Inspector Notes:",
+                              style: TextStyle(
+                                fontFamily: "Rubik Bold",
+                                fontSize: mediaQuery.size.height * 0.022,
+                                color: const Color(0xFF221540),
+                              ),
+                            ),
+                            Text(
+                              "$inspectorNotes",
+                              style: TextStyle(
+                                fontFamily: "Karla Regular",
+                                fontSize: mediaQuery.size.height * 0.02,
+                                color: const Color(0xFF221540),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          "Inspection Date: $inspectionDate",
-                          // "Submission Date: ",
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          "Issue Deadline: $inspectionIssueDeadline",
-                          // "Submission Date: ",
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          "Tag: $projectUpdatesTag",
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          "Inspector Notes: $inspectorNotes",
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
+                      SizedBox(height: mediaQuery.size.height * 0.02),
+
+                      //
+                      //
+                      // Button
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                backgroundColor: const Color(0xFF221540)),
                             onPressed: () {
                               // Dialog for rework
                               showDialog(
@@ -316,107 +383,117 @@ class _ResponsiblePartyProjectUpdatesPageState
                                             color: const Color(0xFF221540),
                                           ),
                                         ),
-                                        content: Form(
-                                          key: formKey,
-                                          child: SizedBox(
-                                            height: 300,
-                                            child: Column(
-                                              children: [
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                TextFormField(
-                                                  cursorColor:
-                                                      const Color(0xFF221540),
-                                                  controller: rpNotesController,
-                                                  decoration: InputDecoration(
-                                                    contentPadding:
-                                                        const EdgeInsets
-                                                                .fromLTRB(
-                                                            12, 4, 4, 0),
-                                                    border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30.0),
-                                                      borderSide:
-                                                          BorderSide.none,
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30),
-                                                      borderSide:
-                                                          BorderSide.none,
-                                                    ),
-                                                    filled: true,
-                                                    fillColor: Colors.white,
-                                                    hintText: 'Notes',
-                                                    labelStyle: TextStyle(
-                                                      fontFamily:
-                                                          'Karla Regular',
-                                                      fontSize: mediaQuery
-                                                              .size.height *
-                                                          0.02,
-                                                    ),
+                                        content: SizedBox(
+                                          height: mediaQuery.size.height * 0.28,
+                                          width: mediaQuery.size.height * 0.14,
+                                          child: Form(
+                                            key: formKey,
+                                            child: SizedBox(
+                                              height: 300,
+                                              child: Column(
+                                                children: [
+                                                  const SizedBox(
+                                                    height: 10,
                                                   ),
-                                                  validator: (value) {
-                                                    if (value!.isEmpty) {
-                                                      return 'Please enter your notes';
-                                                    }
-                                                    return null;
-                                                  },
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    provider.pickImage(
-                                                        context,
-                                                        widget
-                                                            .projectUpdatesID);
-                                                  },
-                                                  child: Container(
-                                                    height:
-                                                        mediaQuery.size.height *
-                                                            0.15,
-                                                    width:
-                                                        mediaQuery.size.width *
-                                                            0.3,
-                                                    decoration: BoxDecoration(
-                                                        shape:
-                                                            BoxShape.rectangle,
+                                                  TextFormField(
+                                                    cursorColor:
+                                                        const Color(0xFF221540),
+                                                    maxLines: 1,
+                                                    controller:
+                                                        rpNotesController,
+                                                    decoration: InputDecoration(
+                                                      contentPadding:
+                                                          const EdgeInsets
+                                                                  .fromLTRB(
+                                                              12, 4, 4, 0),
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30.0),
+                                                        borderSide:
+                                                            BorderSide.none,
+                                                      ),
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30),
+                                                        borderSide:
+                                                            BorderSide.none,
+                                                      ),
+                                                      filled: true,
+                                                      fillColor: Colors.white,
+                                                      hintText: 'Notes',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Karla Regular',
+                                                        fontSize: mediaQuery
+                                                                .size.height *
+                                                            0.02,
+                                                      ),
+                                                    ),
+                                                    validator: (value) {
+                                                      if (value!.isEmpty) {
+                                                        return 'Please enter your notes';
+                                                      }
+                                                      return null;
+                                                    },
+                                                  ),
+                                                  SizedBox(
+                                                      height: mediaQuery
+                                                              .size.height *
+                                                          0.03),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      provider.pickImage(
+                                                          context,
+                                                          widget
+                                                              .projectUpdatesID);
+                                                    },
+                                                    child: Container(
+                                                      height: mediaQuery
+                                                              .size.height *
+                                                          0.15,
+                                                      width: mediaQuery
+                                                              .size.width *
+                                                          0.3,
+                                                      decoration: BoxDecoration(
+                                                          shape: BoxShape
+                                                              .rectangle,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                          border: Border.all(
+                                                            color: const Color(
+                                                                0xff221540),
+                                                            width: 2,
+                                                          )),
+                                                      child: ClipRRect(
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(15),
-                                                        border: Border.all(
-                                                          color: const Color(
-                                                              0xff221540),
-                                                          width: 2,
-                                                        )),
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                      child: provider.image ==
-                                                              null
-                                                          ? const Icon(
-                                                              Icons.add_circle,
-                                                              size: 35,
-                                                              color: Color(
-                                                                  0xff221540),
-                                                            )
-                                                          : Image.file(
-                                                              fit: BoxFit.cover,
-                                                              File(provider
-                                                                      .image!
-                                                                      .path)
-                                                                  .absolute),
+                                                        child: provider.image ==
+                                                                null
+                                                            ? const Icon(
+                                                                Icons
+                                                                    .add_circle,
+                                                                size: 35,
+                                                                color: Color(
+                                                                    0xff221540),
+                                                              )
+                                                            : Image.file(
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                File(provider
+                                                                        .image!
+                                                                        .path)
+                                                                    .absolute),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -499,6 +576,9 @@ class _ResponsiblePartyProjectUpdatesPageState
                                               ),
                                             ),
                                           ),
+                                          SizedBox(
+                                              height: mediaQuery.size.height *
+                                                  0.02),
                                         ],
                                       );
                                     }),
@@ -506,10 +586,20 @@ class _ResponsiblePartyProjectUpdatesPageState
                                 },
                               );
                             },
-                            child: const Text('Update'),
+                            child: Padding(
+                              padding: EdgeInsets.all(
+                                  mediaQuery.size.height * 0.017),
+                              child: Text(
+                                'Update',
+                                style: TextStyle(
+                                    fontFamily: 'Rubik Regular',
+                                    fontSize: mediaQuery.size.height * 0.02),
+                              ),
+                            ),
                           ),
                         ],
                       ),
+                      SizedBox(height: mediaQuery.size.height * 0.02),
                     ],
                   ),
                 );

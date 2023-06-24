@@ -160,7 +160,7 @@ class _ResponsiblePartyProjectUpdatesInformationPageState
 
                 return Center(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
                         height: mediaQuery.size.height * 0.05,
@@ -193,8 +193,9 @@ class _ResponsiblePartyProjectUpdatesInformationPageState
                                         ? Image.asset(
                                             'assets/images/no-image.png',
                                             fit: BoxFit.cover,
-                                            width: 300,
-                                            height: 200,
+                                            width: mediaQuery.size.width * 0.8,
+                                            height:
+                                                mediaQuery.size.height * 0.25,
                                           )
                                         : Image(
                                             width: mediaQuery.size.width * 0.8,
@@ -230,9 +231,12 @@ class _ResponsiblePartyProjectUpdatesInformationPageState
                       //
                       //
                       // TEXT COLUMNS
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: mediaQuery.size.width * 0.025),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(
+                            mediaQuery.size.width * 0.1,
+                            0,
+                            mediaQuery.size.width * 0.1,
+                            0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -255,22 +259,48 @@ class _ResponsiblePartyProjectUpdatesInformationPageState
                               ),
                             ),
                             SizedBox(height: mediaQuery.size.height * 0.01),
-                            Text(
-                              "Submission Date: $projectUpdatesSubmissionDate",
-                              // "Submission Date: ",
-                              style: TextStyle(
-                                fontFamily: "Karla Regular",
-                                fontSize: mediaQuery.size.height * 0.02,
-                                color: const Color(0xFF221540),
-                              ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(
+                                      mediaQuery.size.width * 0.01),
+                                  child: Icon(
+                                    Icons.calendar_today,
+                                    color: const Color(0xFF221540),
+                                    size: mediaQuery.size.height * 0.03,
+                                  ),
+                                ),
+                                Text(
+                                  "$projectUpdatesSubmissionDate",
+                                  // "Submission Date: ",
+                                  style: TextStyle(
+                                    fontFamily: "Karla Regular",
+                                    fontSize: mediaQuery.size.height * 0.02,
+                                    color: const Color(0xFF221540),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              "Tag: $projectUpdatesTag",
-                              style: TextStyle(
-                                fontFamily: "Karla Regular",
-                                fontSize: mediaQuery.size.height * 0.02,
-                                color: const Color(0xFF221540),
-                              ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(
+                                      mediaQuery.size.width * 0.01),
+                                  child: Icon(
+                                    Icons.search,
+                                    color: const Color(0xFF221540),
+                                    size: mediaQuery.size.height * 0.03,
+                                  ),
+                                ),
+                                Text(
+                                  projectUpdatesTag,
+                                  style: TextStyle(
+                                    fontFamily: "Karla Regular",
+                                    fontSize: mediaQuery.size.height * 0.02,
+                                    color: const Color(0xFF221540),
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(height: mediaQuery.size.height * 0.02),
                             Text(
