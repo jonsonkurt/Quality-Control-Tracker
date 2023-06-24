@@ -17,6 +17,9 @@ class ResponsiblePartyProfilePage extends StatefulWidget {
 class _ResponsiblePartyProfilePageState
     extends State<ResponsiblePartyProfilePage> {
   String? userID = FirebaseAuth.instance.currentUser?.uid;
+  String? firstName;
+  String? lastName;
+  String? mobileNumber;
 
   Future<void> _logout() async {
     DatabaseReference resRef =
@@ -97,7 +100,11 @@ class _ResponsiblePartyProfilePageState
                   Navigator.push<void>(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ResponsiblePartyEditProfile(),
+                      builder: (context) => ResponsiblePartyEditProfile(
+                        firstName: firstName!,
+                        lastName: lastName!,
+                        mobileNumber: mobileNumber!,
+                      ),
                     ),
                   );
                 },
@@ -123,12 +130,12 @@ class _ResponsiblePartyProfilePageState
 
                 String profilePic = map['profilePicStatus'];
                 String accountID = map['responsiblePartyID'];
-                String firstName = map['firstName'];
-                String lastName = map['lastName'];
+                firstName = map['firstName'];
+                lastName = map['lastName'];
                 String fullName = "$firstName $lastName";
                 String role = map['role'];
                 String email = map['email'];
-                String mobileNumber = map['mobileNumber'];
+                mobileNumber = map['mobileNumber'];
 
                 return SizedBox(
                   child: Column(
@@ -287,7 +294,7 @@ class _ResponsiblePartyProfilePageState
                                   ),
                                   const SizedBox(width: 15),
                                   Text(
-                                    mobileNumber,
+                                    mobileNumber!,
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.normal,
