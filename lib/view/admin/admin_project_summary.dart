@@ -17,6 +17,8 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
   CalendarFormat format = CalendarFormat.month;
   late Map<DateTime, List<Event>> selectedEvents;
 
+  // DateTime selectedDay = DateFormat("MM-dd-yyyy")
+  //     .parse(DateFormat("MM-dd-yyyy").format(DateTime.now()));
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
 
@@ -45,107 +47,149 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
         body: StreamBuilder(
             stream:
                 ref.orderByChild("projectID").equalTo(widget.projectID).onValue,
-            builder: (context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData) {
+            builder: (context, AsyncSnapshot snapshot1) {
+              if (!snapshot1.hasData) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasData) {
-                Map<dynamic, dynamic> map = snapshot.data.snapshot.value;
-                // pang query sa lahat ng projectUpdates na match sa projectID ng pinindot na card sa admin_home_page.dart
-                for (var entry in map.entries) {
-                  var innerMap = entry.value;
-                  if (innerMap.containsKey("projectUpdatesID")) {
-                    projectUpdatesID = innerMap["projectUpdatesID"];
-                    String rpName = map[projectUpdatesID]["rpName"];
+              } else if (snapshot1.hasData) {
+                if (snapshot1.data.snapshot.value != null) {
+                  Map<dynamic, dynamic> map = snapshot1.data.snapshot.value;
+                  // pang query sa lahat ng projectUpdates na match sa projectID ng pinindot na card sa admin_home_page.dart
+                  for (var entry in map.entries) {
+                    var innerMap = entry.value;
+                    if (innerMap.containsKey("projectUpdatesID")) {
+                      projectUpdatesID = innerMap["projectUpdatesID"];
+                      String rpName = innerMap["rpName"];
 
-                    // dito ipapasok yung nasa database
-                    // bale yung ipapasok sa selectedEvents is una yung RP submissionDate, rp name, rp notes kung meron man
-                    // next is inspectiondate
-                    // next is inspectionIssueDeadline
-                    // eto kasi yung may mga date na need makita sa calendar
-                    //  Pa uncomment na lang.
-                    // if (selectedEvents[selectedDay] != null) {
-                    //   selectedEvents[selectedDay]!.add(
+                      var inspectionDate = innerMap["inspectionDate"];
 
-                    //     Event(date: , name: , notes: ), // eto yung nasa project_summary_events.dart, date lang required dito
-                    //   );
-                    // } else {
-                    //   selectedEvents[selectedDay] = [
-                    //     Event(date: , name: , notes: ),
-                    //   ];
-                    // }
-                    print(projectUpdatesID);
+                      if (inspectionDate != null && inspectionDate != "") {
+                        int count = 1;
+                        String dynamicKey = "inspectionDate$count";
+                        Map<dynamic, dynamic> dates =
+                            innerMap["inspectionDate"];
+
+                        while (dates.containsKey(dynamicKey)) {
+                          // DateTime getData = DateFormat("MM-dd-yyyy").parse(dates[dynamicKey]);
+                          String getData = dates[dynamicKey];
+                          //2023-06-24
+                          DateTime parseDate =
+                              DateFormat("MM-dd-yyyy").parse(getData);
+                          String formattedDate =
+                              DateFormat("yyyy-MM-dd").format(parseDate);
+                          DateTime parseFormattedDate =
+                              DateTime.parse(formattedDate);
+                          print(parseFormattedDate);
+
+                          if (selectedEvents[selectedDay] != null) {
+                            selectedEvents[selectedDay]!.add(
+                              Event(
+                                  date: formattedDate,
+                                  name: rpName,
+                                  notes:
+                                      "Later"), // eto yung nasa project_summary_events.dart, date lang required dito
+                            );
+                          } else {
+                            selectedEvents[selectedDay] = [
+                              // Event(date: , name: , notes: ),
+                            ];
+                          }
+
+                          count++;
+                          dynamicKey = "inspectionDate$count";
+                        }
+                      }
+
+                      // dito ipapasok yung nasa database
+                      // bale yung ipapasok sa selectedEvents is una yung RP submissionDate, rp name, rp notes kung meron man
+                      // next is inspectiondate
+                      // next is inspectionIssueDeadline
+                      // eto kasi yung may mga date na need makita sa calendar
+                      //  Pa uncomment na lang.
+                      // if (selectedEvents[selectedDay] != null) {
+                      //   selectedEvents[selectedDay]!.add(
+
+                      //     Event(date: , name: , notes: ), // eto yung nasa project_summary_events.dart, date lang required dito
+                      //   );
+                      // } else {
+                      //   selectedEvents[selectedDay] = [
+                      //     Event(date: , name: , notes: ),
+                      //   ];
+                      // }
+                      // print(rpName);
+                    }
                   }
-                }
-                return Column(
-                  children: [
-                    TableCalendar(
-                      focusedDay: selectedDay,
-                      firstDay: DateTime(1990),
-                      lastDay: DateTime(2050),
-                      calendarFormat: format,
-                      onFormatChanged: (CalendarFormat _format) {
-                        setState(() {
-                          format = _format;
-                        });
-                      },
-                      startingDayOfWeek: StartingDayOfWeek.sunday,
-                      daysOfWeekVisible: true,
+                  return Column(
+                    children: [
+                      TableCalendar(
+                        focusedDay: selectedDay,
+                        firstDay: DateTime(1990),
+                        lastDay: DateTime(2050),
+                        calendarFormat: format,
+                        onFormatChanged: (CalendarFormat _format) {
+                          setState(() {
+                            format = _format;
+                          });
+                        },
+                        startingDayOfWeek: StartingDayOfWeek.sunday,
+                        daysOfWeekVisible: true,
 
-                      //Day Changed
-                      onDaySelected: (DateTime selectDay, DateTime focusDay) {
-                        setState(() {
-                          selectedDay = selectDay;
-                          focusedDay = focusDay;
-                        });
-                      },
-                      selectedDayPredicate: (DateTime date) {
-                        return isSameDay(selectedDay, date);
-                      },
-                      //To style the Calendar
-                      calendarStyle: CalendarStyle(
-                        isTodayHighlighted: true,
-                        selectedDecoration: BoxDecoration(
-                          color: Colors.blue,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(5.0),
+                        //Day Changed
+                        onDaySelected: (DateTime selectDay, DateTime focusDay) {
+                          setState(() {
+                            selectedDay = selectDay;
+                            focusedDay = focusDay;
+                          });
+                        },
+                        selectedDayPredicate: (DateTime date) {
+                          return isSameDay(selectedDay, date);
+                        },
+                        //To style the Calendar
+                        calendarStyle: CalendarStyle(
+                          isTodayHighlighted: true,
+                          selectedDecoration: BoxDecoration(
+                            color: Colors.blue,
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          selectedTextStyle:
+                              const TextStyle(color: Colors.white),
+                          todayDecoration: BoxDecoration(
+                            color: Colors.purpleAccent,
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          defaultDecoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          weekendDecoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
                         ),
-                        selectedTextStyle: const TextStyle(color: Colors.white),
-                        todayDecoration: BoxDecoration(
-                          color: Colors.purpleAccent,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        defaultDecoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        weekendDecoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                      ),
-                      headerStyle: HeaderStyle(
-                        formatButtonVisible: true,
-                        titleCentered: true,
-                        formatButtonShowsNext: false,
-                        formatButtonDecoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        formatButtonTextStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    ..._getEventsfromDay(selectedDay).map(
-                      (Event event) => ListTile(
-                        title: Text(
-                          event.date, // para macall mo yung date sa listTile.
+                        headerStyle: HeaderStyle(
+                          formatButtonVisible: true,
+                          titleCentered: true,
+                          formatButtonShowsNext: false,
+                          formatButtonDecoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          formatButtonTextStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
+                      ..._getEventsfromDay(selectedDay).map(
+                        (Event event) => ListTile(
+                          title: Text(
+                            event.date, // para macall mo yung date sa listTile.
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
               }
               return Text("hello");
             }));
