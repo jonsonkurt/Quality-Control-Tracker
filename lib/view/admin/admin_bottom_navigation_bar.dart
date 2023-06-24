@@ -115,24 +115,28 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                       backgroundColor: const Color(0xFF221540),
                       child: const Icon(Icons.add),
                       onPressed: () async {
-                        // ignore: use_build_context_synchronously
-                        showModalBottomSheet(
+                        final screenHeight = MediaQuery.of(context).size.height;
+                        const desiredHeightFactor =
+                            0.8; // Set the desired height factor (80%)
+                        final desiredHeight =
+                            screenHeight * desiredHeightFactor;
+                        showModalBottomSheet<dynamic>(
                           backgroundColor: const Color(0xffDCE4E9),
                           shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(30),
-                          )),
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(30),
+                            ),
+                          ),
                           isScrollControlled: true,
                           context: context,
-                          builder: (BuildContext context) {
-                            final screenHeight =
-                                MediaQuery.of(context).size.height;
-                            const desiredHeightFactor =
-                                0.8; // Set the desired height factor (80%)
-                            final desiredHeight =
-                                screenHeight * desiredHeightFactor;
-
-                            return Form(
+                          builder: (BuildContext context) => Padding(
+                            padding: EdgeInsets.only(
+                                top: 20,
+                                right: 20,
+                                left: 20,
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom),
+                            child: Form(
                               key: formKey,
                               child: ChangeNotifierProvider(
                                 create: (_) => ProfileController(),
@@ -433,18 +437,18 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .height *
-                                                            0.02),
+                                                            0.01),
                                                 SizedBox(
                                                   height: MediaQuery.of(context)
                                                           .size
                                                           .height *
-                                                      0.06,
+                                                      .095,
                                                   child: TextfieldDatePicker(
                                                     textfieldDatePickerWidth:
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width *
-                                                            0.4,
+                                                            1,
                                                     textAlignVertical:
                                                         TextAlignVertical
                                                             .bottom,
@@ -491,7 +495,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                       contentPadding:
                                                           const EdgeInsets
                                                                   .fromLTRB(
-                                                              12, 4, 4, 0),
+                                                              12, 4, 4, 18),
                                                       border:
                                                           OutlineInputBorder(
                                                               borderRadius:
@@ -535,7 +539,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .height *
-                                                            0.04),
+                                                            0.012),
                                                 ElevatedButton(
                                                   style:
                                                       ElevatedButton.styleFrom(
@@ -668,8 +672,8 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                   },
                                 ),
                               ),
-                            );
-                          },
+                            ),
+                          ),
                         );
                       },
                     )
@@ -678,7 +682,14 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                           backgroundColor: const Color(0xFF221540),
                           child: const Icon(Icons.add),
                           onPressed: () {
-                            showModalBottomSheet(
+                            final screenHeight =
+                                MediaQuery.of(context).size.height;
+                            const desiredHeightFactor =
+                                0.8; // Set the desired height factor (80%)
+                            final desiredHeight =
+                                screenHeight * desiredHeightFactor;
+
+                            showModalBottomSheet<dynamic>(
                               backgroundColor: const Color(0xffDCE4E9),
                               shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(
@@ -686,15 +697,15 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                               )),
                               isScrollControlled: true,
                               context: context,
-                              builder: (BuildContext context) {
-                                final screenHeight =
-                                    MediaQuery.of(context).size.height;
-                                const desiredHeightFactor =
-                                    0.8; // Set the desired height factor (80%)
-                                final desiredHeight =
-                                    screenHeight * desiredHeightFactor;
-
-                                return Form(
+                              builder: (context) => Padding(
+                                padding: EdgeInsets.only(
+                                    top: 20,
+                                    right: 20,
+                                    left: 20,
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: Form(
                                   key: formKey,
                                   child: ChangeNotifierProvider(
                                     create: (_) => ProfileController(),
@@ -992,7 +1003,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                                     context)
                                                                 .size
                                                                 .height *
-                                                            0.03,
+                                                            0.02,
                                                       ),
                                                       TextFormField(
                                                         cursorColor:
@@ -1202,8 +1213,8 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                       },
                                     ),
                                   ),
-                                );
-                              },
+                                ),
+                              ),
                             );
                           },
                         )

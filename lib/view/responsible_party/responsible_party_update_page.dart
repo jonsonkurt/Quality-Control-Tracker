@@ -96,104 +96,108 @@ class _ResponsiblePartyUpdatePageState
                     color: const Color(0xFF221540),
                   ),
                 ),
-                content: Form(
-                  key: formKey,
-                  child: SizedBox(
-                    height: mediaQuery.size.height * 0.38,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          cursorColor: const Color(0xFF221540),
-                          controller: _rpTitleController,
-                          decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(12, 4, 4, 0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              borderSide: BorderSide.none,
+                content: SizedBox(
+                  height: mediaQuery.size.height * 0.38,
+                  width: mediaQuery.size.height * 0.14,
+                  child: Form(
+                    key: formKey,
+                    child: SizedBox(
+                      height: mediaQuery.size.height * 0.38,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            cursorColor: const Color(0xFF221540),
+                            controller: _rpTitleController,
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(12, 4, 4, 0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Title',
+                              labelStyle: TextStyle(
+                                fontFamily: 'Karla Regular',
+                                fontSize: mediaQuery.size.height * 0.02,
+                              ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter a title';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(
+                            height: mediaQuery.size.height * 0.015,
+                          ),
+                          TextFormField(
+                            cursorColor: const Color(0xFF221540),
+                            controller: _rpNotesController,
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(12, 4, 4, 0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Notes',
+                              labelStyle: TextStyle(
+                                fontFamily: 'Karla Regular',
+                                fontSize: mediaQuery.size.height * 0.02,
+                              ),
                             ),
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Title',
-                            labelStyle: TextStyle(
-                              fontFamily: 'Karla Regular',
-                              fontSize: mediaQuery.size.height * 0.02,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter your notes';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(
+                            height: mediaQuery.size.height * 0.03,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              provider.pickImage(context, projectUpdatesID);
+                            },
+                            child: Container(
+                              height: mediaQuery.size.height * 0.15,
+                              width: mediaQuery.size.width * 0.3,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                    color: const Color(0xff221540),
+                                    width: 2,
+                                  )),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: provider.image == null
+                                      ? const Icon(
+                                          Icons.add_circle,
+                                          size: 35,
+                                          color: Color(0xff221540),
+                                        )
+                                      : Image.file(
+                                          fit: BoxFit.cover,
+                                          File(provider.image!.path).absolute)),
                             ),
                           ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter a title';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(
-                          height: mediaQuery.size.height * 0.015,
-                        ),
-                        TextFormField(
-                          cursorColor: const Color(0xFF221540),
-                          controller: _rpNotesController,
-                          decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(12, 4, 4, 0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              borderSide: BorderSide.none,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'Notes',
-                            labelStyle: TextStyle(
-                              fontFamily: 'Karla Regular',
-                              fontSize: mediaQuery.size.height * 0.02,
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter your notes';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(
-                          height: mediaQuery.size.height * 0.03,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            provider.pickImage(context, projectUpdatesID);
-                          },
-                          child: Container(
-                            height: mediaQuery.size.height * 0.15,
-                            width: mediaQuery.size.width * 0.3,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(
-                                  color: const Color(0xff221540),
-                                  width: 2,
-                                )),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: provider.image == null
-                                    ? const Icon(
-                                        Icons.add_circle,
-                                        size: 35,
-                                        color: Color(0xff221540),
-                                      )
-                                    : Image.file(
-                                        fit: BoxFit.cover,
-                                        File(provider.image!.path).absolute)),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -254,6 +258,7 @@ class _ResponsiblePartyUpdatePageState
                       ),
                     ),
                   ),
+                  SizedBox(height: mediaQuery.size.height * 0.02),
                 ],
               );
             }));
@@ -449,7 +454,23 @@ class _ResponsiblePartyUpdatePageState
               Builder(builder: (BuildContext context) {
                 if (isEmptyPending) {
                   // TODO: Edit this empty view for "For Inspection"
-                  return const Text("No Available Data");
+                  return SizedBox(
+                      height: mediaQuery.size.height * 0.19,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "No Available Data",
+                              style: TextStyle(
+                                fontFamily: 'Karla Regular',
+                                fontSize: mediaQuery.size.height * 0.02,
+                                color: const Color(0xff221540),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ));
                 } else {
                   return Flexible(
                     child: FirebaseAnimatedList(
@@ -579,7 +600,24 @@ class _ResponsiblePartyUpdatePageState
                 builder: (BuildContext context) {
                   if (isEmptyRework) {
                     // TODO: Edit this empty view for "For Rework"
-                    return const Text("No Available Data");
+                    return SizedBox(
+                        height: mediaQuery.size.height * 0.19,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "No Available Data",
+                                style: TextStyle(
+                                  fontFamily: 'Karla Regular',
+                                  fontSize: mediaQuery.size.height * 0.02,
+                                  color: const Color(0xff221540),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ));
                   } else {
                     return Flexible(
                       child: FirebaseAnimatedList(
@@ -703,7 +741,26 @@ class _ResponsiblePartyUpdatePageState
                 builder: (BuildContext context) {
                   if (isEmptyCompleted) {
                     // TODO: Edit this empty view for "Completed"
-                    return const Text("No Available Data");
+                    return Flexible(
+                      child: SizedBox(
+                          height: mediaQuery.size.height * 0.19,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "No Available Data",
+                                  style: TextStyle(
+                                    fontFamily: 'Karla Regular',
+                                    fontSize: mediaQuery.size.height * 0.02,
+                                    color: const Color(0xff221540),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                    );
                   } else {
                     return Flexible(
                       child: FirebaseAnimatedList(
