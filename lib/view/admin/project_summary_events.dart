@@ -8,11 +8,15 @@ import 'package:table_calendar/table_calendar.dart';
 class Event {
   final String rpName;
   final String projectID;
+  final String inspectorNotes;
+  final String projectUpdatesTitle;
 
-  const Event(this.rpName, this.projectID);
+  const Event(this.rpName, this.projectID, this.inspectorNotes,
+      this.projectUpdatesTitle);
 
   @override
-  String toString() => 'rpName: $rpName projectID: $projectID';
+  String toString() =>
+      'rpName: $rpName\nprojectID: $projectID\ninspectorNotes: $inspectorNotes\n projectUpdatesTitle: $projectUpdatesTitle';
 }
 
 final DatabaseReference _databaseReference =
@@ -35,25 +39,28 @@ Future<Map<DateTime, List>> fetchEventsFromDatabase(String projectID) {
         if (value["inspectionDate"] != null && value["inspectionDate"] != "") {
           Map<dynamic, dynamic> inspectDates =
               value["inspectionDate"] as Map<dynamic, dynamic>;
+          Map<dynamic, dynamic> inspectorNotes =
+              value["inspectorNotes"] as Map<dynamic, dynamic>;
           for (int index = 1; index <= inspectDates.length; index++) {
             String keyName = "inspectionDate$index";
             String getDates = inspectDates[keyName];
-            String rpName = value["rpName"];
-            print("$rpName, $getDates");
-            // final dateTime = DateTime.parse(key.toString());
             DateFormat format1 = DateFormat('MM-dd-yyyy');
             DateTime formatgetData = format1.parse(getDates);
 
-            Event events = Event(rpName, projectID);
+            String rpName = value["rpName"];
 
-            //List<Event>.from(value.map((event) => Event(rpName, projectID)));
+            String keyNotes = "inspectorNotes$index";
+            String? getNotes = inspectorNotes[keyNotes];
+
+            String projectUpdatesTitle = value["projectUpdatesTitle"];
+            Event events =
+                Event(rpName, projectID, getNotes!, projectUpdatesTitle);
+
             if (eventsFromDatabase[formatgetData] != null) {
               eventsFromDatabase[formatgetData]!.add(events);
             } else {
               eventsFromDatabase[formatgetData] = [events];
             }
-
-            // eventsFromDatabase[formatgetData] = [events];
           }
         }
       }
