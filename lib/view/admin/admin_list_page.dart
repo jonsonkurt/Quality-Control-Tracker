@@ -289,41 +289,45 @@ class _SearchBox1State extends State<SearchBox1> {
     return Center(
       child: Padding(
         padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height / 50,
-            left: MediaQuery.of(context).size.width / 20,
-            right: MediaQuery.of(context).size.width / 20),
-        child: TextField(
-          controller: _searchController,
-          style: const TextStyle(
-            color: Colors.black,
-          ),
-          decoration: const InputDecoration(
-            filled: true,
-            fillColor: Colors.white,
-            hintText: 'Search',
-            hintStyle: TextStyle(fontFamily: "GothamRnd", color: Colors.grey),
-            prefixIcon: Icon(
-              Icons.search,
-              color: Color(0xFF274C77),
+            top: MediaQuery.of(context).size.height / 200,
+            left: MediaQuery.of(context).size.width / 250,
+            right: MediaQuery.of(context).size.width / 250),
+        child: Material(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          elevation: 5,
+          child: TextField(
+            controller: _searchController,
+            style: const TextStyle(
+              color: Colors.black,
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              borderSide: BorderSide(
-                color: Color(0xFF274C77),
+            decoration: const InputDecoration(
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 16,
+                horizontal: 24,
               ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              borderSide: BorderSide(
-                color: Color(0xFF274C77),
+              filled: true,
+              fillColor: Colors.white,
+              hintText: 'Search',
+              hintStyle:
+                  TextStyle(fontFamily: "Karla Regular", color: Colors.grey),
+              prefixIcon: Icon(
+                Icons.search,
+                color: Color(0xFF221540),
               ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderSide: BorderSide.none),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderSide: BorderSide.none),
             ),
+            onChanged: widget.onSearch,
           ),
-          onChanged: widget.onSearch,
         ),
       ),
     );
