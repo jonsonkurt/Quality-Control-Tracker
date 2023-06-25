@@ -39,7 +39,7 @@ Future<Map<DateTime, List>> fetchEventsFromDatabase(String projectID) {
             String keyName = "inspectionDate$index";
             String getDates = inspectDates[keyName];
             String rpName = value["rpName"];
-
+            print("$rpName, $getDates");
             // final dateTime = DateTime.parse(key.toString());
             DateFormat format1 = DateFormat('MM-dd-yyyy');
             DateTime formatgetData = format1.parse(getDates);
@@ -47,9 +47,13 @@ Future<Map<DateTime, List>> fetchEventsFromDatabase(String projectID) {
             Event events = Event(rpName, projectID);
 
             //List<Event>.from(value.map((event) => Event(rpName, projectID)));
+            if (eventsFromDatabase[formatgetData] != null) {
+              eventsFromDatabase[formatgetData]!.add(events);
+            } else {
+              eventsFromDatabase[formatgetData] = [events];
+            }
 
-            eventsFromDatabase[formatgetData] = [events];
-            print("EVENTS : $events");
+            // eventsFromDatabase[formatgetData] = [events];
           }
         }
       }
@@ -77,8 +81,9 @@ final kEvents = LinkedHashMap<DateTime, List<Event>>(
 Future<void> loadEventsFromDatabase(String projectID) async {
   try {
     final eventsFromDatabase = await fetchEventsFromDatabase(projectID);
+    _kEventSource.clear(); // Clear the existing events
     _kEventSource.addAll(eventsFromDatabase as Map<DateTime, List<Event>>);
-    kEvents.clear();
+    kEvents.clear(); // Clear the global events map
     kEvents.addAll(_kEventSource);
   } catch (error) {
     print('Failed to load events: $error');

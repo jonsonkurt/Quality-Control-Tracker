@@ -29,7 +29,7 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
   @override
   void dispose() {
     _selectedEvents.dispose();
-
+    kEvents.clear();
     super.dispose();
   }
 
@@ -44,9 +44,8 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
       });
-
-      _selectedEvents.value = _getEventsForDay(selectedDay);
     }
+    _selectedEvents.value = _getEventsForDay(selectedDay);
   }
 
   @override
