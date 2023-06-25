@@ -125,9 +125,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
                             return Padding(
                               padding: EdgeInsets.fromLTRB(
-                                mediaQuery.size.width * 0.01,
+                                mediaQuery.size.width * 0.02,
                                 mediaQuery.size.height * 0.001,
-                                mediaQuery.size.width * 0.01,
+                                mediaQuery.size.width * 0.02,
                                 mediaQuery.size.height * 0.001,
                               ),
                               child: GestureDetector(
