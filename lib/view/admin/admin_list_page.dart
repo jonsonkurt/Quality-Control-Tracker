@@ -130,9 +130,9 @@ class _AdminListPageState extends State<AdminListPage> {
 
                                 return Padding(
                                   padding: EdgeInsets.fromLTRB(
-                                    MediaQuery.of(context).size.width * 0.01,
+                                    MediaQuery.of(context).size.width * 0.02,
                                     MediaQuery.of(context).size.height * 0.001,
-                                    MediaQuery.of(context).size.width * 0.01,
+                                    MediaQuery.of(context).size.width * 0.02,
                                     MediaQuery.of(context).size.height * 0.001,
                                   ),
                                   child: Card(
@@ -147,13 +147,13 @@ class _AdminListPageState extends State<AdminListPage> {
                                             children: [
                                               Padding(
                                                 padding:
-                                                    const EdgeInsets.all(15.0),
+                                                    const EdgeInsets.all(10.0),
                                                 child: Hero(
                                                   tag: inspectorID,
                                                   child: ClipRRect(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            15),
+                                                            10),
                                                     child:
                                                         inspectorProfilePic ==
                                                                 "None"
@@ -196,43 +196,57 @@ class _AdminListPageState extends State<AdminListPage> {
                                                   ),
                                                 ),
                                               ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    inspectorFullName,
-                                                    style: TextStyle(
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          right: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.05),
+                                                      child: Text(
+                                                        inspectorFullName,
+                                                        maxLines: 1,
+                                                        softWrap: false,
+                                                        overflow:
+                                                            TextOverflow.fade,
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Rubik Bold',
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.023),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.01,
+                                                    ),
+                                                    Text(
+                                                      "Project handled:$projectHandled",
+                                                      style: TextStyle(
                                                         fontFamily:
-                                                            'Rubik Bold',
+                                                            'Karla Regular',
                                                         fontSize: MediaQuery.of(
                                                                     context)
                                                                 .size
                                                                 .height *
-                                                            0.023),
-                                                  ),
-                                                  SizedBox(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.01,
-                                                  ),
-                                                  Text(
-                                                    "Project handled:$projectHandled",
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          'Karla Regular',
-                                                      fontSize:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.018,
-                                                      color: const Color(
-                                                          0xff221540),
+                                                            0.018,
+                                                        color: const Color(
+                                                            0xff221540),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               )
                                             ],
                                           ),
