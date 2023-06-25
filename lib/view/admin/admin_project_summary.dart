@@ -29,6 +29,7 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
   @override
   void dispose() {
     _selectedEvents.dispose();
+
     super.dispose();
   }
 
@@ -54,7 +55,12 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Project Summary'),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.abc)),
+        title: const Text('Project Summary'),
       ),
       body: Column(
         children: [
