@@ -613,6 +613,7 @@ class _InspectorProjectUpdatesPageState
                                                       await provider
                                                           .updloadImage(widget
                                                               .projectUpdatesID);
+
                                                       // Updates inspectorNotes
                                                       DatabaseReference
                                                           inspectorNotesRef =
@@ -622,7 +623,8 @@ class _InspectorProjectUpdatesPageState
                                                               .child(
                                                                   'projectUpdates/${widget.projectUpdatesID}/inspectorNotes');
 
-                                                      inspectorNotesRef.update({
+                                                      await inspectorNotesRef
+                                                          .update({
                                                         "inspectorNotes$inspectorNotesLength":
                                                             inspectorNotes,
                                                       });
@@ -636,7 +638,7 @@ class _InspectorProjectUpdatesPageState
                                                               .child(
                                                                   'projectUpdates/${widget.projectUpdatesID}/inspectionIssueDeadline');
 
-                                                      inspectorIssueDeadlineRef
+                                                      await inspectorIssueDeadlineRef
                                                           .update({
                                                         "inspectionIssueDeadline$inspectionIssueDeadlineLength":
                                                             reworkDeadline
@@ -651,7 +653,8 @@ class _InspectorProjectUpdatesPageState
                                                               .child(
                                                                   'projectUpdates/${widget.projectUpdatesID}/inspectionDate');
 
-                                                      inspectionDateRef.update({
+                                                      await inspectionDateRef
+                                                          .update({
                                                         "inspectionDate$inspectionDateLength":
                                                             formattedDate
                                                       });
@@ -665,14 +668,20 @@ class _InspectorProjectUpdatesPageState
                                                               .child(
                                                                   'projectUpdates/${widget.projectUpdatesID}');
 
-                                                      projectsRef.update({
+                                                      await projectsRef.update({
                                                         "rpProjectRemarks":
                                                             "$rpID-$projectID-REWORK-$combinedDateTime",
                                                         "inspectorProjectRemarks":
                                                             "$userID-$projectID-REWORK-$combinedDateTime",
-                                                        "projectUpdatesPhotoURL":
-                                                            provider.imgURL,
                                                       });
+                                                      if (provider.imgURL !=
+                                                          "") {
+                                                        await projectsRef
+                                                            .update({
+                                                          "projectUpdatesPhotoURL":
+                                                              provider.imgURL,
+                                                        });
+                                                      }
 
                                                       reworkDeadlineController
                                                           .clear();

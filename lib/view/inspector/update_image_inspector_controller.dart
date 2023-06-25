@@ -96,10 +96,11 @@ class ProfileController with ChangeNotifier {
     firebase_storage.Reference storageRef = firebase_storage
         .FirebaseStorage.instance
         .ref('projectUpdates/$projectID');
-    firebase_storage.UploadTask uploadTask =
-        storageRef.putFile(File(image!.path).absolute);
-    await Future.value(uploadTask);
-
-    imgURL = await storageRef.getDownloadURL();
+    if (image != null) {
+      firebase_storage.UploadTask uploadTask =
+          storageRef.putFile(File(image!.path).absolute);
+      await Future.value(uploadTask);
+      imgURL = await storageRef.getDownloadURL();
+    }
   }
 }
