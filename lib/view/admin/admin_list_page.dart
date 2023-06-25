@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:quality_control_tracker/view/admin/admin_inspector_creation_page.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class AdminListPage extends StatefulWidget {
   const AdminListPage({Key? key}) : super(key: key);
@@ -151,7 +149,7 @@ class _AdminListPageState extends State<AdminListPage> {
                                                 padding:
                                                     const EdgeInsets.all(15.0),
                                                 child: Hero(
-                                                  tag: inspectorID!,
+                                                  tag: inspectorID,
                                                   child: ClipRRect(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -172,7 +170,7 @@ class _AdminListPageState extends State<AdminListPage> {
                                                                 fit: BoxFit
                                                                     .cover,
                                                                 image: NetworkImage(
-                                                                    inspectorProfilePic!),
+                                                                    inspectorProfilePic),
                                                                 loadingBuilder:
                                                                     (context,
                                                                         child,

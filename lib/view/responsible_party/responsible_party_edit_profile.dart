@@ -356,8 +356,12 @@ class _ResponsiblePartyEditProfile extends State<ResponsiblePartyEditProfile> {
                                       _phonenumberController.text;
 
                                   await provider.updloadImage();
+                                  if (provider.imgURL != "") {
+                                    await ref.child(userID!).update({
+                                      'profilePicStatus': provider.imgURL,
+                                    });
+                                  }
                                   await ref.child(userID!).update({
-                                    'profilePicStatus': provider.imgURL,
                                     'firstName': firstName,
                                     'lastName': lastName,
                                     'mobileNumber': mobileNumber,

@@ -554,9 +554,13 @@ class _ResponsiblePartyProjectUpdatesPageState
                                                         "$userID-$projectID-PENDING-$combinedDateTime",
                                                     "inspectorProjectRemarks":
                                                         "$inspectorID-$projectID-PENDING-$combinedDateTime",
-                                                    "projectUpdatesPhotoURL":
-                                                        provider.imgURL,
                                                   });
+                                                  if (provider.imgURL != "") {
+                                                    projectsRef.update({
+                                                      "projectUpdatesPhotoURL":
+                                                          provider.imgURL,
+                                                    });
+                                                  }
                                                   Navigator.of(context).pop();
                                                   Navigator.pop(context);
                                                 }

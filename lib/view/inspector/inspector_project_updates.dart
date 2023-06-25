@@ -178,13 +178,15 @@ class _InspectorProjectUpdatesPageState
                     map["rpNotes"]["rpNotes$projectUpdatesNotesLength"];
 
                 return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(
                       height: 20,
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 10,
+                      ),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(context,
@@ -197,112 +199,190 @@ class _InspectorProjectUpdatesPageState
                         },
 
                         // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
-                        child: Hero(
-                          tag: projectID,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: projectUpdatesPicture == "None"
-                                ? Image.asset(
-                                    'assets/images/no-image.png',
-                                    fit: BoxFit.cover,
-                                    width: 300,
-                                    height: 200,
-                                  )
-                                : Image(
-                                    width: 300,
-                                    height: 200,
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(projectUpdatesPicture),
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) {
-                                        return child;
-                                      }
-                                      return const CircularProgressIndicator();
-                                    },
-                                    errorBuilder: (context, object, stack) {
-                                      return const Icon(
-                                        Icons.error_outline,
-                                        color: Color.fromARGB(255, 35, 35, 35),
-                                      );
-                                    },
-                                  ),
+                        child: Material(
+                          borderRadius: BorderRadius.circular(10),
+                          elevation: 5,
+                          child: Hero(
+                            tag: projectID,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: projectUpdatesPicture == "None"
+                                  ? Image.asset(
+                                      'assets/images/no-image.png',
+                                      fit: BoxFit.cover,
+                                      width: mediaQuery.size.width * 0.8,
+                                      height: mediaQuery.size.height * 0.25,
+                                    )
+                                  : Image(
+                                      width: mediaQuery.size.width * 0.8,
+                                      height: mediaQuery.size.height * 0.25,
+                                      fit: BoxFit.cover,
+                                      image:
+                                          NetworkImage(projectUpdatesPicture),
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        }
+                                        return const CircularProgressIndicator();
+                                      },
+                                      errorBuilder: (context, object, stack) {
+                                        return const Icon(
+                                          Icons.error_outline,
+                                          color:
+                                              Color.fromARGB(255, 35, 35, 35),
+                                        );
+                                      },
+                                    ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        projectUpdatesTitle,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    SizedBox(height: mediaQuery.size.height * 0.02),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(mediaQuery.size.width * 0.1,
+                          0, mediaQuery.size.width * 0.1, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            projectUpdatesTitle,
+                            style: TextStyle(
+                              fontFamily: "Rubik Bold",
+                              fontSize: mediaQuery.size.height * 0.03,
+                              color: const Color(0xFF221540),
+                            ),
+                          ),
+                          SizedBox(height: mediaQuery.size.height * 0.01),
+                          Text(
+                            'Accomplished by: $projectUpdatesOP',
+                            style: TextStyle(
+                              fontFamily: 'Karla Regular',
+                              fontSize: mediaQuery.size.height * 0.02,
+                              fontStyle: FontStyle.italic,
+                              color: const Color(0xFF221540),
+                            ),
+                          ),
+                          SizedBox(height: mediaQuery.size.height * 0.01),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    mediaQuery.size.width * 0.01),
+                                child: Icon(
+                                  Icons.calendar_today,
+                                  color: const Color(0xFF221540),
+                                  size: mediaQuery.size.height * 0.03,
+                                ),
+                              ),
+                              Text(
+                                "$projectUpdatesSubmissionDate",
+                                style: TextStyle(
+                                  fontFamily: 'Karla Regular',
+                                  fontSize: mediaQuery.size.height * 0.02,
+                                  color: const Color(0xFF221540),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    mediaQuery.size.width * 0.01),
+                                child: Icon(
+                                  Icons.search,
+                                  color: const Color(0xFF221540),
+                                  size: mediaQuery.size.height * 0.03,
+                                ),
+                              ),
+                              Text(
+                                "$projectUpdatesTag",
+                                style: TextStyle(
+                                  fontFamily: "Karla Regular",
+                                  fontSize: mediaQuery.size.height * 0.02,
+                                  color: const Color(0xFF221540),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: mediaQuery.size.height * 0.02),
+                          Text(
+                            "Description:",
+                            style: TextStyle(
+                              fontFamily: "Rubik Bold",
+                              fontSize: mediaQuery.size.height * 0.022,
+                              color: const Color(0xFF221540),
+                            ),
+                          ),
+                          Text(
+                            "$projectUpdatesNotes",
+                            style: TextStyle(
+                              fontFamily: "Karla Regular",
+                              fontSize: mediaQuery.size.height * 0.02,
+                              color: const Color(0xFF221540),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        'Accomplished by: $projectUpdatesOP',
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        "Submission Date: $projectUpdatesSubmissionDate",
-                        // "Submission Date: ",
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        "Tag: $projectUpdatesTag",
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        "Description: $projectUpdatesNotes",
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
+                    SizedBox(height: mediaQuery.size.height * 0.02),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              backgroundColor: const Color(0xFF221540)),
                           onPressed: () {
                             // Confirmation dialog
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: const Text('Confirmation'),
-                                  content: const Text(
-                                      'Are you sure you want to mark the inspection as complete and indicate that no issues were found?'),
+                                  title: Text(
+                                    'Confirmation',
+                                    style: TextStyle(
+                                      fontFamily: 'Rubik Bold',
+                                      fontSize: mediaQuery.size.height * 0.03,
+                                      color: const Color(0xFF221540),
+                                    ),
+                                  ),
+                                  content: Text(
+                                    'Are you sure you want to mark the inspection as complete and indicate that no issues were found?',
+                                    style: TextStyle(
+                                      fontFamily: "Karla Regular",
+                                      fontSize: mediaQuery.size.height * 0.02,
+                                      color: const Color(0xFF221540),
+                                    ),
+                                  ),
                                   actions: [
                                     TextButton(
-                                      child: const Text('No'),
+                                      child: Text(
+                                        'No',
+                                        style: TextStyle(
+                                          fontFamily: "Karla Regular",
+                                          fontSize:
+                                              mediaQuery.size.height * 0.02,
+                                          color: const Color(0xFF221540),
+                                        ),
+                                      ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
                                     ),
                                     TextButton(
-                                      child: const Text('Yes'),
+                                      child: Text(
+                                        'Yes',
+                                        style: TextStyle(
+                                          fontFamily: "Karla Regular",
+                                          fontSize:
+                                              mediaQuery.size.height * 0.02,
+                                          color: const Color(0xFF221540),
+                                        ),
+                                      ),
                                       onPressed: () {
                                         // Performs the action when the user confirms
                                         // Updates inspectorNotes
@@ -344,9 +424,25 @@ class _InspectorProjectUpdatesPageState
                               },
                             );
                           },
-                          child: const Text('Accept'),
+                          child: Padding(
+                            padding:
+                                EdgeInsets.all(mediaQuery.size.height * 0.017),
+                            child: Text(
+                              'Accept',
+                              style: TextStyle(
+                                fontFamily: 'Rubik Regular',
+                                fontSize: mediaQuery.size.height * 0.02,
+                              ),
+                            ),
+                          ),
                         ),
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            backgroundColor: const Color(0xFF221540),
+                          ),
                           onPressed: () {
                             // Dialog for rework
                             showDialog(
@@ -375,214 +471,244 @@ class _InspectorProjectUpdatesPageState
                                                 color: const Color(0xFF221540),
                                               ),
                                             ),
-                                            content: Form(
-                                              key: formKey,
-                                              child: SingleChildScrollView(
-                                                child: SizedBox(
-                                                  height: 400,
-                                                  child: Column(
-                                                    children: [
-                                                      TextFormField(
-                                                        cursorColor:
-                                                            const Color(
-                                                                0xFF221540),
-                                                        controller:
-                                                            inspectorNotesController,
-                                                        decoration:
-                                                            InputDecoration(
-                                                          contentPadding:
-                                                              const EdgeInsets
-                                                                      .fromLTRB(
-                                                                  12, 4, 4, 0),
-                                                          border:
-                                                              OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30.0),
-                                                            borderSide:
-                                                                BorderSide.none,
-                                                          ),
-                                                          focusedBorder:
-                                                              OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30),
-                                                            borderSide:
-                                                                BorderSide.none,
-                                                          ),
-                                                          filled: true,
-                                                          fillColor:
-                                                              Colors.white,
-                                                          hintText: 'Notes',
-                                                          labelStyle: TextStyle(
-                                                            fontFamily:
-                                                                'Karla Regular',
-                                                            fontSize: mediaQuery
-                                                                    .size
-                                                                    .height *
-                                                                0.02,
-                                                          ),
-                                                        ),
-                                                        validator: (value) {
-                                                          if (value!.isEmpty) {
-                                                            return 'Please enter your notes';
-                                                          }
-                                                          return null;
-                                                        },
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          provider.pickImage(
-                                                              context,
-                                                              widget
-                                                                  .projectUpdatesID);
-                                                        },
-                                                        child: Container(
-                                                          height: 130,
-                                                          width: 130,
+                                            content: SizedBox(
+                                              height:
+                                                  mediaQuery.size.height * 0.42,
+                                              width:
+                                                  mediaQuery.size.height * 0.14,
+                                              child: Form(
+                                                key: formKey,
+                                                child: SingleChildScrollView(
+                                                  child: SizedBox(
+                                                    height:
+                                                        mediaQuery.size.height *
+                                                            0.45,
+                                                    child: Column(
+                                                      children: [
+                                                        TextFormField(
+                                                          cursorColor:
+                                                              const Color(
+                                                                  0xFF221540),
+                                                          controller:
+                                                              inspectorNotesController,
                                                           decoration:
-                                                              BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .rectangle,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              15),
-                                                                  border: Border
-                                                                      .all(
-                                                                    color: const Color(
-                                                                        0xff221540),
-                                                                    width: 2,
-                                                                  )),
-                                                          child: ClipRRect(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        15),
-                                                            child: provider
-                                                                        .image ==
-                                                                    null
-                                                                ? const Icon(
-                                                                    Icons
-                                                                        .add_circle,
-                                                                    size: 35,
-                                                                    color: Color(
-                                                                        0xff221540),
-                                                                  )
-                                                                : Image.file(
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                    File(provider
-                                                                            .image!
-                                                                            .path)
-                                                                        .absolute),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      TextfieldDatePicker(
-                                                        textfieldDatePickerWidth:
-                                                            MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.4,
-                                                        textAlignVertical:
-                                                            TextAlignVertical
-                                                                .bottom,
-                                                        cupertinoDatePickerBackgroundColor:
-                                                            Colors.white,
-                                                        cupertinoDatePickerMaximumDate:
-                                                            DateTime(2099),
-                                                        cupertinoDatePickerMaximumYear:
-                                                            2099,
-                                                        cupertinoDatePickerMinimumYear:
-                                                            1990,
-                                                        cupertinoDatePickerMinimumDate:
-                                                            DateTime(1990),
-                                                        cupertinoDateInitialDateTime:
-                                                            DateTime.now(),
-                                                        materialDatePickerFirstDate:
-                                                            DateTime.now(),
-                                                        materialDatePickerInitialDate:
-                                                            DateTime.now(),
-                                                        materialDatePickerLastDate:
-                                                            DateTime(2099),
-                                                        preferredDateFormat:
-                                                            DateFormat(
-                                                          'dd-MMMM-' 'yyyy',
-                                                        ),
-                                                        textfieldDatePickerController:
-                                                            reworkDeadlineController,
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              'Karla Regular',
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.02,
-                                                          color: const Color(
-                                                              0xff221540),
-                                                        ),
-                                                        textCapitalization:
-                                                            TextCapitalization
-                                                                .sentences,
-                                                        cursorColor:
-                                                            Colors.black,
-                                                        decoration:
-                                                            InputDecoration(
-                                                          //errorText: errorTextValue,
-                                                          helperStyle:
-                                                              TextStyle(
-                                                            fontFamily:
-                                                                'Karla Regular',
-                                                            fontSize: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height *
-                                                                0.017,
-                                                            color: const Color(
-                                                                0xff221540),
-                                                          ),
-                                                          hintText:
-                                                              'Select Date',
-                                                          hintStyle: TextStyle(
-                                                            fontFamily:
-                                                                'Karla Regular',
-                                                            fontSize: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height *
-                                                                0.02,
-                                                            color: const Color(
-                                                                0xff221540),
-                                                          ),
-                                                          filled: true,
-                                                          fillColor:
-                                                              Colors.white,
-
-                                                          border: OutlineInputBorder(
+                                                              InputDecoration(
+                                                            contentPadding:
+                                                                const EdgeInsets
+                                                                        .fromLTRB(
+                                                                    12,
+                                                                    4,
+                                                                    4,
+                                                                    0),
+                                                            border:
+                                                                OutlineInputBorder(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
                                                                           30.0),
                                                               borderSide:
                                                                   BorderSide
-                                                                      .none),
+                                                                      .none,
+                                                            ),
+                                                            focusedBorder:
+                                                                OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30),
+                                                              borderSide:
+                                                                  BorderSide
+                                                                      .none,
+                                                            ),
+                                                            filled: true,
+                                                            fillColor:
+                                                                Colors.white,
+                                                            hintText: 'Notes',
+                                                            labelStyle:
+                                                                TextStyle(
+                                                              fontFamily:
+                                                                  'Karla Regular',
+                                                              fontSize: mediaQuery
+                                                                      .size
+                                                                      .height *
+                                                                  0.02,
+                                                            ),
+                                                          ),
+                                                          validator: (value) {
+                                                            if (value!
+                                                                .isEmpty) {
+                                                              return 'Please enter your notes';
+                                                            }
+                                                            return null;
+                                                          },
                                                         ),
-                                                        validator: (value) {
-                                                          if (value!.isEmpty) {
-                                                            return 'Please enter a deadline';
-                                                          }
-                                                          return null;
-                                                        },
-                                                      ),
-                                                    ],
+                                                        SizedBox(
+                                                          height: mediaQuery
+                                                                  .size.height *
+                                                              0.03,
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            provider.pickImage(
+                                                                context,
+                                                                widget
+                                                                    .projectUpdatesID);
+                                                          },
+                                                          child: Container(
+                                                            height: mediaQuery
+                                                                    .size
+                                                                    .height *
+                                                                0.15,
+                                                            width: mediaQuery
+                                                                    .size
+                                                                    .width *
+                                                                0.3,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .rectangle,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            15),
+                                                                    border:
+                                                                        Border
+                                                                            .all(
+                                                                      color: const Color(
+                                                                          0xff221540),
+                                                                      width: 2,
+                                                                    )),
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15),
+                                                              child: provider
+                                                                          .image ==
+                                                                      null
+                                                                  ? const Icon(
+                                                                      Icons
+                                                                          .add_circle,
+                                                                      size: 35,
+                                                                      color: Color(
+                                                                          0xff221540),
+                                                                    )
+                                                                  : Image.file(
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      File(provider
+                                                                              .image!
+                                                                              .path)
+                                                                          .absolute),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: mediaQuery
+                                                                  .size.height *
+                                                              0.02,
+                                                        ),
+                                                        TextfieldDatePicker(
+                                                          textfieldDatePickerWidth:
+                                                              MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.4,
+                                                          textAlignVertical:
+                                                              TextAlignVertical
+                                                                  .bottom,
+                                                          cupertinoDatePickerBackgroundColor:
+                                                              Colors.white,
+                                                          cupertinoDatePickerMaximumDate:
+                                                              DateTime(2099),
+                                                          cupertinoDatePickerMaximumYear:
+                                                              2099,
+                                                          cupertinoDatePickerMinimumYear:
+                                                              1990,
+                                                          cupertinoDatePickerMinimumDate:
+                                                              DateTime(1990),
+                                                          cupertinoDateInitialDateTime:
+                                                              DateTime.now(),
+                                                          materialDatePickerFirstDate:
+                                                              DateTime.now(),
+                                                          materialDatePickerInitialDate:
+                                                              DateTime.now(),
+                                                          materialDatePickerLastDate:
+                                                              DateTime(2099),
+                                                          preferredDateFormat:
+                                                              DateFormat(
+                                                            'dd-MMMM-' 'yyyy',
+                                                          ),
+                                                          textfieldDatePickerController:
+                                                              reworkDeadlineController,
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                'Karla Regular',
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.02,
+                                                            color: const Color(
+                                                                0xff221540),
+                                                          ),
+                                                          textCapitalization:
+                                                              TextCapitalization
+                                                                  .sentences,
+                                                          cursorColor:
+                                                              Colors.black,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            //errorText: errorTextValue,
+                                                            helperStyle:
+                                                                TextStyle(
+                                                              fontFamily:
+                                                                  'Karla Regular',
+                                                              fontSize: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.017,
+                                                              color: const Color(
+                                                                  0xff221540),
+                                                            ),
+                                                            hintText:
+                                                                'Select Date',
+                                                            hintStyle:
+                                                                TextStyle(
+                                                              fontFamily:
+                                                                  'Karla Regular',
+                                                              fontSize: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.02,
+                                                              color: const Color(
+                                                                  0xff221540),
+                                                            ),
+                                                            filled: true,
+                                                            fillColor:
+                                                                Colors.white,
+
+                                                            border: OutlineInputBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            30.0),
+                                                                borderSide:
+                                                                    BorderSide
+                                                                        .none),
+                                                          ),
+                                                          validator: (value) {
+                                                            if (value!
+                                                                .isEmpty) {
+                                                              return 'Please enter a deadline';
+                                                            }
+                                                            return null;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -613,6 +739,7 @@ class _InspectorProjectUpdatesPageState
                                                       await provider
                                                           .updloadImage(widget
                                                               .projectUpdatesID);
+
                                                       // Updates inspectorNotes
                                                       DatabaseReference
                                                           inspectorNotesRef =
@@ -622,7 +749,8 @@ class _InspectorProjectUpdatesPageState
                                                               .child(
                                                                   'projectUpdates/${widget.projectUpdatesID}/inspectorNotes');
 
-                                                      inspectorNotesRef.update({
+                                                      await inspectorNotesRef
+                                                          .update({
                                                         "inspectorNotes$inspectorNotesLength":
                                                             inspectorNotes,
                                                       });
@@ -636,7 +764,7 @@ class _InspectorProjectUpdatesPageState
                                                               .child(
                                                                   'projectUpdates/${widget.projectUpdatesID}/inspectionIssueDeadline');
 
-                                                      inspectorIssueDeadlineRef
+                                                      await inspectorIssueDeadlineRef
                                                           .update({
                                                         "inspectionIssueDeadline$inspectionIssueDeadlineLength":
                                                             reworkDeadline
@@ -651,7 +779,8 @@ class _InspectorProjectUpdatesPageState
                                                               .child(
                                                                   'projectUpdates/${widget.projectUpdatesID}/inspectionDate');
 
-                                                      inspectionDateRef.update({
+                                                      await inspectionDateRef
+                                                          .update({
                                                         "inspectionDate$inspectionDateLength":
                                                             formattedDate
                                                       });
@@ -665,14 +794,20 @@ class _InspectorProjectUpdatesPageState
                                                               .child(
                                                                   'projectUpdates/${widget.projectUpdatesID}');
 
-                                                      projectsRef.update({
+                                                      await projectsRef.update({
                                                         "rpProjectRemarks":
                                                             "$rpID-$projectID-REWORK-$combinedDateTime",
                                                         "inspectorProjectRemarks":
                                                             "$userID-$projectID-REWORK-$combinedDateTime",
-                                                        "projectUpdatesPhotoURL":
-                                                            provider.imgURL,
                                                       });
+                                                      if (provider.imgURL !=
+                                                          "") {
+                                                        await projectsRef
+                                                            .update({
+                                                          "projectUpdatesPhotoURL":
+                                                              provider.imgURL,
+                                                        });
+                                                      }
 
                                                       reworkDeadlineController
                                                           .clear();
@@ -698,13 +833,27 @@ class _InspectorProjectUpdatesPageState
                                                   ),
                                                 ),
                                               ),
+                                              SizedBox(
+                                                  height:
+                                                      mediaQuery.size.height *
+                                                          0.02),
                                             ],
                                           );
                                         },
                                       ));
                                 });
                           },
-                          child: const Text('Rework'),
+                          child: Padding(
+                            padding:
+                                EdgeInsets.all(mediaQuery.size.height * 0.017),
+                            child: Text(
+                              'Rework',
+                              style: TextStyle(
+                                fontFamily: 'Rubik Regular',
+                                fontSize: mediaQuery.size.height * 0.02,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),

@@ -220,8 +220,8 @@ class _ResponsiblePartyUpdatePageState
                               .instance
                               .ref()
                               .child('projectUpdates/$projectUpdatesID');
-
-                          projectsRef.set({
+                          
+                          await projectsRef.set({
                             "projectID": widget.projectIDQuery,
                             "projectUpdatesID": projectUpdatesID,
                             "rpID": userID,
@@ -239,9 +239,14 @@ class _ResponsiblePartyUpdatePageState
                                 "$inspectorID-${widget.projectIDQuery}-PENDING-$combinedDateTime",
                             "inspectorNotes": "",
                             "inspectionDate": "",
-                            "projectUpdatesPhotoURL": provider.imgURL,
                             "projectUpdatesTitle": rpTitle,
+                            "projectUpdatesPhotoURL": "None",
                           });
+                          if (provider.imgURL != "") {
+                            await projectsRef.update({
+                              "projectUpdatesPhotoURL": provider.imgURL,
+                            });
+                          }
 
                           Navigator.of(context).pop();
                         }
