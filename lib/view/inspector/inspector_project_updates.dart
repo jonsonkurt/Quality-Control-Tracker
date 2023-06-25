@@ -637,7 +637,7 @@ class _InspectorProjectUpdatesPageState
                                                               DateTime(2099),
                                                           preferredDateFormat:
                                                               DateFormat(
-                                                            'dd-MMMM-' 'yyyy',
+                                                            'MM-dd-yyyy',
                                                           ),
                                                           textfieldDatePickerController:
                                                               reworkDeadlineController,
