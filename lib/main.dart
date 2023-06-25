@@ -5,14 +5,13 @@ import 'package:quality_control_tracker/view/admin/admin_bottom_navigation_bar.d
 import 'package:quality_control_tracker/welcome_page.dart';
 import 'firebase_options.dart';
 import 'package:flutter/services.dart';
-import 'package:device_preview/device_preview.dart';
 
 import 'loading_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(DevicePreview(enabled: true, builder: (context) => const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
