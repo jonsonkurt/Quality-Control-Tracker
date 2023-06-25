@@ -368,23 +368,11 @@ class _SearchBoxState extends State<SearchBox> {
             hintStyle: TextStyle(fontFamily: "GothamRnd", color: Colors.grey),
             prefixIcon: Icon(
               Icons.search,
-              color: Color(0xFF274C77),
+              color: Color(0xFF221540),
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              borderSide: BorderSide(
-                color: Color(0xFF274C77),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              borderSide: BorderSide(
-                color: Color(0xFF274C77),
-              ),
             ),
           ),
           onChanged: widget.onSearch,
