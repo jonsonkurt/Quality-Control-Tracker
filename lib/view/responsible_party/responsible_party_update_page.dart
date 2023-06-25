@@ -382,7 +382,7 @@ class _ResponsiblePartyUpdatePageState
           mediaQuery.size.height * 0.1,
         ),
         child: AppBar(
-          toolbarHeight: 60,
+          toolbarHeight: mediaQuery.size.height * 0.1,
           backgroundColor: Colors.white,
           leading: Padding(
             padding: EdgeInsets.fromLTRB(
