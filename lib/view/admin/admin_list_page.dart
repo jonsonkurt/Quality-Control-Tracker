@@ -92,12 +92,16 @@ class _AdminListPageState extends State<AdminListPage> {
                         itemBuilder: (context, index) {
                           String projectUpdatesID =
                               values.keys.elementAt(index);
+                          String? inspectorID =
+                              values[projectUpdatesID]["inspectorID"];
                           String? inspectorFirstName =
                               values[projectUpdatesID]["firstName"];
                           String? inspectorLastName =
                               values[projectUpdatesID]["lastName"];
                           String? inspectorFullName =
                               "$inspectorFirstName $inspectorLastName";
+                          String? inspectorProfilePic =
+                              values[projectUpdatesID]["profilePicStatus"];
 
                           int projectHandled =
                               countProjects(projectList, inspectorFullName);
@@ -118,11 +122,46 @@ class _AdminListPageState extends State<AdminListPage> {
                                   children: [
                                     Row(
                                       children: [
-                                        const Padding(
-                                          padding: EdgeInsets.all(15.0),
-                                          child: Icon(
-                                            Icons.person,
-                                            size: 50,
+                                        Padding(
+                                          padding: const EdgeInsets.all(15.0),
+                                          child: Hero(
+                                            tag: inspectorID!,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: inspectorProfilePic ==
+                                                      "None"
+                                                  ? Image.asset(
+                                                      'assets/images/no-image.png',
+                                                      fit: BoxFit.cover,
+                                                      width: 100,
+                                                      height: 100,
+                                                    )
+                                                  : Image(
+                                                      width: 100,
+                                                      height: 100,
+                                                      fit: BoxFit.cover,
+                                                      image: NetworkImage(
+                                                          inspectorProfilePic!),
+                                                      loadingBuilder: (context,
+                                                          child,
+                                                          loadingProgress) {
+                                                        if (loadingProgress ==
+                                                            null) {
+                                                          return child;
+                                                        }
+                                                        return const CircularProgressIndicator();
+                                                      },
+                                                      errorBuilder: (context,
+                                                          object, stack) {
+                                                        return const Icon(
+                                                          Icons.error_outline,
+                                                          color:
+                                                              Color(0xFF221540),
+                                                        );
+                                                      },
+                                                    ),
+                                            ),
                                           ),
                                         ),
                                         Column(
