@@ -104,14 +104,14 @@ class _ResponsiblePartyEditProfile extends State<ResponsiblePartyEditProfile> {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasData) {
                     Map<dynamic, dynamic> map = snapshot.data.snapshot.value;
-                    String email = map["email"];
-                    String fcmToken = map["fcmToken"];
-                    String firstName = map["firstName"];
-                    String lastName = map["lastName"];
-                    String mobileNumber = map["mobileNumber"];
+                    // String email = map["email"];
+                    // String fcmToken = map["fcmToken"];
+                    // String firstName = map["firstName"];
+                    // String lastName = map["lastName"];
+                    // String mobileNumber = map["mobileNumber"];
                     String profilePicStatus = map["profilePicStatus"];
-                    String responsiblePartyID = map["responsiblePartyID"];
-                    String role = map["role"];
+                    // String responsiblePartyID = map["responsiblePartyID"];
+                    // String role = map["role"];
 
                     return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
