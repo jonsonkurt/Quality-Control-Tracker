@@ -294,7 +294,7 @@ class _SearchBox1State extends State<SearchBox1> {
             right: MediaQuery.of(context).size.width / 250),
         child: Material(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           elevation: 5,
           child: TextField(
             controller: _searchController,

@@ -367,38 +367,42 @@ class _SearchBoxState extends State<SearchBox> {
             top: MediaQuery.of(context).size.height / 200,
             left: MediaQuery.of(context).size.width / 250,
             right: MediaQuery.of(context).size.width / 250),
-        child: TextField(
-          controller: _searchController,
-          style: const TextStyle(
-            color: Colors.black,
-          ),
-          decoration: const InputDecoration(
-            filled: true,
-            fillColor: Colors.white,
-            hintText: 'Search',
-            hintStyle: TextStyle(fontFamily: "GothamRnd", color: Colors.grey),
-            prefixIcon: Icon(
-              Icons.search,
-              color: Color(0xFF274C77),
+        child: Material(
+          borderRadius: BorderRadius.circular(20),
+          elevation: 5,
+          child: TextField(
+            controller: _searchController,
+            style: const TextStyle(
+              color: Colors.black,
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              borderSide: BorderSide(
+            decoration: const InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              hintText: 'Search',
+              hintStyle: TextStyle(fontFamily: "GothamRnd", color: Colors.grey),
+              prefixIcon: Icon(
+                Icons.search,
                 color: Color(0xFF274C77),
               ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              borderSide: BorderSide(
-                color: Color(0xFF274C77),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderSide: BorderSide(
+                  color: Color(0xFF274C77),
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderSide: BorderSide(
+                  color: Color(0xFF274C77),
+                ),
               ),
             ),
+            onChanged: widget.onSearch,
           ),
-          onChanged: widget.onSearch,
         ),
       ),
     );
