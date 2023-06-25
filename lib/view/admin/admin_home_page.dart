@@ -108,7 +108,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           onTap: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return ProjectSummaryPage(projectID: projectID);
+                              return ProjectSummaryPage(
+                                projectID: projectID,
+                              );
                             }));
                           },
                           child: Card(
