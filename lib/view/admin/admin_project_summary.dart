@@ -213,7 +213,14 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
                       ),
                       child: ListTile(
                         onTap: () => print('${value[index]}'),
-                        title: Text('${value[index]}'),
+                        title: Text(
+                          '${value[index]}',
+                          style: TextStyle(
+                            fontFamily: 'Karla Regular',
+                            fontSize: MediaQuery.of(context).size.height * 0.02,
+                            color: const Color(0xff221540),
+                          ),
+                        ),
                       ),
                     );
                   },

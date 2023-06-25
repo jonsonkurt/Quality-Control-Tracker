@@ -7,16 +7,21 @@ import 'package:table_calendar/table_calendar.dart';
 /// Example event class.
 class Event {
   final String rpName;
-  final String projectID;
+
   final String inspectorNotes;
   final String projectUpdatesTitle;
+  final String rpRole;
 
-  const Event(this.rpName, this.projectID, this.inspectorNotes,
-      this.projectUpdatesTitle);
+  const Event(
+    this.projectUpdatesTitle,
+    this.rpRole,
+    this.rpName,
+    this.inspectorNotes,
+  );
 
   @override
   String toString() =>
-      'rpName: $rpName\nprojectID: $projectID\ninspectorNotes: $inspectorNotes\n projectUpdatesTitle: $projectUpdatesTitle';
+      'Title: $projectUpdatesTitle\nRole: $rpRole\n$rpName\nNotes: $inspectorNotes';
 }
 
 final DatabaseReference _databaseReference =
@@ -51,10 +56,10 @@ Future<Map<DateTime, List>> fetchEventsFromDatabase(String projectID) {
 
             String keyNotes = "inspectorNotes$index";
             String? getNotes = inspectorNotes[keyNotes];
-
+            String rpRole = value["rpRole"];
             String projectUpdatesTitle = value["projectUpdatesTitle"];
             Event events =
-                Event(rpName, projectID, getNotes!, projectUpdatesTitle);
+                Event(projectUpdatesTitle, rpRole, rpName, getNotes!);
 
             if (eventsFromDatabase[formatgetData] != null) {
               eventsFromDatabase[formatgetData]!.add(events);
