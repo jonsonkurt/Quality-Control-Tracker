@@ -53,25 +53,111 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
     loadEventsFromDatabase(widget.projectID);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
+      backgroundColor: const Color(0xFFDCE4E9),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(
+          MediaQuery.of(context).size.height * 0.1,
+        ),
+        child: AppBar(
+          backgroundColor: Colors.white,
+          toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+          leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.abc)),
-        title: const Text('Project Summary'),
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xFF221540),
+            ),
+          ),
+          title: Text(
+            'Project Summary',
+            style: TextStyle(
+              fontFamily: 'Rubik Bold',
+              fontSize: MediaQuery.of(context).size.height * 0.03,
+              color: const Color(0xFF221540),
+            ),
+          ),
+        ),
       ),
       body: Column(
         children: [
           TableCalendar<Event>(
+            daysOfWeekStyle: DaysOfWeekStyle(
+              weekdayStyle: TextStyle(
+                fontFamily: "Karla Regular",
+                fontSize: MediaQuery.of(context).size.height * 0.02,
+                color: const Color(0xff221540),
+              ),
+              weekendStyle: TextStyle(
+                fontFamily: "Karla Regular",
+                fontSize: MediaQuery.of(context).size.height * 0.02,
+                color: const Color(0xff221540),
+              ),
+            ),
+            headerStyle: HeaderStyle(
+              headerMargin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * 0.02,
+              ),
+              formatButtonDecoration: BoxDecoration(
+                  border: Border.all(
+                color: Colors.white,
+              )),
+              formatButtonTextStyle: const TextStyle(
+                color: Colors.white,
+              ),
+              leftChevronIcon: const Icon(
+                Icons.chevron_left,
+                color: Colors.white,
+              ),
+              rightChevronIcon: const Icon(
+                Icons.chevron_right,
+                color: Colors.white,
+              ),
+              decoration: const BoxDecoration(
+                color: Color(0xff221540),
+              ),
+              titleTextStyle: TextStyle(
+                fontFamily: "Rubik Regular",
+                fontSize: MediaQuery.of(context).size.height * 0.02,
+                color: Colors.white,
+              ),
+            ),
             firstDay: DateTime(1990),
             lastDay: DateTime(2050),
             focusedDay: _focusedDay,
             selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
             calendarFormat: _calendarFormat,
             eventLoader: _getEventsForDay,
-            startingDayOfWeek: StartingDayOfWeek.monday,
-            calendarStyle: CalendarStyle(),
+            startingDayOfWeek: StartingDayOfWeek.sunday,
+            calendarStyle: CalendarStyle(
+                markerDecoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xffE5963C),
+                ),
+                todayTextStyle: TextStyle(
+                  fontFamily: "Karla Regular",
+                  fontSize: MediaQuery.of(context).size.height * 0.018,
+                  color: Colors.white,
+                ),
+                todayDecoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color.fromARGB(122, 34, 21, 64),
+                ),
+                selectedTextStyle: TextStyle(
+                  fontFamily: "Karla Regular",
+                  fontSize: MediaQuery.of(context).size.height * 0.018,
+                  color: Colors.white,
+                ),
+                selectedDecoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xff221540),
+                ),
+                defaultTextStyle: TextStyle(
+                  fontFamily: "Karla Regular",
+                  fontSize: MediaQuery.of(context).size.height * 0.018,
+                  color: const Color(0xff221540),
+                )),
             onDaySelected: _onDaySelected,
             onFormatChanged: (format) {
               if (_calendarFormat != format) {
