@@ -33,6 +33,13 @@ class _ResponsiblePartyDashboardPageState
   var logger = Logger();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isLoading = true;
+  String? searchQuery = "";
+
+  void _handleSearch(String value) {
+    setState(() {
+      searchQuery = value;
+    });
+  }
 
   @override
   void dispose() {
@@ -244,211 +251,320 @@ class _ResponsiblePartyDashboardPageState
             ],
           ),
         ),
-        body: StreamBuilder(
-            stream: ref.orderByChild(rpRole).equalTo(userID).onValue,
-            builder: (context, AsyncSnapshot snapshot) {
-              dynamic values;
-              if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasData) {
-                DataSnapshot dataSnapshot = snapshot.data!.snapshot;
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: SearchBox(onSearch: _handleSearch),
+            ),
+            Expanded(
+              child: StreamBuilder(
+                  stream: ref.orderByChild(rpRole).equalTo(userID).onValue,
+                  builder: (context, AsyncSnapshot snapshot) {
+                    dynamic values;
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasData) {
+                      DataSnapshot dataSnapshot = snapshot.data!.snapshot;
 
-                if (dataSnapshot.value != null) {
-                  values = dataSnapshot.value;
+                      if (dataSnapshot.value != null) {
+                        values = dataSnapshot.value;
 
-                  return ListView.builder(
-                      itemCount: values.length,
-                      itemBuilder: (context, index) {
-                        String projectID = values.keys.elementAt(index);
+                        return ListView.builder(
+                            itemCount: values.length,
+                            itemBuilder: (context, index) {
+                              String projectID = values.keys.elementAt(index);
 
-                        String projectName = values[projectID]["projectName"];
-                        String projectLocation =
-                            values[projectID]["projectLocation"];
-                        String projectInspector =
-                            values[projectID]["inspector"];
-                        String projectImage = values[projectID]["projectImage"];
+                              String projectName =
+                                  values[projectID]["projectName"];
+                              String projectLocation =
+                                  values[projectID]["projectLocation"];
+                              String projectInspector =
+                                  values[projectID]["inspector"];
+                              String projectImage =
+                                  values[projectID]["projectImage"];
 
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ResponsiblePartyBottomNavigation(
-                                  projectID: projectID,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(
-                              mediaQuery.size.width * 0.01,
-                              mediaQuery.size.height * 0.001,
-                              mediaQuery.size.width * 0.01,
-                              mediaQuery.size.height * 0.001,
-                            ),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                                  builder: (context) {
-                                            return DetailScreen(
-                                              imageUrl: projectImage,
-                                              projectID: projectID,
-                                            );
-                                          }));
-                                        },
-
-                                        // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
-                                        child: Hero(
-                                          tag: projectID,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              child: projectImage == "None"
-                                                  ? Image.asset(
-                                                      'assets/images/no-image.png',
-                                                      fit: BoxFit.cover,
-                                                      width: 100,
-                                                      height: 100,
-                                                    )
-                                                  : Image(
-                                                      width: 100,
-                                                      height: 100,
-                                                      fit: BoxFit.cover,
-                                                      image: NetworkImage(
-                                                          projectImage),
-                                                      loadingBuilder: (context,
-                                                          child,
-                                                          loadingProgress) {
-                                                        if (loadingProgress ==
-                                                            null) {
-                                                          return child;
-                                                        }
-                                                        return const CircularProgressIndicator();
-                                                      },
-                                                      errorBuilder: (context,
-                                                          object, stack) {
-                                                        return const Icon(
-                                                          Icons.error_outline,
-                                                          color: Color.fromARGB(
-                                                              255, 35, 35, 35),
-                                                        );
-                                                      },
-                                                    ),
-                                            ),
-                                          ),
-                                        ),
+                              if (searchQuery != null &&
+                                  searchQuery!.isNotEmpty &&
+                                  !projectName
+                                      .toLowerCase()
+                                      .contains(searchQuery!.toLowerCase())) {
+                                return Container();
+                              }
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ResponsiblePartyBottomNavigation(
+                                        projectID: projectID,
                                       ),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                    mediaQuery.size.width * 0.01,
+                                    mediaQuery.size.height * 0.001,
+                                    mediaQuery.size.width * 0.01,
+                                    mediaQuery.size.height * 0.001,
+                                  ),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: Column(
+                                      children: [
+                                        Row(
                                           children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  right: mediaQuery.size.width *
-                                                      0.05),
-                                              child: Text(
-                                                projectName,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.fade,
-                                                softWrap: false,
-                                                style: TextStyle(
-                                                  fontFamily: 'Rubik Bold',
-                                                  fontSize:
-                                                      mediaQuery.size.height *
-                                                          0.02,
-                                                  color:
-                                                      const Color(0xff221540),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                  return DetailScreen(
+                                                    imageUrl: projectImage,
+                                                    projectID: projectID,
+                                                  );
+                                                }));
+                                              },
+
+                                              // Image (kindly consult Jiiroo if you can't understand the code ty. ヾ(≧▽≦*)o)
+                                              child: Hero(
+                                                tag: projectID,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    child: projectImage ==
+                                                            "None"
+                                                        ? Image.asset(
+                                                            'assets/images/no-image.png',
+                                                            fit: BoxFit.cover,
+                                                            width: 100,
+                                                            height: 100,
+                                                          )
+                                                        : Image(
+                                                            width: 100,
+                                                            height: 100,
+                                                            fit: BoxFit.cover,
+                                                            image: NetworkImage(
+                                                                projectImage),
+                                                            loadingBuilder:
+                                                                (context, child,
+                                                                    loadingProgress) {
+                                                              if (loadingProgress ==
+                                                                  null) {
+                                                                return child;
+                                                              }
+                                                              return const CircularProgressIndicator();
+                                                            },
+                                                            errorBuilder:
+                                                                (context,
+                                                                    object,
+                                                                    stack) {
+                                                              return const Icon(
+                                                                Icons
+                                                                    .error_outline,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        35,
+                                                                        35,
+                                                                        35),
+                                                              );
+                                                            },
+                                                          ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(
-                                                height: mediaQuery.size.height *
-                                                    0.002),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  right: mediaQuery.size.width *
-                                                      0.05),
-                                              child: Text(
-                                                projectLocation,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.fade,
-                                                softWrap: false,
-                                                style: TextStyle(
-                                                  fontFamily: 'Karla Regular',
-                                                  fontSize:
-                                                      mediaQuery.size.height *
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: mediaQuery
+                                                                .size.width *
+                                                            0.05),
+                                                    child: Text(
+                                                      projectName,
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.fade,
+                                                      softWrap: false,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'Rubik Bold',
+                                                        fontSize: mediaQuery
+                                                                .size.height *
+                                                            0.02,
+                                                        color: const Color(
+                                                            0xff221540),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                      height: mediaQuery
+                                                              .size.height *
+                                                          0.002),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: mediaQuery
+                                                                .size.width *
+                                                            0.05),
+                                                    child: Text(
+                                                      projectLocation,
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.fade,
+                                                      softWrap: false,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'Karla Regular',
+                                                        fontSize: mediaQuery
+                                                                .size.height *
+                                                            0.017,
+                                                        color: const Color(
+                                                            0xff221540),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                      height: mediaQuery
+                                                              .size.height *
+                                                          0.002),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: mediaQuery
+                                                                .size.width *
+                                                            0.05),
+                                                    child: Text(
+                                                      projectInspector,
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.fade,
+                                                      softWrap: false,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            'Karla Regular',
+                                                        fontSize: mediaQuery
+                                                                .size.height *
+                                                            0.017,
+                                                        color: const Color(
+                                                            0xff221540),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                      height: mediaQuery
+                                                              .size.height *
+                                                          0.002),
+                                                  Text(
+                                                    'Project ID: $projectID',
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: mediaQuery
+                                                              .size.height *
                                                           0.017,
-                                                  color:
-                                                      const Color(0xff221540),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                                height: mediaQuery.size.height *
-                                                    0.002),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  right: mediaQuery.size.width *
-                                                      0.05),
-                                              child: Text(
-                                                projectInspector,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.fade,
-                                                softWrap: false,
-                                                style: TextStyle(
-                                                  fontFamily: 'Karla Regular',
-                                                  fontSize:
-                                                      mediaQuery.size.height *
-                                                          0.017,
-                                                  color:
-                                                      const Color(0xff221540),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                                height: mediaQuery.size.height *
-                                                    0.002),
-                                            Text(
-                                              'Project ID: $projectID',
-                                              style: TextStyle(
-                                                fontFamily: 'Karla Regular',
-                                                fontSize:
-                                                    mediaQuery.size.height *
-                                                        0.017,
-                                                color: const Color(0xff221540),
+                                                      color: const Color(
+                                                          0xff221540),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      });
-                }
-              }
-              return const Center(child: Text("No Available Data"));
-            }),
+                                ),
+                              );
+                            });
+                      }
+                    }
+                    return const Center(child: Text("No Available Data"));
+                  }),
+            ),
+          ],
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: _showDialog,
           backgroundColor: const Color(0xFF221540),
           child: const Icon(Icons.add),
+        ),
+      ),
+    );
+  }
+}
+
+class SearchBox extends StatefulWidget {
+  final ValueChanged<String> onSearch;
+
+  const SearchBox({required this.onSearch, Key? key}) : super(key: key);
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _SearchBoxState createState() => _SearchBoxState();
+}
+
+class _SearchBoxState extends State<SearchBox> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height / 50,
+            left: MediaQuery.of(context).size.width / 20,
+            right: MediaQuery.of(context).size.width / 20),
+        child: TextField(
+          controller: _searchController,
+          style: const TextStyle(
+            color: Colors.black,
+          ),
+          decoration: const InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            hintText: 'Search',
+            hintStyle: TextStyle(fontFamily: "GothamRnd", color: Colors.grey),
+            prefixIcon: Icon(
+              Icons.search,
+              color: Color(0xFF274C77),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderSide: BorderSide(
+                color: Color(0xFF274C77),
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderSide: BorderSide(
+                color: Color(0xFF274C77),
+              ),
+            ),
+          ),
+          onChanged: widget.onSearch,
         ),
       ),
     );
