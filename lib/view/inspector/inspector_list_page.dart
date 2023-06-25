@@ -219,27 +219,107 @@ class _InspectorListPageState extends State<InspectorListPage> {
                                       )),
                             );
                           },
-                          child: Card(
-                            child: Row(
-                              children: [
-                                Image.network(
-                                  fit: BoxFit.cover,
-                                  projectUpdatesPhotoURL,
-                                  width: 100,
-                                  height: 100,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      jobTitle,
-                                      style: const TextStyle(fontSize: 8),
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              mediaQuery.size.width * 0.02,
+                              mediaQuery.size.height * 0.001,
+                              mediaQuery.size.width * 0.02,
+                              mediaQuery.size.height * 0.001,
+                            ),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Image.network(
+                                        fit: BoxFit.cover,
+                                        projectUpdatesPhotoURL,
+                                        width: 100,
+                                        height: 100,
+                                      ),
                                     ),
-                                    Text(projectUpdatesTitle),
-                                    Text("Accomplished by: $rpName"),
-                                    Text(formattedDate),
-                                  ],
-                                )
-                              ],
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              right:
+                                                  mediaQuery.size.width * 0.05),
+                                          child: Text(
+                                            jobTitle,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.fade,
+                                            softWrap: false,
+                                            style: TextStyle(
+                                              fontFamily: 'Rubik Bold',
+                                              fontSize:
+                                                  mediaQuery.size.height * 0.02,
+                                              color: const Color(0xff221540),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                mediaQuery.size.height * 0.002),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              right:
+                                                  mediaQuery.size.width * 0.05),
+                                          child: Text(
+                                            projectUpdatesTitle,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.fade,
+                                            softWrap: false,
+                                            style: TextStyle(
+                                              fontFamily: 'Karla Regular',
+                                              fontSize: mediaQuery.size.height *
+                                                  0.017,
+                                              color: const Color(0xff221540),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                mediaQuery.size.height * 0.002),
+                                        Text(
+                                          "Accomplished by: $rpName",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.fade,
+                                          softWrap: false,
+                                          style: TextStyle(
+                                            fontFamily: 'Karla Regular',
+                                            fontSize:
+                                                mediaQuery.size.height * 0.017,
+                                            color: const Color(0xff221540),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                mediaQuery.size.height * 0.002),
+                                        Text(
+                                          formattedDate,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.fade,
+                                          softWrap: false,
+                                          style: TextStyle(
+                                            fontFamily: 'Karla Regular',
+                                            fontSize:
+                                                mediaQuery.size.height * 0.017,
+                                            color: const Color(0xff221540),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -280,9 +360,9 @@ class _SearchBoxState extends State<SearchBox> {
     return Center(
       child: Padding(
         padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height / 50,
-            left: MediaQuery.of(context).size.width / 20,
-            right: MediaQuery.of(context).size.width / 20),
+            top: MediaQuery.of(context).size.height / 200,
+            left: MediaQuery.of(context).size.width / 250,
+            right: MediaQuery.of(context).size.width / 250),
         child: TextField(
           controller: _searchController,
           style: const TextStyle(

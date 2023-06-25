@@ -53,6 +53,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   Map<String, dynamic>? nameSubscription1;
+  bool noticeState = false;
 
   var logger = Logger();
 
@@ -227,6 +228,28 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                                   .absolute),
                                                     ),
                                                   ),
+                                                ),
+                                                Container(
+                                                  child: noticeState == false
+                                                      ? Text(
+                                                          "Please attach an image.",
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                'Karla Regular',
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.02,
+                                                          ),
+                                                        )
+                                                      : SizedBox(
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.02,
+                                                        ),
                                                 ),
                                                 SizedBox(
                                                   height: MediaQuery.of(context)
@@ -585,7 +608,15 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                           break;
                                                         }
                                                       }
-
+                                                      if (provider.imgURL !=
+                                                          "") {
+                                                        await ref
+                                                            .child(projectID)
+                                                            .update({
+                                                          "projectImage":
+                                                              provider.imgURL,
+                                                        });
+                                                      }
                                                       await ref
                                                           .child(projectID)
                                                           .update({
@@ -614,8 +645,6 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         "projectDeadline":
                                                             projDeadline,
                                                         "projectID": projectID,
-                                                        "projectImage":
-                                                            provider.imgURL,
                                                         "projectLocation":
                                                             projLocation,
                                                         "projectManager": "-",
@@ -642,6 +671,8 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                       // Perform the desired action when the button is pressed
                                                       // ignore: use_build_context_synchronously
                                                       Navigator.pop(context);
+                                                    } else {
+                                                      noticeState = true;
                                                     }
                                                   },
                                                   child: Padding(

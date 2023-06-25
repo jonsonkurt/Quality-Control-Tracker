@@ -221,7 +221,7 @@ class _ResponsiblePartyUpdatePageState
                               .ref()
                               .child('projectUpdates/$projectUpdatesID');
 
-                          projectsRef.set({
+                          await projectsRef.set({
                             "projectID": widget.projectIDQuery,
                             "projectUpdatesID": projectUpdatesID,
                             "rpID": userID,
@@ -239,9 +239,14 @@ class _ResponsiblePartyUpdatePageState
                                 "$inspectorID-${widget.projectIDQuery}-PENDING-$combinedDateTime",
                             "inspectorNotes": "",
                             "inspectionDate": "",
-                            "projectUpdatesPhotoURL": provider.imgURL,
                             "projectUpdatesTitle": rpTitle,
+                            "projectUpdatesPhotoURL": "None",
                           });
+                          if (provider.imgURL != "") {
+                            await projectsRef.update({
+                              "projectUpdatesPhotoURL": provider.imgURL,
+                            });
+                          }
 
                           Navigator.of(context).pop();
                         }
@@ -370,6 +375,7 @@ class _ResponsiblePartyUpdatePageState
     DatabaseReference ref =
         FirebaseDatabase.instance.ref().child('projectUpdates');
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFDCE4E9),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(
@@ -428,184 +434,38 @@ class _ResponsiblePartyUpdatePageState
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          height: mediaQuery.size.height * 0.7,
-          width: mediaQuery.size.width,
-          padding: const EdgeInsets.only(top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: mediaQuery.size.width * 0.01),
-                child: Text(
-                  "For Inspection",
-                  style: TextStyle(
-                    fontFamily: 'Rubik Bold',
-                    fontSize: MediaQuery.of(context).size.height * 0.025,
-                    color: const Color(0xff221540),
-                  ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Container(
+            height: mediaQuery.size.height * 0.7,
+            width: mediaQuery.size.width,
+            padding: const EdgeInsets.only(top: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.01,
                 ),
-              ),
-              Builder(builder: (BuildContext context) {
-                if (isEmptyPending) {
-                  // TODO: Edit this empty view for "For Inspection"
-                  return SizedBox(
-                      height: mediaQuery.size.height * 0.19,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "No Available Data",
-                              style: TextStyle(
-                                fontFamily: 'Karla Regular',
-                                fontSize: mediaQuery.size.height * 0.02,
-                                color: const Color(0xff221540),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ));
-                } else {
-                  return Flexible(
-                    child: FirebaseAnimatedList(
-                      key: const Key('firebase_animated_list_key'),
-                      scrollDirection: Axis.horizontal,
-                      query: ref
-                          .orderByChild("rpProjectRemarks")
-                          .startAt("$userID-${widget.projectIDQuery}-PENDING-")
-                          .endAt(
-                              "$userID-${widget.projectIDQuery}-PENDING-\uf8ff"),
-                      itemBuilder: (context, snapshot, animation, index) {
-                        String projectUpdatesID =
-                            snapshot.child("projectUpdatesID").value.toString();
-
-                        String rpSubmissionDateLengthString =
-                            snapshot.child("rpSubmissionDate").value.toString();
-                        int rpSubmissionDateLengthInt =
-                            rpSubmissionDateLengthString.split(":").length - 1;
-                        String rpSubmissionDate = snapshot
-                            .child(
-                                "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
-                            .value
-                            .toString();
-
-                        String projectUpdatesTitle = snapshot
-                            .child("projectUpdatesTitle")
-                            .value
-                            .toString();
-
-                        String projectUpdatesPhotoURL = snapshot
-                            .child("projectUpdatesPhotoURL")
-                            .value
-                            .toString();
-
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ResponsiblePartyProjectUpdatesInformationPage(
-                                        projectUpdatesID: projectUpdatesID,
-                                      )),
-                            );
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: mediaQuery.size.height * 0.11,
-                                  width: mediaQuery.size.width * 0.36,
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20)),
-                                    child: Image.network(
-                                      projectUpdatesPhotoURL,
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  projectUpdatesTitle,
-                                  style: TextStyle(
-                                      fontFamily: "Rubik Bold",
-                                      fontSize: mediaQuery.size.height * 0.018,
-                                      color: const Color(0xFF221540)),
-                                ),
-                                Text(
-                                  "Submitted on:",
-                                  style: TextStyle(
-                                      fontFamily: "Karla Regular",
-                                      fontSize: mediaQuery.size.height * 0.015,
-                                      color: const Color(0xFF221540)),
-                                ),
-                                Text(
-                                  rpSubmissionDate,
-                                  style: TextStyle(
-                                      fontFamily: "Karla Regular",
-                                      fontSize: mediaQuery.size.height * 0.015,
-                                      color: const Color(0xFF221540)),
-                                ),
-                              ],
-                            ),
-                            // child: Row(
-                            //   children: [
-                            //     Image.network(
-                            //       projectUpdatesPhotoURL,
-                            //       width: 100,
-                            //       height: 100,
-                            //     ),
-                            //     Column(
-                            //       children: [
-                            //         Text(projectUpdatesTitle),
-                            //         Text("Submitted on: $rpSubmissionDate"),
-                            //       ],
-                            //     )
-                            //   ],
-                            // ),
-                          ),
-                        );
-                      },
+                Padding(
+                  padding: EdgeInsets.only(left: mediaQuery.size.width * 0.01),
+                  child: Text(
+                    "For Inspection",
+                    style: TextStyle(
+                      fontFamily: 'Rubik Bold',
+                      fontSize: MediaQuery.of(context).size.height * 0.025,
+                      color: const Color(0xff221540),
                     ),
-                  );
-                }
-              }),
-              SizedBox(
-                height: mediaQuery.size.height * 0.01,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: mediaQuery.size.width * 0.01),
-                child: Text(
-                  "For Rework",
-                  style: TextStyle(
-                    fontFamily: 'Rubik Bold',
-                    fontSize: mediaQuery.size.height * 0.025,
-                    color: const Color(0xff221540),
                   ),
                 ),
-              ),
-              Builder(
-                builder: (BuildContext context) {
-                  if (isEmptyRework) {
-                    // TODO: Edit this empty view for "For Rework"
+                Builder(builder: (BuildContext context) {
+                  if (isEmptyPending) {
+                    // TODO: Edit this empty view for "For Inspection"
                     return SizedBox(
                         height: mediaQuery.size.height * 0.19,
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
                                 "No Available Data",
@@ -621,156 +481,14 @@ class _ResponsiblePartyUpdatePageState
                   } else {
                     return Flexible(
                       child: FirebaseAnimatedList(
-                        scrollDirection: Axis.horizontal,
-                        query: ref
-                            .orderByChild("rpProjectRemarks")
-                            .startAt("$userID-${widget.projectIDQuery}-REWORK-")
-                            .endAt(
-                                "$userID-${widget.projectIDQuery}-REWORK-\uf8ff"),
-                        itemBuilder: (context, snapshot, animation, index) {
-                          String projectUpdatesID = snapshot
-                              .child("projectUpdatesID")
-                              .value
-                              .toString();
-
-                          String inspectionDateLengthString =
-                              snapshot.child("inspectionDate").value.toString();
-                          int inspectionDateLengthInt =
-                              inspectionDateLengthString.split(":").length - 1;
-                          String inspectionDate = snapshot
-                              .child(
-                                  "inspectionDate/inspectionDate$inspectionDateLengthInt")
-                              .value
-                              .toString();
-
-                          String projectUpdatesTitle = snapshot
-                              .child("projectUpdatesTitle")
-                              .value
-                              .toString();
-
-                          String projectUpdatesPhotoURL = snapshot
-                              .child("projectUpdatesPhotoURL")
-                              .value
-                              .toString();
-
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ResponsiblePartyProjectUpdatesPage(
-                                          projectUpdatesID: projectUpdatesID,
-                                        )),
-                              );
-                            },
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: mediaQuery.size.height * 0.11,
-                                    width: mediaQuery.size.width * 0.36,
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20)),
-                                      child: Image.network(
-                                        projectUpdatesPhotoURL,
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        projectUpdatesTitle,
-                                        style: TextStyle(
-                                            fontFamily: "Rubik Bold",
-                                            fontSize:
-                                                mediaQuery.size.height * 0.018,
-                                            color: const Color(0xFF221540)),
-                                      ),
-                                      Text(
-                                        "Inspected on:",
-                                        style: TextStyle(
-                                            fontFamily: "Karla Regular",
-                                            fontSize:
-                                                mediaQuery.size.height * 0.015,
-                                            color: const Color(0xFF221540)),
-                                      ),
-                                      Text(
-                                        inspectionDate,
-                                        style: TextStyle(
-                                            fontFamily: "Karla Regular",
-                                            fontSize:
-                                                mediaQuery.size.height * 0.015,
-                                            color: const Color(0xFF221540)),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }
-                },
-              ),
-              SizedBox(
-                height: mediaQuery.size.height * 0.01,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: mediaQuery.size.width * 0.01),
-                child: Text(
-                  "Completed",
-                  style: TextStyle(
-                    fontFamily: 'Rubik Bold',
-                    fontSize: mediaQuery.size.height * 0.025,
-                    color: const Color(0xff221540),
-                  ),
-                ),
-              ),
-              Builder(
-                builder: (BuildContext context) {
-                  if (isEmptyCompleted) {
-                    // TODO: Edit this empty view for "Completed"
-                    return Flexible(
-                      child: SizedBox(
-                          height: mediaQuery.size.height * 0.19,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "No Available Data",
-                                  style: TextStyle(
-                                    fontFamily: 'Karla Regular',
-                                    fontSize: mediaQuery.size.height * 0.02,
-                                    color: const Color(0xff221540),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )),
-                    );
-                  } else {
-                    return Flexible(
-                      child: FirebaseAnimatedList(
+                        key: const Key('firebase_animated_list_key'),
                         scrollDirection: Axis.horizontal,
                         query: ref
                             .orderByChild("rpProjectRemarks")
                             .startAt(
-                                "$userID-${widget.projectIDQuery}-COMPLETED-")
+                                "$userID-${widget.projectIDQuery}-PENDING-")
                             .endAt(
-                                "$userID-${widget.projectIDQuery}-COMPLETED-\uf8ff"),
+                                "$userID-${widget.projectIDQuery}-PENDING-\uf8ff"),
                         itemBuilder: (context, snapshot, animation, index) {
                           String projectUpdatesID = snapshot
                               .child("projectUpdatesID")
@@ -805,11 +523,10 @@ class _ResponsiblePartyUpdatePageState
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      ResponsiblePartyProjectUpdatesInformationPage(
-                                    projectUpdatesID: projectUpdatesID,
-                                  ),
-                                ),
+                                    builder: (context) =>
+                                        ResponsiblePartyProjectUpdatesInformationPage(
+                                          projectUpdatesID: projectUpdatesID,
+                                        )),
                               );
                             },
                             child: Card(
@@ -833,39 +550,349 @@ class _ResponsiblePartyUpdatePageState
                                       ),
                                     ),
                                   ),
-                                  Column(
-                                    children: [
-                                      Text(projectUpdatesTitle,
-                                          style: TextStyle(
-                                              fontFamily: "Rubik Bold",
-                                              fontSize: mediaQuery.size.height *
-                                                  0.018,
-                                              color: const Color(0xFF221540))),
-                                      Text("Submitted on:",
-                                          style: TextStyle(
-                                              fontFamily: "Karla Regular",
-                                              fontSize: mediaQuery.size.height *
-                                                  0.015,
-                                              color: const Color(0xFF221540))),
-                                      Text(rpSubmissionDate,
-                                          style: TextStyle(
-                                              fontFamily: "Karla Regular",
-                                              fontSize: mediaQuery.size.height *
-                                                  0.015,
-                                              color: const Color(0xFF221540))),
-                                    ],
-                                  )
+                                  Text(
+                                    projectUpdatesTitle,
+                                    style: TextStyle(
+                                        fontFamily: "Rubik Bold",
+                                        fontSize:
+                                            mediaQuery.size.height * 0.018,
+                                        color: const Color(0xFF221540)),
+                                  ),
+                                  Text(
+                                    "Submitted on:",
+                                    style: TextStyle(
+                                        fontFamily: "Karla Regular",
+                                        fontSize:
+                                            mediaQuery.size.height * 0.015,
+                                        color: const Color(0xFF221540)),
+                                  ),
+                                  Text(
+                                    rpSubmissionDate,
+                                    style: TextStyle(
+                                        fontFamily: "Karla Regular",
+                                        fontSize:
+                                            mediaQuery.size.height * 0.015,
+                                        color: const Color(0xFF221540)),
+                                  ),
                                 ],
                               ),
+                              // child: Row(
+                              //   children: [
+                              //     Image.network(
+                              //       projectUpdatesPhotoURL,
+                              //       width: 100,
+                              //       height: 100,
+                              //     ),
+                              //     Column(
+                              //       children: [
+                              //         Text(projectUpdatesTitle),
+                              //         Text("Submitted on: $rpSubmissionDate"),
+                              //       ],
+                              //     )
+                              //   ],
+                              // ),
                             ),
                           );
                         },
                       ),
                     );
                   }
-                },
-              ),
-            ],
+                }),
+                SizedBox(
+                  height: mediaQuery.size.height * 0.01,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: mediaQuery.size.width * 0.01),
+                  child: Text(
+                    "For Rework",
+                    style: TextStyle(
+                      fontFamily: 'Rubik Bold',
+                      fontSize: mediaQuery.size.height * 0.025,
+                      color: const Color(0xff221540),
+                    ),
+                  ),
+                ),
+                Builder(
+                  builder: (BuildContext context) {
+                    if (isEmptyRework) {
+                      // TODO: Edit this empty view for "For Rework"
+                      return SizedBox(
+                          height: mediaQuery.size.height * 0.19,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "No Available Data",
+                                  style: TextStyle(
+                                    fontFamily: 'Karla Regular',
+                                    fontSize: mediaQuery.size.height * 0.02,
+                                    color: const Color(0xff221540),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ));
+                    } else {
+                      return Flexible(
+                        child: FirebaseAnimatedList(
+                          scrollDirection: Axis.horizontal,
+                          query: ref
+                              .orderByChild("rpProjectRemarks")
+                              .startAt(
+                                  "$userID-${widget.projectIDQuery}-REWORK-")
+                              .endAt(
+                                  "$userID-${widget.projectIDQuery}-REWORK-\uf8ff"),
+                          itemBuilder: (context, snapshot, animation, index) {
+                            String projectUpdatesID = snapshot
+                                .child("projectUpdatesID")
+                                .value
+                                .toString();
+
+                            String inspectionDateLengthString = snapshot
+                                .child("inspectionDate")
+                                .value
+                                .toString();
+                            int inspectionDateLengthInt =
+                                inspectionDateLengthString.split(":").length -
+                                    1;
+                            String inspectionDate = snapshot
+                                .child(
+                                    "inspectionDate/inspectionDate$inspectionDateLengthInt")
+                                .value
+                                .toString();
+
+                            String projectUpdatesTitle = snapshot
+                                .child("projectUpdatesTitle")
+                                .value
+                                .toString();
+
+                            String projectUpdatesPhotoURL = snapshot
+                                .child("projectUpdatesPhotoURL")
+                                .value
+                                .toString();
+
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ResponsiblePartyProjectUpdatesPage(
+                                            projectUpdatesID: projectUpdatesID,
+                                          )),
+                                );
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      height: mediaQuery.size.height * 0.11,
+                                      width: mediaQuery.size.width * 0.36,
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20)),
+                                        child: Image.network(
+                                          projectUpdatesPhotoURL,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          projectUpdatesTitle,
+                                          style: TextStyle(
+                                              fontFamily: "Rubik Bold",
+                                              fontSize: mediaQuery.size.height *
+                                                  0.018,
+                                              color: const Color(0xFF221540)),
+                                        ),
+                                        Text(
+                                          "Inspected on:",
+                                          style: TextStyle(
+                                              fontFamily: "Karla Regular",
+                                              fontSize: mediaQuery.size.height *
+                                                  0.015,
+                                              color: const Color(0xFF221540)),
+                                        ),
+                                        Text(
+                                          inspectionDate,
+                                          style: TextStyle(
+                                              fontFamily: "Karla Regular",
+                                              fontSize: mediaQuery.size.height *
+                                                  0.015,
+                                              color: const Color(0xFF221540)),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: mediaQuery.size.height * 0.01,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: mediaQuery.size.width * 0.01),
+                  child: Text(
+                    "Completed",
+                    style: TextStyle(
+                      fontFamily: 'Rubik Bold',
+                      fontSize: mediaQuery.size.height * 0.025,
+                      color: const Color(0xff221540),
+                    ),
+                  ),
+                ),
+                Builder(
+                  builder: (BuildContext context) {
+                    if (isEmptyCompleted) {
+                      // TODO: Edit this empty view for "Completed"
+                      return Flexible(
+                        child: SizedBox(
+                            height: mediaQuery.size.height * 0.19,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "No Available Data",
+                                    style: TextStyle(
+                                      fontFamily: 'Karla Regular',
+                                      fontSize: mediaQuery.size.height * 0.02,
+                                      color: const Color(0xff221540),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      );
+                    } else {
+                      return Flexible(
+                        child: FirebaseAnimatedList(
+                          scrollDirection: Axis.horizontal,
+                          query: ref
+                              .orderByChild("rpProjectRemarks")
+                              .startAt(
+                                  "$userID-${widget.projectIDQuery}-COMPLETED-")
+                              .endAt(
+                                  "$userID-${widget.projectIDQuery}-COMPLETED-\uf8ff"),
+                          itemBuilder: (context, snapshot, animation, index) {
+                            String projectUpdatesID = snapshot
+                                .child("projectUpdatesID")
+                                .value
+                                .toString();
+
+                            String rpSubmissionDateLengthString = snapshot
+                                .child("rpSubmissionDate")
+                                .value
+                                .toString();
+                            int rpSubmissionDateLengthInt =
+                                rpSubmissionDateLengthString.split(":").length -
+                                    1;
+                            String rpSubmissionDate = snapshot
+                                .child(
+                                    "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
+                                .value
+                                .toString();
+
+                            String projectUpdatesTitle = snapshot
+                                .child("projectUpdatesTitle")
+                                .value
+                                .toString();
+
+                            String projectUpdatesPhotoURL = snapshot
+                                .child("projectUpdatesPhotoURL")
+                                .value
+                                .toString();
+
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ResponsiblePartyProjectUpdatesInformationPage(
+                                      projectUpdatesID: projectUpdatesID,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      height: mediaQuery.size.height * 0.11,
+                                      width: mediaQuery.size.width * 0.36,
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20)),
+                                        child: Image.network(
+                                          projectUpdatesPhotoURL,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(projectUpdatesTitle,
+                                            style: TextStyle(
+                                                fontFamily: "Rubik Bold",
+                                                fontSize:
+                                                    mediaQuery.size.height *
+                                                        0.018,
+                                                color:
+                                                    const Color(0xFF221540))),
+                                        Text("Submitted on:",
+                                            style: TextStyle(
+                                                fontFamily: "Karla Regular",
+                                                fontSize:
+                                                    mediaQuery.size.height *
+                                                        0.015,
+                                                color:
+                                                    const Color(0xFF221540))),
+                                        Text(rpSubmissionDate,
+                                            style: TextStyle(
+                                                fontFamily: "Karla Regular",
+                                                fontSize:
+                                                    mediaQuery.size.height *
+                                                        0.015,
+                                                color:
+                                                    const Color(0xFF221540))),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
