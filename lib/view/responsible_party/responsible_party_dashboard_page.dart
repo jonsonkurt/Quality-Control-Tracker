@@ -166,6 +166,9 @@ class _ResponsiblePartyDashboardPageState
                   ),
                 ),
               ),
+              SizedBox(
+                height: mediaQuery.size.height * 0.02,
+              )
             ],
           ),
         );

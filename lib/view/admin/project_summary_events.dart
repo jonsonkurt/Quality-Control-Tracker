@@ -6,46 +6,51 @@ import 'package:table_calendar/table_calendar.dart';
 
 /// Example event class.
 class Event {
-  final String title;
-  final String? projectID;
+  final String rpName;
+  final String projectID;
 
-  const Event(this.title, this.projectID);
+  const Event(this.rpName, this.projectID);
 
   @override
-  String toString() => title;
+  String toString() => 'rpName: $rpName projectID: $projectID';
 }
 
 final DatabaseReference _databaseReference =
     FirebaseDatabase.instance.ref().child('projectUpdates/');
 
-final Map<DateTime, List<Event>> _kEventSource = {};
+Map<DateTime, List<Event>> _kEventSource = {};
 
-Future<Map<DateTime, List<Event>>> fetchEventsFromDatabase(String projectID) {
-  final Completer<Map<DateTime, List<Event>>> completer =
-      Completer<Map<DateTime, List<Event>>>();
+Future<Map<DateTime, List>> fetchEventsFromDatabase(String projectID) {
+  final Completer<Map<DateTime, List>> completer =
+      Completer<Map<DateTime, List>>();
 
   _databaseReference.once().then((DatabaseEvent snapshot) {
+    // ignore: prefer_collection_literals
     final eventsFromDatabase = Map<DateTime, List<Event>>();
     final Map<dynamic, dynamic> data =
         snapshot.snapshot.value as Map<dynamic, dynamic>;
 
     data.forEach((key, value) {
       if (value["projectID"] == projectID) {
-        print(value["inspectionDate"].runtimeType);
         if (value["inspectionDate"] != null && value["inspectionDate"] != "") {
           Map<dynamic, dynamic> inspectDates =
               value["inspectionDate"] as Map<dynamic, dynamic>;
           for (int index = 1; index <= inspectDates.length; index++) {
             String keyName = "inspectionDate$index";
+            String getDates = inspectDates[keyName];
+            String rpName = value["rpName"];
 
             // final dateTime = DateTime.parse(key.toString());
-            // DateFormat format1 = DateFormat('MM-dd-yyyy');
-            // DateTime formatgetData = format1.parse(dateTime);
-            // final events = List<Event>.from(value.map((event) =>
-            //     Event(event['title'].toString(), event[projectID].toString())));
-            // eventsFromDatabase[dateTime] = events;
+            DateFormat format1 = DateFormat('MM-dd-yyyy');
+            DateTime formatgetData = format1.parse(getDates);
+
+            Event events = Event(rpName, projectID);
+
+            //List<Event>.from(value.map((event) => Event(rpName, projectID)));
+
+            eventsFromDatabase[formatgetData] = [events];
+            print("EVENTS : $events");
           }
-          ;
         }
       }
     });
@@ -72,7 +77,7 @@ final kEvents = LinkedHashMap<DateTime, List<Event>>(
 Future<void> loadEventsFromDatabase(String projectID) async {
   try {
     final eventsFromDatabase = await fetchEventsFromDatabase(projectID);
-    _kEventSource.addAll(eventsFromDatabase);
+    _kEventSource.addAll(eventsFromDatabase as Map<DateTime, List<Event>>);
     kEvents.clear();
     kEvents.addAll(_kEventSource);
   } catch (error) {

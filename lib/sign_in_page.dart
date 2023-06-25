@@ -145,6 +145,10 @@ class _SignInPageState extends State<SignInPage> {
                               color: Colors.black,
                             ),
                             filled: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 24,
+                            ),
                             fillColor: Colors.white,
                             border: OutlineInputBorder(
                               borderSide: BorderSide.none,
@@ -194,6 +198,10 @@ class _SignInPageState extends State<SignInPage> {
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 24,
                             ),
                             suffixIcon: IconButton(
                               color: const Color(0xFF221540),
