@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import 'project_information_page.dart';
 import 'project_summary_events.dart';
 
 class ProjectSummaryPage extends StatefulWidget {
@@ -78,6 +79,25 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
               color: const Color(0xFF221540),
             ),
           ),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProjectInformationPage(
+                      projectIDQuery: widget.projectID,
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.info_outline_rounded,
+                color: Color(0xFF221540),
+                size: 30,
+              ),
+            ),
+          ],
         ),
       ),
       body: Column(
