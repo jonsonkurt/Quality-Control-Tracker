@@ -542,6 +542,10 @@ class _SearchBoxState extends State<SearchBox> {
               color: Colors.black,
             ),
             decoration: const InputDecoration(
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 16,
+                horizontal: 24,
+              ),
               filled: true,
               fillColor: Colors.white,
               hintText: 'Search',
