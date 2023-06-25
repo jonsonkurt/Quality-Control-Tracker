@@ -80,21 +80,24 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
             ),
           ),
           actions: <Widget>[
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProjectInformationPage(
-                      projectIDQuery: widget.projectID,
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProjectInformationPage(
+                        projectIDQuery: widget.projectID,
+                      ),
                     ),
-                  ),
-                );
-              },
-              icon: const Icon(
-                Icons.info_outline_rounded,
-                color: Color(0xFF221540),
-                size: 30,
+                  );
+                },
+                icon: const Icon(
+                  Icons.info_outline_rounded,
+                  color: Color(0xFF221540),
+                  size: 30,
+                ),
               ),
             ),
           ],
