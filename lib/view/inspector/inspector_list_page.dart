@@ -280,9 +280,9 @@ class _SearchBoxState extends State<SearchBox> {
     return Center(
       child: Padding(
         padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height / 50,
-            left: MediaQuery.of(context).size.width / 20,
-            right: MediaQuery.of(context).size.width / 20),
+            top: MediaQuery.of(context).size.height / 200,
+            left: MediaQuery.of(context).size.width / 250,
+            right: MediaQuery.of(context).size.width / 250),
         child: TextField(
           controller: _searchController,
           style: const TextStyle(
