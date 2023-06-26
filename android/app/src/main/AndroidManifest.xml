@@ -8,7 +8,7 @@
 
 
     <application
-        android:label="quality_control_tracker"
+        android:label="Quality Control Tracker"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
