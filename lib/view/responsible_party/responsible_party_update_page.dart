@@ -541,68 +541,85 @@ class _ResponsiblePartyUpdatePageState
                                         )),
                               );
                             },
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: mediaQuery.size.height * 0.11,
-                                    width: mediaQuery.size.width * 0.36,
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20)),
-                                      child: Image.network(
-                                        projectUpdatesPhotoURL,
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover,
+                            child: SizedBox(
+                              height: mediaQuery.size.height * 0.11,
+                              width: mediaQuery.size.width * 0.36,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      height: mediaQuery.size.height * 0.11,
+                                      width: mediaQuery.size.width * 0.36,
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20)),
+                                        child: Image.network(
+                                          projectUpdatesPhotoURL,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Text(
-                                    projectUpdatesTitle,
-                                    style: TextStyle(
-                                        fontFamily: "Rubik Bold",
-                                        fontSize:
-                                            mediaQuery.size.height * 0.018,
-                                        color: const Color(0xFF221540)),
-                                  ),
-                                  Text(
-                                    "Submitted on:",
-                                    style: TextStyle(
-                                        fontFamily: "Karla Regular",
-                                        fontSize:
-                                            mediaQuery.size.height * 0.015,
-                                        color: const Color(0xFF221540)),
-                                  ),
-                                  Text(
-                                    rpSubmissionDate,
-                                    style: TextStyle(
-                                        fontFamily: "Karla Regular",
-                                        fontSize:
-                                            mediaQuery.size.height * 0.015,
-                                        color: const Color(0xFF221540)),
-                                  ),
-                                ],
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                      ),
+                                      child: Text(
+                                        projectUpdatesTitle,
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.fade,
+                                        style: TextStyle(
+                                            fontFamily: "Rubik Bold",
+                                            fontSize:
+                                                mediaQuery.size.height * 0.018,
+                                            color: const Color(0xFF221540)),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Submitted on:",
+                                      style: TextStyle(
+                                          fontFamily: "Karla Regular",
+                                          fontSize:
+                                              mediaQuery.size.height * 0.015,
+                                          color: const Color(0xFF221540)),
+                                    ),
+                                    Text(
+                                      rpSubmissionDate,
+                                      style: TextStyle(
+                                          fontFamily: "Karla Regular",
+                                          fontSize:
+                                              mediaQuery.size.height * 0.015,
+                                          color: const Color(0xFF221540)),
+                                    ),
+                                  ],
+                                ),
+                                // child: Row(
+                                //   children: [
+                                //     Image.network(
+                                //       projectUpdatesPhotoURL,
+                                //       width: 100,
+                                //       height: 100,
+                                //     ),
+                                //     Column(
+                                //       children: [
+                                //         Text(projectUpdatesTitle),
+                                //         Text("Submitted on: $rpSubmissionDate"),
+                                //       ],
+                                //     )
+                                //   ],
+                                // ),
                               ),
-                              // child: Row(
-                              //   children: [
-                              //     Image.network(
-                              //       projectUpdatesPhotoURL,
-                              //       width: 100,
-                              //       height: 100,
-                              //     ),
-                              //     Column(
-                              //       children: [
-                              //         Text(projectUpdatesTitle),
-                              //         Text("Submitted on: $rpSubmissionDate"),
-                              //       ],
-                              //     )
-                              //   ],
-                              // ),
                             ),
                           );
                         },
@@ -696,56 +713,80 @@ class _ResponsiblePartyUpdatePageState
                                           )),
                                 );
                               },
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height: mediaQuery.size.height * 0.11,
-                                      width: mediaQuery.size.width * 0.36,
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(20),
-                                            topRight: Radius.circular(20)),
-                                        child: Image.network(
-                                          projectUpdatesPhotoURL,
-                                          width: 100,
-                                          height: 100,
-                                          fit: BoxFit.cover,
+                              child: SizedBox(
+                                height: mediaQuery.size.height * 0.11,
+                                width: mediaQuery.size.width * 0.36,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: mediaQuery.size.height * 0.11,
+                                        width: mediaQuery.size.width * 0.36,
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20)),
+                                          child: Image.network(
+                                            projectUpdatesPhotoURL,
+                                            width: 100,
+                                            height: 100,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          projectUpdatesTitle,
-                                          style: TextStyle(
-                                              fontFamily: "Rubik Bold",
-                                              fontSize: mediaQuery.size.height *
-                                                  0.018,
-                                              color: const Color(0xFF221540)),
-                                        ),
-                                        Text(
-                                          "Inspected on:",
-                                          style: TextStyle(
-                                              fontFamily: "Karla Regular",
-                                              fontSize: mediaQuery.size.height *
-                                                  0.015,
-                                              color: const Color(0xFF221540)),
-                                        ),
-                                        Text(
-                                          inspectionDate,
-                                          style: TextStyle(
-                                              fontFamily: "Karla Regular",
-                                              fontSize: mediaQuery.size.height *
-                                                  0.015,
-                                              color: const Color(0xFF221540)),
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                      Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              right: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
+                                              left: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
+                                            ),
+                                            child: Text(
+                                              projectUpdatesTitle,
+                                              maxLines: 1,
+                                              softWrap: false,
+                                              overflow: TextOverflow.fade,
+                                              style: TextStyle(
+                                                  fontFamily: "Rubik Bold",
+                                                  fontSize:
+                                                      mediaQuery.size.height *
+                                                          0.018,
+                                                  color:
+                                                      const Color(0xFF221540)),
+                                            ),
+                                          ),
+                                          Text(
+                                            "Inspected on:",
+                                            style: TextStyle(
+                                                fontFamily: "Karla Regular",
+                                                fontSize:
+                                                    mediaQuery.size.height *
+                                                        0.015,
+                                                color: const Color(0xFF221540)),
+                                          ),
+                                          Text(
+                                            inspectionDate,
+                                            style: TextStyle(
+                                                fontFamily: "Karla Regular",
+                                                fontSize:
+                                                    mediaQuery.size.height *
+                                                        0.015,
+                                                color: const Color(0xFF221540)),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
@@ -844,56 +885,76 @@ class _ResponsiblePartyUpdatePageState
                                   ),
                                 );
                               },
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height: mediaQuery.size.height * 0.11,
-                                      width: mediaQuery.size.width * 0.36,
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(20),
-                                            topRight: Radius.circular(20)),
-                                        child: Image.network(
-                                          projectUpdatesPhotoURL,
-                                          width: 100,
-                                          height: 100,
-                                          fit: BoxFit.cover,
+                              child: SizedBox(
+                                height: mediaQuery.size.height * 0.11,
+                                width: mediaQuery.size.width * 0.36,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: mediaQuery.size.height * 0.11,
+                                        width: mediaQuery.size.width * 0.36,
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20)),
+                                          child: Image.network(
+                                            projectUpdatesPhotoURL,
+                                            width: 100,
+                                            height: 100,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(projectUpdatesTitle,
-                                            style: TextStyle(
-                                                fontFamily: "Rubik Bold",
-                                                fontSize:
-                                                    mediaQuery.size.height *
-                                                        0.018,
-                                                color:
-                                                    const Color(0xFF221540))),
-                                        Text("Submitted on:",
-                                            style: TextStyle(
-                                                fontFamily: "Karla Regular",
-                                                fontSize:
-                                                    mediaQuery.size.height *
-                                                        0.015,
-                                                color:
-                                                    const Color(0xFF221540))),
-                                        Text(rpSubmissionDate,
-                                            style: TextStyle(
-                                                fontFamily: "Karla Regular",
-                                                fontSize:
-                                                    mediaQuery.size.height *
-                                                        0.015,
-                                                color:
-                                                    const Color(0xFF221540))),
-                                      ],
-                                    )
-                                  ],
+                                      Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              right: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
+                                              left: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
+                                            ),
+                                            child: Text(projectUpdatesTitle,
+                                                maxLines: 1,
+                                                softWrap: false,
+                                                overflow: TextOverflow.fade,
+                                                style: TextStyle(
+                                                    fontFamily: "Rubik Bold",
+                                                    fontSize:
+                                                        mediaQuery.size.height *
+                                                            0.018,
+                                                    color: const Color(
+                                                        0xFF221540))),
+                                          ),
+                                          Text("Submitted on:",
+                                              style: TextStyle(
+                                                  fontFamily: "Karla Regular",
+                                                  fontSize:
+                                                      mediaQuery.size.height *
+                                                          0.015,
+                                                  color:
+                                                      const Color(0xFF221540))),
+                                          Text(rpSubmissionDate,
+                                              style: TextStyle(
+                                                  fontFamily: "Karla Regular",
+                                                  fontSize:
+                                                      mediaQuery.size.height *
+                                                          0.015,
+                                                  color:
+                                                      const Color(0xFF221540))),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
