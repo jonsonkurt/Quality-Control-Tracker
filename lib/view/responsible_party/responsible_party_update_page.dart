@@ -258,7 +258,8 @@ class _ResponsiblePartyUpdatePageState
                               "projectUpdatesPhotoURL": provider.imgURL,
                             });
                           }
-
+                          _rpTitleController.text = "";
+                          _rpNotesController.text = "";
                           Navigator.of(context).pop();
                         }
                       },
