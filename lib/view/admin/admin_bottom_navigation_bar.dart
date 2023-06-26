@@ -211,7 +211,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     child: ClipRRect(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              15),
+                                                              13),
                                                       child: provider.image ==
                                                               null
                                                           ? const Icon(
@@ -264,9 +264,18 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                       _projectNameController,
                                                   decoration: InputDecoration(
                                                     contentPadding:
-                                                        const EdgeInsets
-                                                                .fromLTRB(
-                                                            12, 4, 4, 0),
+                                                        EdgeInsets.symmetric(
+                                                      vertical:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.01,
+                                                      horizontal:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.02,
+                                                    ),
                                                     border: OutlineInputBorder(
                                                         borderRadius:
                                                             BorderRadius
@@ -314,9 +323,18 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                       _projectLocationController,
                                                   decoration: InputDecoration(
                                                     contentPadding:
-                                                        const EdgeInsets
-                                                                .fromLTRB(
-                                                            12, 4, 4, 0),
+                                                        EdgeInsets.symmetric(
+                                                      vertical:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.01,
+                                                      horizontal:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.02,
+                                                    ),
                                                     border: OutlineInputBorder(
                                                         borderRadius:
                                                             BorderRadius
@@ -366,9 +384,19 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     dropdownSearchDecoration:
                                                         InputDecoration(
                                                       contentPadding:
-                                                          const EdgeInsets
-                                                                  .fromLTRB(
-                                                              12, 4, 4, 0),
+                                                          EdgeInsets.symmetric(
+                                                        vertical: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.01,
+                                                        horizontal:
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.02,
+                                                      ),
                                                       border:
                                                           OutlineInputBorder(
                                                               borderRadius:
@@ -415,6 +443,21 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                           _inspectorController,
                                                       decoration:
                                                           InputDecoration(
+                                                        contentPadding:
+                                                            EdgeInsets
+                                                                .symmetric(
+                                                          vertical: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.01,
+                                                          horizontal:
+                                                              MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.02,
+                                                        ),
                                                         border:
                                                             OutlineInputBorder(
                                                                 borderRadius:
@@ -456,22 +499,26 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                   },
                                                 ),
                                                 SizedBox(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.01),
-                                                SizedBox(
                                                   height: MediaQuery.of(context)
                                                           .size
                                                           .height *
-                                                      .095,
+                                                      0.01,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.1,
+                                                ),
+                                                SizedBox(
+                                                  // height: MediaQuery.of(context)
+                                                  //         .size
+                                                  //         .height *
+                                                  //     .095,
                                                   child: TextfieldDatePicker(
                                                     textfieldDatePickerWidth:
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width *
-                                                            1,
+                                                            2,
                                                     textAlignVertical:
                                                         TextAlignVertical
                                                             .bottom,

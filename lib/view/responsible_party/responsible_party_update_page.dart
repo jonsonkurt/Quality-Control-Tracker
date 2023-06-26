@@ -96,107 +96,118 @@ class _ResponsiblePartyUpdatePageState
                     color: const Color(0xFF221540),
                   ),
                 ),
-                content: SizedBox(
-                  height: mediaQuery.size.height * 0.38,
-                  width: mediaQuery.size.height * 0.14,
-                  child: Form(
-                    key: formKey,
-                    child: SizedBox(
-                      height: mediaQuery.size.height * 0.38,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            cursorColor: const Color(0xFF221540),
-                            controller: _rpTitleController,
-                            decoration: InputDecoration(
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(12, 4, 4, 0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                                borderSide: BorderSide.none,
+                content: SingleChildScrollView(
+                  child: SizedBox(
+                    height: mediaQuery.size.height * 0.38,
+                    width: mediaQuery.size.height * 0.14,
+                    child: Form(
+                      key: formKey,
+                      child: SizedBox(
+                        height: mediaQuery.size.height * 0.38,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              cursorColor: const Color(0xFF221540),
+                              controller: _rpTitleController,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical:
+                                      MediaQuery.of(context).size.height * 0.01,
+                                  horizontal:
+                                      MediaQuery.of(context).size.height * 0.02,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  borderSide: BorderSide.none,
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Title',
+                                labelStyle: TextStyle(
+                                  fontFamily: 'Karla Regular',
+                                  fontSize: mediaQuery.size.height * 0.02,
+                                ),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide.none,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter a title';
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(
+                              height: mediaQuery.size.height * 0.015,
+                            ),
+                            TextFormField(
+                              cursorColor: const Color(0xFF221540),
+                              controller: _rpNotesController,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical:
+                                      MediaQuery.of(context).size.height * 0.01,
+                                  horizontal:
+                                      MediaQuery.of(context).size.height * 0.02,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  borderSide: BorderSide.none,
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Notes',
+                                labelStyle: TextStyle(
+                                  fontFamily: 'Karla Regular',
+                                  fontSize: mediaQuery.size.height * 0.02,
+                                ),
                               ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Title',
-                              labelStyle: TextStyle(
-                                fontFamily: 'Karla Regular',
-                                fontSize: mediaQuery.size.height * 0.02,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter your notes';
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(
+                              height: mediaQuery.size.height * 0.03,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                provider.pickImage(context, projectUpdatesID);
+                              },
+                              child: Container(
+                                height: mediaQuery.size.height * 0.15,
+                                width: mediaQuery.size.width * 0.3,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(15),
+                                    border: Border.all(
+                                      color: const Color(0xff221540),
+                                      width: 2,
+                                    )),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(13),
+                                    child: provider.image == null
+                                        ? const Icon(
+                                            Icons.add_circle,
+                                            size: 35,
+                                            color: Color(0xff221540),
+                                          )
+                                        : Image.file(
+                                            fit: BoxFit.cover,
+                                            File(provider.image!.path)
+                                                .absolute)),
                               ),
                             ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a title';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: mediaQuery.size.height * 0.015,
-                          ),
-                          TextFormField(
-                            cursorColor: const Color(0xFF221540),
-                            controller: _rpNotesController,
-                            decoration: InputDecoration(
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(12, 4, 4, 0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Notes',
-                              labelStyle: TextStyle(
-                                fontFamily: 'Karla Regular',
-                                fontSize: mediaQuery.size.height * 0.02,
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter your notes';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: mediaQuery.size.height * 0.03,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              provider.pickImage(context, projectUpdatesID);
-                            },
-                            child: Container(
-                              height: mediaQuery.size.height * 0.15,
-                              width: mediaQuery.size.width * 0.3,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                    color: const Color(0xff221540),
-                                    width: 2,
-                                  )),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: provider.image == null
-                                      ? const Icon(
-                                          Icons.add_circle,
-                                          size: 35,
-                                          color: Color(0xff221540),
-                                        )
-                                      : Image.file(
-                                          fit: BoxFit.cover,
-                                          File(provider.image!.path).absolute)),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -387,7 +398,7 @@ class _ResponsiblePartyUpdatePageState
           leading: Padding(
             padding: EdgeInsets.fromLTRB(
               mediaQuery.size.width * 0.035,
-              mediaQuery.size.height * 0.028,
+              mediaQuery.size.height * 0.01,
               0,
               0,
             ),
@@ -403,7 +414,7 @@ class _ResponsiblePartyUpdatePageState
           ),
           title: Padding(
             padding: EdgeInsets.only(
-              top: mediaQuery.size.height * 0.035,
+              top: mediaQuery.size.height * 0.01,
             ),
             child: Text(
               'Updates',

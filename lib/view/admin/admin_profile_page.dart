@@ -49,67 +49,67 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Material(
-                    borderRadius: BorderRadius.circular(30),
-                    elevation: 2,
-                    child: TextFormField(
-                      controller: _passwordController,
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        hintStyle: const TextStyle(
-                          fontFamily: "Karla",
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.grey,
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
+                  TextFormField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.01,
+                        horizontal: MediaQuery.of(context).size.height * 0.02,
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your new password';
-                        }
-                        return null; // Return null if there is no error
-                      },
+                      hintText: 'Password',
+                      hintStyle: const TextStyle(
+                        fontFamily: "Karla",
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.grey,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your new password';
+                      }
+                      return null; // Return null if there is no error
+                    },
                   ),
                   const SizedBox(height: 16.0),
-                  Material(
-                    borderRadius: BorderRadius.circular(30),
-                    elevation: 2,
-                    child: TextFormField(
-                      controller: _passwordConfirmController,
-                      cursorColor: const Color(0xFF221540),
-                      style: const TextStyle(color: Colors.black),
-                      decoration: InputDecoration(
-                        hintText: 'Confirm Password',
-                        hintStyle: const TextStyle(
-                          fontFamily: "Karla",
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.grey,
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
+                  TextFormField(
+                    controller: _passwordConfirmController,
+                    cursorColor: const Color(0xFF221540),
+                    style: const TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.01,
+                        horizontal: MediaQuery.of(context).size.height * 0.02,
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please confirm your new password';
-                        }
-                        if (value != _passwordController.text) {
-                          return 'Password is not match';
-                        }
-                        return null; // Return null if there is no error
-                      },
+                      hintText: 'Confirm Password',
+                      hintStyle: const TextStyle(
+                        fontFamily: "Karla",
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.grey,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please confirm your new password';
+                      }
+                      if (value != _passwordController.text) {
+                        return 'Password is not match';
+                      }
+                      return null; // Return null if there is no error
+                    },
                   ),
                   const SizedBox(height: 20.0),
                   ElevatedButton(
