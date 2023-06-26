@@ -219,11 +219,15 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
                                 ],
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 10,
-                                ),
+                                padding: EdgeInsets.only(
+                                    top: 10,
+                                    left:
+                                        MediaQuery.of(context).size.width / 10,
+                                    right:
+                                        MediaQuery.of(context).size.width / 10),
                                 child: Text(
                                   fullName,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: 'Rubik Regular',
                                     fontSize: mediaQuery.size.height * 0.035,
