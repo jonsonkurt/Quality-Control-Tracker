@@ -78,6 +78,7 @@ Future<void> initFcm(context) async {
         notification.body,
         const NotificationDetails(
             android: AndroidNotificationDetails('channel.id', 'channel.name',
+                icon: '@drawable/ic_notif',
                 styleInformation: BigTextStyleInformation(''))),
         payload: json.encode(message?.data),
       );
