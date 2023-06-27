@@ -279,12 +279,21 @@ class _InspectorProfilePageState extends State<InspectorProfilePage> {
                                   const SizedBox(
                                       width:
                                           15), // Adjust the spacing between the icon and text
-                                  Text(
-                                    email,
-                                    style: TextStyle(
-                                      fontFamily: 'Karla Regular',
-                                      fontSize: mediaQuery.size.height * 0.030,
-                                      color: const Color(0xFF221540),
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Text(
+                                        email,
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.fade,
+                                        style: TextStyle(
+                                          fontFamily: 'Karla Regular',
+                                          fontSize:
+                                              mediaQuery.size.height * 0.030,
+                                          color: const Color(0xFF221540),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
