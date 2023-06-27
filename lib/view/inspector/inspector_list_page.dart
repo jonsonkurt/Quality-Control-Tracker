@@ -147,7 +147,7 @@ class _InspectorListPageState extends State<InspectorListPage> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: SearchBox(onSearch: _handleSearch),
           ),
           Expanded(
@@ -160,6 +160,7 @@ class _InspectorListPageState extends State<InspectorListPage> {
                     return const Center(child: Text("No Available Data"));
                   } else {
                     return FirebaseAnimatedList(
+                      padding: const EdgeInsets.only(bottom: 80),
                       query: ref
                           .orderByChild("inspectorProjectRemarks")
                           .startAt(
@@ -233,13 +234,39 @@ class _InspectorListPageState extends State<InspectorListPage> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(10.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: Image.network(
-                                        fit: BoxFit.cover,
-                                        projectUpdatesPhotoURL,
-                                        width: 100,
-                                        height: 100,
+                                    child: Hero(
+                                      tag: projectUpdatesID,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: projectUpdatesPhotoURL == "None"
+                                            ? Image.asset(
+                                                'assets/images/no-image.png',
+                                                fit: BoxFit.cover,
+                                                width: 100,
+                                                height: 100,
+                                              )
+                                            : Image(
+                                                width: 100,
+                                                height: 100,
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                    projectUpdatesPhotoURL),
+                                                loadingBuilder: (context, child,
+                                                    loadingProgress) {
+                                                  if (loadingProgress == null) {
+                                                    return child;
+                                                  }
+                                                  return const CircularProgressIndicator();
+                                                },
+                                                errorBuilder:
+                                                    (context, object, stack) {
+                                                  return const Icon(
+                                                    Icons.error_outline,
+                                                    color: Color.fromARGB(
+                                                        255, 35, 35, 35),
+                                                  );
+                                                },
+                                              ),
                                       ),
                                     ),
                                   ),

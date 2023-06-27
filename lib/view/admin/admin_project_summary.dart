@@ -15,14 +15,14 @@ class ProjectSummaryPage extends StatefulWidget {
 class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
   late ValueNotifier<List<Event>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
-
+  bool _refreshing = false;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
   @override
   void initState() {
     super.initState();
-
+    _handleRefresh();
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
   }
@@ -32,6 +32,22 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
     _selectedEvents.dispose();
     kEvents.clear();
     super.dispose();
+  }
+
+  Future<void> _handleRefresh() async {
+    // Perform your refresh logic here
+    // This could be an API call, updating data, etc.
+    setState(() {
+      _refreshing = true;
+      // Update your data or perform necessary operations
+    });
+
+    // Simulate a delay to show the refreshing indicator
+    await Future.delayed(const Duration(seconds: 1));
+
+    setState(() {
+      _refreshing = false;
+    });
   }
 
   List<Event> _getEventsForDay(DateTime day) {
@@ -103,132 +119,135 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          TableCalendar<Event>(
-            daysOfWeekStyle: DaysOfWeekStyle(
-              weekdayStyle: TextStyle(
-                fontFamily: "Karla Regular",
-                fontSize: MediaQuery.of(context).size.height * 0.02,
-                color: const Color(0xff221540),
-              ),
-              weekendStyle: TextStyle(
-                fontFamily: "Karla Regular",
-                fontSize: MediaQuery.of(context).size.height * 0.02,
-                color: const Color(0xff221540),
-              ),
-            ),
-            headerStyle: HeaderStyle(
-              headerMargin: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * 0.02,
-              ),
-              formatButtonDecoration: BoxDecoration(
-                  border: Border.all(
-                color: Colors.white,
-              )),
-              formatButtonTextStyle: const TextStyle(
-                color: Colors.white,
-              ),
-              leftChevronIcon: const Icon(
-                Icons.chevron_left,
-                color: Colors.white,
-              ),
-              rightChevronIcon: const Icon(
-                Icons.chevron_right,
-                color: Colors.white,
-              ),
-              decoration: const BoxDecoration(
-                color: Color(0xff221540),
-              ),
-              titleTextStyle: TextStyle(
-                fontFamily: "Rubik Regular",
-                fontSize: MediaQuery.of(context).size.height * 0.02,
-                color: Colors.white,
-              ),
-            ),
-            firstDay: DateTime(1990),
-            lastDay: DateTime(2050),
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            calendarFormat: _calendarFormat,
-            eventLoader: _getEventsForDay,
-            startingDayOfWeek: StartingDayOfWeek.sunday,
-            calendarStyle: CalendarStyle(
-                markerDecoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xffE5963C),
-                ),
-                todayTextStyle: TextStyle(
+      body: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: Column(
+          children: [
+            TableCalendar<Event>(
+              daysOfWeekStyle: DaysOfWeekStyle(
+                weekdayStyle: TextStyle(
                   fontFamily: "Karla Regular",
-                  fontSize: MediaQuery.of(context).size.height * 0.018,
+                  fontSize: MediaQuery.of(context).size.height * 0.02,
+                  color: const Color(0xff221540),
+                ),
+                weekendStyle: TextStyle(
+                  fontFamily: "Karla Regular",
+                  fontSize: MediaQuery.of(context).size.height * 0.02,
+                  color: const Color(0xff221540),
+                ),
+              ),
+              headerStyle: HeaderStyle(
+                headerMargin: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.02,
+                ),
+                formatButtonDecoration: BoxDecoration(
+                    border: Border.all(
+                  color: Colors.white,
+                )),
+                formatButtonTextStyle: const TextStyle(
                   color: Colors.white,
                 ),
-                todayDecoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color.fromARGB(122, 34, 21, 64),
-                ),
-                selectedTextStyle: TextStyle(
-                  fontFamily: "Karla Regular",
-                  fontSize: MediaQuery.of(context).size.height * 0.018,
+                leftChevronIcon: const Icon(
+                  Icons.chevron_left,
                   color: Colors.white,
                 ),
-                selectedDecoration: const BoxDecoration(
-                  shape: BoxShape.circle,
+                rightChevronIcon: const Icon(
+                  Icons.chevron_right,
+                  color: Colors.white,
+                ),
+                decoration: const BoxDecoration(
                   color: Color(0xff221540),
                 ),
-                defaultTextStyle: TextStyle(
-                  fontFamily: "Karla Regular",
-                  fontSize: MediaQuery.of(context).size.height * 0.018,
-                  color: const Color(0xff221540),
-                )),
-            onDaySelected: _onDaySelected,
-            onFormatChanged: (format) {
-              if (_calendarFormat != format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              }
-            },
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
-            },
-          ),
-          const SizedBox(height: 8.0),
-          Expanded(
-            child: ValueListenableBuilder<List<Event>>(
-              valueListenable: _selectedEvents,
-              builder: (context, value, _) {
-                return ListView.builder(
-                  itemCount: value.length,
-                  itemBuilder: (context, index) {
-                    print("VALUE $value");
-                    return Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 4.0,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: ListTile(
-                        onTap: () => print('${value[index]}'),
-                        title: Text(
-                          '${value[index]}',
-                          style: TextStyle(
-                            fontFamily: 'Karla Regular',
-                            fontSize: MediaQuery.of(context).size.height * 0.02,
-                            color: const Color(0xff221540),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
+                titleTextStyle: TextStyle(
+                  fontFamily: "Rubik Regular",
+                  fontSize: MediaQuery.of(context).size.height * 0.02,
+                  color: Colors.white,
+                ),
+              ),
+              firstDay: DateTime(1990),
+              lastDay: DateTime(2050),
+              focusedDay: _focusedDay,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              calendarFormat: _calendarFormat,
+              eventLoader: _getEventsForDay,
+              startingDayOfWeek: StartingDayOfWeek.sunday,
+              calendarStyle: CalendarStyle(
+                  markerDecoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xffE5963C),
+                  ),
+                  todayTextStyle: TextStyle(
+                    fontFamily: "Karla Regular",
+                    fontSize: MediaQuery.of(context).size.height * 0.018,
+                    color: Colors.white,
+                  ),
+                  todayDecoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color.fromARGB(122, 34, 21, 64),
+                  ),
+                  selectedTextStyle: TextStyle(
+                    fontFamily: "Karla Regular",
+                    fontSize: MediaQuery.of(context).size.height * 0.018,
+                    color: Colors.white,
+                  ),
+                  selectedDecoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xff221540),
+                  ),
+                  defaultTextStyle: TextStyle(
+                    fontFamily: "Karla Regular",
+                    fontSize: MediaQuery.of(context).size.height * 0.018,
+                    color: const Color(0xff221540),
+                  )),
+              onDaySelected: _onDaySelected,
+              onFormatChanged: (format) {
+                if (_calendarFormat != format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                }
+              },
+              onPageChanged: (focusedDay) {
+                _focusedDay = focusedDay;
               },
             ),
-          ),
-        ],
+            const SizedBox(height: 8.0),
+            Expanded(
+              child: ValueListenableBuilder<List<Event>>(
+                valueListenable: _selectedEvents,
+                builder: (context, value, _) {
+                  return ListView.builder(
+                    itemCount: value.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                          vertical: 4.0,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: ListTile(
+                          onTap: () => print('${value[index]}'),
+                          title: Text(
+                            '${value[index]}',
+                            style: TextStyle(
+                              fontFamily: 'Karla Regular',
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.02,
+                              color: const Color(0xff221540),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

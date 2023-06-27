@@ -57,7 +57,7 @@ Future<void> initFcm(context) async {
   });
 
   var initializationSettingsAndroid =
-      const AndroidInitializationSettings('@mipmap/ic_launcher');
+      const AndroidInitializationSettings('@mipmap/ic_launcher_round');
   var initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
   );
