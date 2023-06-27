@@ -67,10 +67,10 @@ Future<void> storagePermission() async {
     // The user opted to never again see the permission request dialog for this
     // app. The only way to change the permission's status now is to let the
     // user manually enable it in the system settings.
-    print('here');
+    // print('here');
     openAppSettings();
   } else {
-    print('herrrre');
+    // print('herrrre');
     await Permission.storage.request();
   }
 }
