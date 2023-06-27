@@ -727,6 +727,95 @@ class _InspectorProjectUpdatesPageState
                                                     backgroundColor:
                                                         const Color(0xFF221540),
                                                   ),
+                                                  // onPressed: () async {
+                                                  //   if (formKey.currentState!
+                                                  //       .validate()) {
+                                                  //     String inspectorNotes =
+                                                  //         inspectorNotesController
+                                                  //             .text;
+                                                  //     String reworkDeadline =
+                                                  //         reworkDeadlineController
+                                                  //             .text;
+                                                  //     await provider
+                                                  //         .updloadImage(widget
+                                                  //             .projectUpdatesID);
+
+                                                  //     // Updates inspectorNotes
+                                                  //     DatabaseReference
+                                                  //         inspectorNotesRef =
+                                                  //         FirebaseDatabase
+                                                  //             .instance
+                                                  //             .ref()
+                                                  //             .child(
+                                                  //                 'projectUpdates/${widget.projectUpdatesID}/inspectorNotes');
+
+                                                  //     await inspectorNotesRef
+                                                  //         .update({
+                                                  //       "inspectorNotes$inspectorNotesLength":
+                                                  //           inspectorNotes,
+                                                  //     });
+
+                                                  //     // Updates inspectorIssueDeadline
+                                                  //     DatabaseReference
+                                                  //         inspectorIssueDeadlineRef =
+                                                  //         FirebaseDatabase
+                                                  //             .instance
+                                                  //             .ref()
+                                                  //             .child(
+                                                  //                 'projectUpdates/${widget.projectUpdatesID}/inspectionIssueDeadline');
+
+                                                  //     await inspectorIssueDeadlineRef
+                                                  //         .update({
+                                                  //       "inspectionIssueDeadline$inspectionIssueDeadlineLength":
+                                                  //           reworkDeadline
+                                                  //     });
+
+                                                  //     // Updates inspectionDate
+                                                  //     DatabaseReference
+                                                  //         inspectionDateRef =
+                                                  //         FirebaseDatabase
+                                                  //             .instance
+                                                  //             .ref()
+                                                  //             .child(
+                                                  //                 'projectUpdates/${widget.projectUpdatesID}/inspectionDate');
+
+                                                  //     await inspectionDateRef
+                                                  //         .update({
+                                                  //       "inspectionDate$inspectionDateLength":
+                                                  //           formattedDate
+                                                  //     });
+
+                                                  //     // Updates project remarks
+                                                  //     DatabaseReference
+                                                  //         projectsRef =
+                                                  //         FirebaseDatabase
+                                                  //             .instance
+                                                  //             .ref()
+                                                  //             .child(
+                                                  //                 'projectUpdates/${widget.projectUpdatesID}');
+
+                                                  //     await projectsRef.update({
+                                                  //       "rpProjectRemarks":
+                                                  //           "$rpID-$projectID-REWORK-$combinedDateTime",
+                                                  //       "inspectorProjectRemarks":
+                                                  //           "$userID-$projectID-REWORK-$combinedDateTime",
+                                                  //     });
+                                                  //     if (provider.imgURL !=
+                                                  //         "") {
+                                                  //       await projectsRef
+                                                  //           .update({
+                                                  //         "projectUpdatesPhotoURL":
+                                                  //             provider.imgURL,
+                                                  //       });
+                                                  //     }
+
+                                                  //     reworkDeadlineController
+                                                  //         .clear();
+                                                  //     Navigator.of(context)
+                                                  //         .pop();
+                                                  //     Navigator.pop(context);
+                                                  //   }
+                                                  // },
                                                   onPressed: () async {
                                                     if (formKey.currentState!
                                                         .validate()) {
@@ -736,83 +825,49 @@ class _InspectorProjectUpdatesPageState
                                                       String reworkDeadline =
                                                           reworkDeadlineController
                                                               .text;
+
                                                       await provider
                                                           .updloadImage(widget
                                                               .projectUpdatesID);
 
-                                                      // Updates inspectorNotes
                                                       DatabaseReference
-                                                          inspectorNotesRef =
-                                                          FirebaseDatabase
-                                                              .instance
-                                                              .ref()
-                                                              .child(
-                                                                  'projectUpdates/${widget.projectUpdatesID}/inspectorNotes');
-
-                                                      await inspectorNotesRef
-                                                          .update({
-                                                        "inspectorNotes$inspectorNotesLength":
-                                                            inspectorNotes,
-                                                      });
-
-                                                      // Updates inspectorIssueDeadline
-                                                      DatabaseReference
-                                                          inspectorIssueDeadlineRef =
-                                                          FirebaseDatabase
-                                                              .instance
-                                                              .ref()
-                                                              .child(
-                                                                  'projectUpdates/${widget.projectUpdatesID}/inspectionIssueDeadline');
-
-                                                      await inspectorIssueDeadlineRef
-                                                          .update({
-                                                        "inspectionIssueDeadline$inspectionIssueDeadlineLength":
-                                                            reworkDeadline
-                                                      });
-
-                                                      // Updates inspectionDate
-                                                      DatabaseReference
-                                                          inspectionDateRef =
-                                                          FirebaseDatabase
-                                                              .instance
-                                                              .ref()
-                                                              .child(
-                                                                  'projectUpdates/${widget.projectUpdatesID}/inspectionDate');
-
-                                                      await inspectionDateRef
-                                                          .update({
-                                                        "inspectionDate$inspectionDateLength":
-                                                            formattedDate
-                                                      });
-
-                                                      // Updates project remarks
-                                                      DatabaseReference
-                                                          projectsRef =
+                                                          projectUpdatesRef =
                                                           FirebaseDatabase
                                                               .instance
                                                               .ref()
                                                               .child(
                                                                   'projectUpdates/${widget.projectUpdatesID}');
 
-                                                      await projectsRef.update({
+                                                      // Group the updates into a single JSON object
+                                                      Map<String, dynamic>
+                                                          updates = {
+                                                        "inspectorNotes/inspectorNotes$inspectorNotesLength":
+                                                            inspectorNotes,
+                                                        "inspectionIssueDeadline/inspectionIssueDeadline$inspectionIssueDeadlineLength":
+                                                            reworkDeadline,
+                                                        "inspectionDate/inspectionDate$inspectionDateLength":
+                                                            formattedDate,
                                                         "rpProjectRemarks":
                                                             "$rpID-$projectID-REWORK-$combinedDateTime",
                                                         "inspectorProjectRemarks":
                                                             "$userID-$projectID-REWORK-$combinedDateTime",
-                                                      });
+                                                      };
+
                                                       if (provider.imgURL !=
                                                           "") {
-                                                        await projectsRef
-                                                            .update({
-                                                          "projectUpdatesPhotoURL":
-                                                              provider.imgURL,
-                                                        });
+                                                        updates["projectUpdatesPhotoURL"] =
+                                                            provider.imgURL;
                                                       }
+
+                                                      await projectUpdatesRef
+                                                          .update(updates);
 
                                                       reworkDeadlineController
                                                           .clear();
+                                                      // ignore: use_build_context_synchronously
                                                       Navigator.of(context)
                                                           .pop();
+                                                      // ignore: use_build_context_synchronously
                                                       Navigator.pop(context);
                                                     }
                                                   },
