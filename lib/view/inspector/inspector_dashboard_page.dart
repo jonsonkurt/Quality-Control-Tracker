@@ -220,7 +220,7 @@ class _InspectorDashboardPageState extends State<InspectorDashboardPage> {
                                                     padding: EdgeInsets.only(
                                                         right: mediaQuery
                                                                 .size.width *
-                                                            0.05),
+                                                            0.08),
                                                     child: Text(
                                                       projectName,
                                                       maxLines: 1,
@@ -246,7 +246,7 @@ class _InspectorDashboardPageState extends State<InspectorDashboardPage> {
                                                     padding: EdgeInsets.only(
                                                         right: mediaQuery
                                                                 .size.width *
-                                                            0.05),
+                                                            0.08),
                                                     child: Text(
                                                       projectLocation,
                                                       maxLines: 1,
@@ -272,7 +272,7 @@ class _InspectorDashboardPageState extends State<InspectorDashboardPage> {
                                                     padding: EdgeInsets.only(
                                                         right: mediaQuery
                                                                 .size.width *
-                                                            0.05),
+                                                            0.08),
                                                     child: Text(
                                                       projectInspector,
                                                       maxLines: 1,

@@ -268,11 +268,19 @@ class _ResponsiblePartyProfilePageState
                                     color: Color(0xFF221540),
                                   ),
                                   const SizedBox(width: 15), // Ad
-                                  Text(
-                                    email,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.normal,
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Text(
+                                        email,
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.fade,
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
