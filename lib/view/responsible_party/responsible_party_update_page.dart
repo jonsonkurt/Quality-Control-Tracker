@@ -582,7 +582,22 @@ class _ResponsiblePartyUpdatePageState
                                                         null) {
                                                       return child;
                                                     }
-                                                    return const CircularProgressIndicator();
+                                                    return Transform.scale(
+                                                      scaleX: 0.25,
+                                                      scaleY: 0.35,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        value: loadingProgress
+                                                                    .expectedTotalBytes !=
+                                                                null
+                                                            ? loadingProgress
+                                                                    .cumulativeBytesLoaded /
+                                                                loadingProgress
+                                                                    .expectedTotalBytes!
+                                                            : null,
+                                                        strokeWidth: 2.0,
+                                                      ),
+                                                    );
                                                   },
                                                   errorBuilder:
                                                       (context, object, stack) {
@@ -791,7 +806,21 @@ class _ResponsiblePartyUpdatePageState
                                                           null) {
                                                         return child;
                                                       }
-                                                      return const CircularProgressIndicator();
+                                                      return Transform.scale(
+                                                          scaleX: 0.25,
+                                                          scaleY: 0.35,
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            value: loadingProgress
+                                                                        .expectedTotalBytes !=
+                                                                    null
+                                                                ? loadingProgress
+                                                                        .cumulativeBytesLoaded /
+                                                                    loadingProgress
+                                                                        .expectedTotalBytes!
+                                                                : null,
+                                                            strokeWidth: 2.0,
+                                                          ));
                                                     },
                                                     errorBuilder: (context,
                                                         object, stack) {
@@ -999,7 +1028,21 @@ class _ResponsiblePartyUpdatePageState
                                                           null) {
                                                         return child;
                                                       }
-                                                      return const CircularProgressIndicator();
+                                                      return Transform.scale(
+                                                          scaleX: 0.25,
+                                                          scaleY: 0.35,
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            value: loadingProgress
+                                                                        .expectedTotalBytes !=
+                                                                    null
+                                                                ? loadingProgress
+                                                                        .cumulativeBytesLoaded /
+                                                                    loadingProgress
+                                                                        .expectedTotalBytes!
+                                                                : null,
+                                                            strokeWidth: 2.0,
+                                                          ));
                                                     },
                                                     errorBuilder: (context,
                                                         object, stack) {
