@@ -225,14 +225,12 @@ class _ResponsiblePartyUpdatePageState
                         if (formKey.currentState!.validate()) {
                           String rpTitle = _rpTitleController.text;
                           String rpNotes = _rpNotesController.text;
-                          await provider.updloadImage(projectUpdatesID);
-                          // Updates database
                           DatabaseReference projectsRef = FirebaseDatabase
                               .instance
                               .ref()
                               .child('projectUpdates/$projectUpdatesID');
 
-                          await projectsRef.set({
+                          final updateData = {
                             "projectID": widget.projectIDQuery,
                             "projectUpdatesID": projectUpdatesID,
                             "rpID": userID,
@@ -252,17 +250,65 @@ class _ResponsiblePartyUpdatePageState
                             "inspectionDate": "",
                             "projectUpdatesTitle": rpTitle,
                             "projectUpdatesPhotoURL": "None",
-                          });
+                          };
+
+                          await provider.updloadImage(projectUpdatesID);
+                          await projectsRef.set(updateData);
+
                           if (provider.imgURL != "") {
-                            await projectsRef.update({
-                              "projectUpdatesPhotoURL": provider.imgURL,
-                            });
+                            await projectsRef
+                                .child("projectUpdatesPhotoURL")
+                                .set(provider.imgURL);
                           }
+
                           _rpTitleController.text = "";
                           _rpNotesController.text = "";
                           Navigator.of(context).pop();
                         }
                       },
+
+                      // onPressed: () async {
+                      //   if (formKey.currentState!.validate()) {
+                      //     String rpTitle = _rpTitleController.text;
+                      //     String rpNotes = _rpNotesController.text;
+                      //     await provider.updloadImage(projectUpdatesID);
+                      //     // Updates database
+                      //     DatabaseReference projectsRef = FirebaseDatabase
+                      //         .instance
+                      //         .ref()
+                      //         .child('projectUpdates/$projectUpdatesID');
+
+                      //     await projectsRef.set({
+                      //       "projectID": widget.projectIDQuery,
+                      //       "projectUpdatesID": projectUpdatesID,
+                      //       "rpID": userID,
+                      //       "rpName": rpFullName,
+                      //       "rpRole": rpRole,
+                      //       "inspectorID": inspectorID,
+                      //       "rpProjectRemarks":
+                      //           "$userID-${widget.projectIDQuery}-PENDING-$combinedDateTime",
+                      //       "rpSubmissionDate": {
+                      //         "rpSubmissionDate1": formattedDate
+                      //       },
+                      //       "inspectionIssueDeadline": "",
+                      //       "rpNotes": {"rpNotes1": rpNotes},
+                      //       "inspectorProjectRemarks":
+                      //           "$inspectorID-${widget.projectIDQuery}-PENDING-$combinedDateTime",
+                      //       "inspectorNotes": "",
+                      //       "inspectionDate": "",
+                      //       "projectUpdatesTitle": rpTitle,
+                      //       "projectUpdatesPhotoURL": "None",
+                      //     });
+                      //     if (provider.imgURL != "") {
+                      //       await projectsRef.update({
+                      //         "projectUpdatesPhotoURL": provider.imgURL,
+                      //       });
+                      //     }
+                      //     _rpTitleController.text = "";
+                      //     _rpNotesController.text = "";
+                      //     Navigator.of(context).pop();
+                      //   }
+                      // },
                       child: Padding(
                         padding: EdgeInsets.all(mediaQuery.size.height * 0.017),
                         child: Text(
