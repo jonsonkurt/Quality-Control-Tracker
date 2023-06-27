@@ -21,7 +21,8 @@ Future<void> initFcm(context) async {
     if (FirebaseAuth.instance.currentUser != null) {
       DatabaseReference nameRef =
           FirebaseDatabase.instance.ref().child('inspectors/$userID/role');
-      DatabaseReference ref = FirebaseDatabase.instance.ref().child('inspectors');
+      DatabaseReference ref =
+          FirebaseDatabase.instance.ref().child('inspectors');
       DatabaseReference resRef =
           FirebaseDatabase.instance.ref().child('responsibleParties');
       nameRef.onValue.listen((event) async {
@@ -57,7 +58,7 @@ Future<void> initFcm(context) async {
   });
 
   var initializationSettingsAndroid =
-      const AndroidInitializationSettings('@mipmap/ic_launcher_round');
+      const AndroidInitializationSettings('@mipmap/ic_notif');
   var initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
   );
