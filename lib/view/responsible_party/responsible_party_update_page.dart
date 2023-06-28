@@ -832,66 +832,58 @@ class _ResponsiblePartyUpdatePageState
                                       SizedBox(
                                         height: mediaQuery.size.height * 0.11,
                                         width: mediaQuery.size.width * 0.36,
-                                        child: Hero(
-                                          tag: projectUpdatesID,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(20),
-                                                    topRight:
-                                                        Radius.circular(20)),
-                                            child: projectUpdatesPhotoURL ==
-                                                    "None"
-                                                ? Image.asset(
-                                                    'assets/images/no-image.png',
-                                                    fit: BoxFit.cover,
-                                                    width: 100,
-                                                    height: 100,
-                                                  )
-                                                : Image(
-                                                    width:
-                                                        mediaQuery.size.width *
-                                                            0.8,
-                                                    height:
-                                                        mediaQuery.size.height *
-                                                            0.25,
-                                                    fit: BoxFit.cover,
-                                                    image: NetworkImage(
-                                                        projectUpdatesPhotoURL),
-                                                    loadingBuilder: (context,
-                                                        child,
-                                                        loadingProgress) {
-                                                      if (loadingProgress ==
-                                                          null) {
-                                                        return child;
-                                                      }
-                                                      return Transform.scale(
-                                                          scaleX: 0.25,
-                                                          scaleY: 0.35,
-                                                          child:
-                                                              CircularProgressIndicator(
-                                                            value: loadingProgress
-                                                                        .expectedTotalBytes !=
-                                                                    null
-                                                                ? loadingProgress
-                                                                        .cumulativeBytesLoaded /
-                                                                    loadingProgress
-                                                                        .expectedTotalBytes!
-                                                                : null,
-                                                            strokeWidth: 4.0,
-                                                          ));
-                                                    },
-                                                    errorBuilder: (context,
-                                                        object, stack) {
-                                                      return const Icon(
-                                                        Icons.error_outline,
-                                                        color: Color.fromARGB(
-                                                            255, 35, 35, 35),
-                                                      );
-                                                    },
-                                                  ),
-                                          ),
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20)),
+                                          child: projectUpdatesPhotoURL ==
+                                                  "None"
+                                              ? Image.asset(
+                                                  'assets/images/no-image.png',
+                                                  fit: BoxFit.cover,
+                                                  width: 100,
+                                                  height: 100,
+                                                )
+                                              : Image(
+                                                  width: mediaQuery.size.width *
+                                                      0.8,
+                                                  height:
+                                                      mediaQuery.size.height *
+                                                          0.25,
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                      projectUpdatesPhotoURL),
+                                                  loadingBuilder: (context,
+                                                      child, loadingProgress) {
+                                                    if (loadingProgress ==
+                                                        null) {
+                                                      return child;
+                                                    }
+                                                    return Transform.scale(
+                                                        scaleX: 0.25,
+                                                        scaleY: 0.35,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          value: loadingProgress
+                                                                      .expectedTotalBytes !=
+                                                                  null
+                                                              ? loadingProgress
+                                                                      .cumulativeBytesLoaded /
+                                                                  loadingProgress
+                                                                      .expectedTotalBytes!
+                                                              : null,
+                                                          strokeWidth: 4.0,
+                                                        ));
+                                                  },
+                                                  errorBuilder:
+                                                      (context, object, stack) {
+                                                    return const Icon(
+                                                      Icons.error_outline,
+                                                      color: Color.fromARGB(
+                                                          255, 35, 35, 35),
+                                                    );
+                                                  },
+                                                ),
                                         ),
                                       ),
                                       Column(
