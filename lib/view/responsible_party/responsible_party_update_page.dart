@@ -13,6 +13,8 @@ import 'package:quality_control_tracker/view/responsible_party/responsible_party
 import 'package:quality_control_tracker/view/responsible_party/update_image_controller.dart';
 import 'package:random_string/random_string.dart';
 
+import 'responsible_party_project_rework.dart';
+
 class ResponsiblePartyUpdatePage extends StatefulWidget {
   final String projectIDQuery;
 
@@ -587,7 +589,7 @@ class _ResponsiblePartyUpdatePageState
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          ResponsiblePartyProjectUpdatesInformationPage(
+                                          ResponsiblePartyReworkPage(
                                             projectUpdatesID: projectUpdatesID,
                                           )),
                                 );
