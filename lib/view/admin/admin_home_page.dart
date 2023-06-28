@@ -84,7 +84,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
         body: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: SearchBox(onSearch: _handleSearch),
             ),
             Expanded(

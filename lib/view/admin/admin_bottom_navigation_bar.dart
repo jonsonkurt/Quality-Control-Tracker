@@ -99,9 +99,20 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Loading'),
+                Text(
+                  'Adding project',
+                  style: TextStyle(
+                    fontFamily: 'Rubik Bold',
+                    fontSize: MediaQuery.of(context).size.height * 0.02,
+                    color: const Color(0xff221540),
+                  ),
+                ),
                 const SizedBox(height: 20.0),
                 SimpleCircularProgressBar(
+                  progressColors: const [
+                    Color(0xFFE5963C),
+                    Color(0xFF90EE90),
+                  ],
                   maxValue: 100,
                   animationDuration: 3,
                   valueNotifier: valueNotifier,
@@ -109,10 +120,10 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                   onGetText: (double value) {
                     return Text(
                       '${value.toInt()}%',
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                      style: TextStyle(
+                        fontFamily: 'Karla Regular',
+                        fontSize: MediaQuery.of(context).size.height * 0.017,
+                        color: const Color(0xff221540),
                       ),
                     );
                   },
