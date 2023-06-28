@@ -346,6 +346,7 @@ class _InspectorsEditProfile extends State<InspectorsEditProfile> {
                               ),
                             ),
                           ),
+                          SizedBox(height: mediaQuery.size.height * 0.03),
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 fixedSize: const Size(164, 50),
@@ -379,23 +380,18 @@ class _InspectorsEditProfile extends State<InspectorsEditProfile> {
                                   );
                                 }
                               },
-                              child: const Text('Confirm')),
-                          const SizedBox(height: 10),
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(164, 50),
-                                backgroundColor: const Color(0xFF221540),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      30), // Adjust the radius as needed
+                              child: Padding(
+                                padding: EdgeInsets.all(
+                                    mediaQuery.size.height * 0.017),
+                                child: Text(
+                                  'Confirm',
+                                  style: TextStyle(
+                                    fontFamily: 'Rubik Regular',
+                                    fontSize: mediaQuery.size.height * 0.02,
+                                  ),
                                 ),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(
-                                  context,
-                                );
-                              },
-                              child: const Text('Cancel')),
+                              )),
+                          const SizedBox(height: 10),
                         ]);
                   } else {
                     return const Center(
