@@ -13,8 +13,8 @@ import 'loading_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await FirebaseAppCheck.instance
-      .activate(androidProvider: AndroidProvider.debug);
+  // await FirebaseAppCheck.instance
+  //     .activate(androidProvider: AndroidProvider.playIntegrity);
 
   await Permission.notification.isDenied.then((value) {
     if (value) {
@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+    
     initFcm(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,

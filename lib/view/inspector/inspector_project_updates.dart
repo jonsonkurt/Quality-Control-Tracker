@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:quality_control_tracker/image_viewer.dart';
 import 'package:quality_control_tracker/view/inspector/update_image_inspector_controller.dart';
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:textfield_datepicker/textfield_datepicker.dart';
 
 class InspectorProjectUpdatesPage extends StatefulWidget {
@@ -490,7 +491,7 @@ class _InspectorProjectUpdatesPageState
                                                               InputDecoration(
                                                             contentPadding:
                                                                 const EdgeInsets
-                                                                        .fromLTRB(
+                                                                    .fromLTRB(
                                                                     12,
                                                                     4,
                                                                     4,
@@ -812,6 +813,12 @@ class _InspectorProjectUpdatesPageState
                                                   //   }
                                                   // },
                                                   onPressed: () async {
+                                                    // ignore: use_build_context_synchronously
+                                                    Navigator.of(context).pop();
+                                                    scheduleMicrotask(() {
+                                                      Navigator.pop(context);
+                                                    });
+
                                                     if (formKey.currentState!
                                                         .validate()) {
                                                       String inspectorNotes =
@@ -859,13 +866,6 @@ class _InspectorProjectUpdatesPageState
 
                                                       reworkDeadlineController
                                                           .clear();
-
-                                                      // ignore: use_build_context_synchronously
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      scheduleMicrotask(() {
-                                                        Navigator.pop(context);
-                                                      });
                                                     }
                                                   },
                                                   child: Padding(
