@@ -655,15 +655,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                           break;
                                                         }
                                                       }
-                                                      if (provider.imgURL !=
-                                                          "") {
-                                                        await ref
-                                                            .child(projectID)
-                                                            .update({
-                                                          "projectImage":
-                                                              provider.imgURL,
-                                                        });
-                                                      }
+
                                                       await ref
                                                           .child(projectID)
                                                           .update({
@@ -692,6 +684,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         "projectDeadline":
                                                             projDeadline,
                                                         "projectID": projectID,
+                                                        "projectImage": "None",
                                                         "projectLocation":
                                                             projLocation,
                                                         "projectManager": "-",
@@ -705,6 +698,16 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                         "welder": "-",
                                                         "welderQuery": "-"
                                                       });
+
+                                                      if (provider.imgURL !=
+                                                          "") {
+                                                        await ref
+                                                            .child(projectID)
+                                                            .update({
+                                                          "projectImage":
+                                                              provider.imgURL,
+                                                        });
+                                                      }
 
                                                       _projectNameController
                                                           .clear();
