@@ -548,172 +548,185 @@ class _ResponsiblePartyUpdatePageState
                             .endAt(
                                 "$userID-${widget.projectIDQuery}-PENDING-\uf8ff"),
                         itemBuilder: (context, snapshot, animation, index) {
-                          String projectUpdatesID = snapshot
-                              .child("projectUpdatesID")
-                              .value
-                              .toString();
+                          if (!snapshot.exists) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else {
+                            String projectUpdatesID = snapshot
+                                .child("projectUpdatesID")
+                                .value
+                                .toString();
 
-                          String rpSubmissionDateLengthString = snapshot
-                              .child("rpSubmissionDate")
-                              .value
-                              .toString();
-                          int rpSubmissionDateLengthInt =
-                              rpSubmissionDateLengthString.split(":").length -
-                                  1;
-                          String rpSubmissionDate = snapshot
-                              .child(
-                                  "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
-                              .value
-                              .toString();
+                            String rpSubmissionDateLengthString = snapshot
+                                .child("rpSubmissionDate")
+                                .value
+                                .toString();
+                            int rpSubmissionDateLengthInt =
+                                rpSubmissionDateLengthString.split(":").length -
+                                    1;
+                            String rpSubmissionDate = snapshot
+                                .child(
+                                    "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
+                                .value
+                                .toString();
 
-                          String projectUpdatesTitle = snapshot
-                              .child("projectUpdatesTitle")
-                              .value
-                              .toString();
+                            String projectUpdatesTitle = snapshot
+                                .child("projectUpdatesTitle")
+                                .value
+                                .toString();
 
-                          String? projectUpdatesPhotoURL = snapshot
-                              .child("projectUpdatesPhotoURL")
-                              .value
-                              .toString();
+                            String? projectUpdatesPhotoURL = snapshot
+                                .child("projectUpdatesPhotoURL")
+                                .value
+                                .toString();
 
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ResponsiblePartyProjectUpdatesInformationPage(
-                                          projectUpdatesID: projectUpdatesID,
-                                        )),
-                              );
-                            },
-                            child: SizedBox(
-                              height: mediaQuery.size.height * 0.11,
-                              width: mediaQuery.size.width * 0.36,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height: mediaQuery.size.height * 0.11,
-                                      width: mediaQuery.size.width * 0.36,
-                                      child: Hero(
-                                        tag: projectUpdatesID,
-                                        child: ClipRRect(
-                                          borderRadius: const BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              topRight: Radius.circular(20)),
-                                          child: projectUpdatesPhotoURL ==
-                                                  "None"
-                                              ? Image.asset(
-                                                  'assets/images/no-image.png',
-                                                  fit: BoxFit.cover,
-                                                  width: 100,
-                                                  height: 100,
-                                                )
-                                              : Image(
-                                                  width: mediaQuery.size.width *
-                                                      0.8,
-                                                  height:
-                                                      mediaQuery.size.height *
-                                                          0.25,
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                      projectUpdatesPhotoURL),
-                                                  loadingBuilder: (context,
-                                                      child, loadingProgress) {
-                                                    if (loadingProgress ==
-                                                        null) {
-                                                      return child;
-                                                    }
-                                                    return Transform.scale(
-                                                      scaleX: 0.25,
-                                                      scaleY: 0.35,
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        value: loadingProgress
-                                                                    .expectedTotalBytes !=
-                                                                null
-                                                            ? loadingProgress
-                                                                    .cumulativeBytesLoaded /
-                                                                loadingProgress
-                                                                    .expectedTotalBytes!
-                                                            : null,
-                                                        strokeWidth: 2.0,
-                                                      ),
-                                                    );
-                                                  },
-                                                  errorBuilder:
-                                                      (context, object, stack) {
-                                                    return const Icon(
-                                                      Icons.error_outline,
-                                                      color: Color.fromARGB(
-                                                          255, 35, 35, 35),
-                                                    );
-                                                  },
-                                                ),
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ResponsiblePartyProjectUpdatesInformationPage(
+                                            projectUpdatesID: projectUpdatesID,
+                                          )),
+                                );
+                              },
+                              child: SizedBox(
+                                height: mediaQuery.size.height * 0.11,
+                                width: mediaQuery.size.width * 0.36,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: mediaQuery.size.height * 0.11,
+                                        width: mediaQuery.size.width * 0.36,
+                                        child: Hero(
+                                          tag: projectUpdatesID,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(20),
+                                                    topRight:
+                                                        Radius.circular(20)),
+                                            child: projectUpdatesPhotoURL ==
+                                                    "None"
+                                                ? Image.asset(
+                                                    'assets/images/no-image.png',
+                                                    fit: BoxFit.cover,
+                                                    width: 100,
+                                                    height: 100,
+                                                  )
+                                                : Image(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.8,
+                                                    height:
+                                                        mediaQuery.size.height *
+                                                            0.25,
+                                                    fit: BoxFit.cover,
+                                                    image: NetworkImage(
+                                                        projectUpdatesPhotoURL),
+                                                    loadingBuilder: (context,
+                                                        child,
+                                                        loadingProgress) {
+                                                      if (loadingProgress ==
+                                                          null) {
+                                                        return child;
+                                                      }
+                                                      return Transform.scale(
+                                                        scaleX: 0.25,
+                                                        scaleY: 0.35,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          value: loadingProgress
+                                                                      .expectedTotalBytes !=
+                                                                  null
+                                                              ? loadingProgress
+                                                                      .cumulativeBytesLoaded /
+                                                                  loadingProgress
+                                                                      .expectedTotalBytes!
+                                                              : null,
+                                                          strokeWidth: 2.0,
+                                                        ),
+                                                      );
+                                                    },
+                                                    errorBuilder: (context,
+                                                        object, stack) {
+                                                      return const Icon(
+                                                        Icons.error_outline,
+                                                        color: Color.fromARGB(
+                                                            255, 35, 35, 35),
+                                                      );
+                                                    },
+                                                  ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        right:
-                                            MediaQuery.of(context).size.width *
-                                                0.05,
-                                        left:
-                                            MediaQuery.of(context).size.width *
-                                                0.05,
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          right: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.05,
+                                          left: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.05,
+                                        ),
+                                        child: Text(
+                                          projectUpdatesTitle,
+                                          maxLines: 1,
+                                          softWrap: false,
+                                          overflow: TextOverflow.fade,
+                                          style: TextStyle(
+                                              fontFamily: "Rubik Bold",
+                                              fontSize: mediaQuery.size.height *
+                                                  0.018,
+                                              color: const Color(0xFF221540)),
+                                        ),
                                       ),
-                                      child: Text(
-                                        projectUpdatesTitle,
-                                        maxLines: 1,
-                                        softWrap: false,
-                                        overflow: TextOverflow.fade,
+                                      Text(
+                                        "Submitted on:",
                                         style: TextStyle(
-                                            fontFamily: "Rubik Bold",
+                                            fontFamily: "Karla Regular",
                                             fontSize:
-                                                mediaQuery.size.height * 0.018,
+                                                mediaQuery.size.height * 0.015,
                                             color: const Color(0xFF221540)),
                                       ),
-                                    ),
-                                    Text(
-                                      "Submitted on:",
-                                      style: TextStyle(
-                                          fontFamily: "Karla Regular",
-                                          fontSize:
-                                              mediaQuery.size.height * 0.015,
-                                          color: const Color(0xFF221540)),
-                                    ),
-                                    Text(
-                                      rpSubmissionDate,
-                                      style: TextStyle(
-                                          fontFamily: "Karla Regular",
-                                          fontSize:
-                                              mediaQuery.size.height * 0.015,
-                                          color: const Color(0xFF221540)),
-                                    ),
-                                  ],
+                                      Text(
+                                        rpSubmissionDate,
+                                        style: TextStyle(
+                                            fontFamily: "Karla Regular",
+                                            fontSize:
+                                                mediaQuery.size.height * 0.015,
+                                            color: const Color(0xFF221540)),
+                                      ),
+                                    ],
+                                  ),
+                                  // child: Row(
+                                  //   children: [
+                                  //     Image.network(
+                                  //       projectUpdatesPhotoURL,
+                                  //       width: 100,
+                                  //       height: 100,
+                                  //     ),
+                                  //     Column(
+                                  //       children: [
+                                  //         Text(projectUpdatesTitle),
+                                  //         Text("Submitted on: $rpSubmissionDate"),
+                                  //       ],
+                                  //     )
+                                  //   ],
+                                  // ),
                                 ),
-                                // child: Row(
-                                //   children: [
-                                //     Image.network(
-                                //       projectUpdatesPhotoURL,
-                                //       width: 100,
-                                //       height: 100,
-                                //     ),
-                                //     Column(
-                                //       children: [
-                                //         Text(projectUpdatesTitle),
-                                //         Text("Submitted on: $rpSubmissionDate"),
-                                //       ],
-                                //     )
-                                //   ],
-                                // ),
                               ),
-                            ),
-                          );
+                            );
+                          }
                         },
                       ),
                     );
