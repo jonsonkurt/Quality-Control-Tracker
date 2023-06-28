@@ -240,6 +240,7 @@ class _InspectorsEditProfile extends State<InspectorsEditProfile> {
                                     cursorColor: const Color(0xFF221540),
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
+                                      prefixIcon: const Icon(Icons.person),
                                       hintText: 'First Name',
                                       labelStyle: const TextStyle(
                                         fontFamily: "Karla Regular",
@@ -275,6 +276,7 @@ class _InspectorsEditProfile extends State<InspectorsEditProfile> {
                                     cursorColor: const Color(0xFF221540),
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
+                                      prefixIcon: const Icon(Icons.person),
                                       hintText: 'Last Name',
                                       labelStyle: const TextStyle(
                                         fontFamily: "Karla Regular",
@@ -310,6 +312,7 @@ class _InspectorsEditProfile extends State<InspectorsEditProfile> {
                                     cursorColor: const Color(0xFF221540),
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
+                                      prefixIcon: const Icon(Icons.call),
                                       hintText: 'Mobile Number',
                                       labelStyle: const TextStyle(
                                         fontFamily: "Karla Regular",
