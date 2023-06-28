@@ -166,10 +166,10 @@ class _ResponsiblePartyHomePageState extends State<ResponsiblePartyHomePage> {
                                   width: MediaQuery.of(context).size.width * 1,
                                   height:
                                       MediaQuery.of(context).size.height / 1.2,
-                                  child: Padding(
+                                  child: Container(
                                     padding: EdgeInsets.only(
-                                      left: MediaQuery.of(context).size.width /
-                                          15,
+                                      left: mediaQuery.size.width * 0.05,
+                                      right: mediaQuery.size.width * 0.05,
                                     ),
                                     child: Column(
                                       mainAxisAlignment:
@@ -308,489 +308,393 @@ class _ResponsiblePartyHomePageState extends State<ResponsiblePartyHomePage> {
                                         const SizedBox(
                                           height: 15,
                                         ),
-                                        SizedBox(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                        Expanded(
+                                          child: ListView(
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            shrinkWrap: true,
                                             children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 10,
-                                                  bottom: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Text(
+                                              Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: ListTile(
+                                                  leading: SizedBox(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    child: const Text(
                                                       "Project Manager:",
                                                       style: TextStyle(
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 13,
-                                                        color:
-                                                            Color(0xFF221540),
-                                                      ),
+                                                          fontFamily:
+                                                              "Rubik Bold",
+                                                          fontSize: 13,
+                                                          color: Color(
+                                                              0xFF221540)),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              5),
-                                                      child: Text(
-                                                        projectManager,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 12,
-                                                          color:
-                                                              Color(0xFF221540),
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  title: Text(
+                                                    projectManager,
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: 13,
+                                                      color: Color(0xFF221540),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 2,
-                                                  bottom: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Text(
+                                              Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: ListTile(
+                                                  leading: SizedBox(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    child: const Text(
                                                       "Owner:",
                                                       style: TextStyle(
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "Rubik Bold",
                                                         fontSize: 13,
                                                         color:
                                                             Color(0xFF221540),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              2.8),
-                                                      child: Text(
-                                                        owner,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 12,
-                                                          color:
-                                                              Color(0xFF221540),
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  title: Text(
+                                                    owner,
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: 13,
+                                                      color: Color(0xFF221540),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 2,
-                                                  bottom: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Plumber: ",
+                                              Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: ListTile(
+                                                  leading: SizedBox(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    child: const Text(
+                                                      "Plumber:",
                                                       style: TextStyle(
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "Rubik Bold",
                                                         fontSize: 13,
                                                         color:
                                                             Color(0xFF221540),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              3.140),
-                                                      child: Text(
-                                                        plumber,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 12,
-                                                          color:
-                                                              Color(0xFF221540),
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  title: Text(
+                                                    plumber,
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: 13,
+                                                      color: Color(0xFF221540),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 2,
-                                                  bottom: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Painter: ",
+                                              Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: ListTile(
+                                                  leading: SizedBox(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    child: const Text(
+                                                      "Painter:",
                                                       style: TextStyle(
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "Rubik Bold",
                                                         fontSize: 13,
                                                         color:
                                                             Color(0xFF221540),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              2.97),
-                                                      child: Text(
-                                                        painter,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 12,
-                                                          color:
-                                                              Color(0xFF221540),
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  title: Text(
+                                                    painter,
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: 13,
+                                                      color: Color(0xFF221540),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 2,
-                                                  bottom: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Mason: ",
+                                              Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: ListTile(
+                                                  leading: SizedBox(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    child: const Text(
+                                                      "Mason:",
                                                       style: TextStyle(
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "Rubik Bold",
                                                         fontSize: 13,
                                                         color:
                                                             Color(0xFF221540),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              2.89),
-                                                      child: Text(
-                                                        mason,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 12,
-                                                          color:
-                                                              Color(0xFF221540),
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  title: Text(
+                                                    mason,
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: 13,
+                                                      color: Color(0xFF221540),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 2,
-                                                  bottom: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Laborer: ",
+                                              Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: ListTile(
+                                                  leading: SizedBox(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    child: const Text(
+                                                      "Laborer:",
                                                       style: TextStyle(
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "Rubik Bold",
                                                         fontSize: 13,
                                                         color:
                                                             Color(0xFF221540),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              3),
-                                                      child: Text(
-                                                        laborer,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 12,
-                                                          color:
-                                                              Color(0xFF221540),
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  title: Text(
+                                                    laborer,
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: 13,
+                                                      color: Color(0xFF221540),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 2,
-                                                  bottom: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Electrician: ",
+                                              Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: ListTile(
+                                                  leading: SizedBox(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    child: const Text(
+                                                      "Electrician:",
                                                       style: TextStyle(
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "Rubik Bold",
                                                         fontSize: 13,
                                                         color:
                                                             Color(0xFF221540),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              3.5),
-                                                      child: Text(
-                                                        electrician,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 12,
-                                                          color:
-                                                              Color(0xFF221540),
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  title: Text(
+                                                    electrician,
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: 13,
+                                                      color: Color(0xFF221540),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 2,
-                                                  bottom: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Text(
+                                              Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: ListTile(
+                                                  leading: SizedBox(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    child: const Text(
                                                       "Welder:",
                                                       style: TextStyle(
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "Rubik Bold",
                                                         fontSize: 13,
                                                         color:
                                                             Color(0xFF221540),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              2.85),
-                                                      child: Text(
-                                                        welder,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 12,
-                                                          color:
-                                                              Color(0xFF221540),
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  title: Text(
+                                                    welder,
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: 13,
+                                                      color: Color(0xFF221540),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 2,
-                                                  bottom: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Carpenter: ",
+                                              Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: ListTile(
+                                                  leading: SizedBox(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    child: const Text(
+                                                      "Carpenter:",
                                                       style: TextStyle(
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "Rubik Bold",
                                                         fontSize: 13,
                                                         color:
                                                             Color(0xFF221540),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              3.3),
-                                                      child: Text(
-                                                        carpenter,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 12,
-                                                          color:
-                                                              Color(0xFF221540),
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  title: Text(
+                                                    carpenter,
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: 13,
+                                                      color: Color(0xFF221540),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 2,
-                                                  bottom: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Landscaper: ",
+                                              Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: ListTile(
+                                                  leading: SizedBox(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    child: const Text(
+                                                      "Landscaper:",
                                                       style: TextStyle(
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "Rubik Bold",
                                                         fontSize: 13,
                                                         color:
                                                             Color(0xFF221540),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              3.65),
-                                                      child: Text(
-                                                        landscaper,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 12,
-                                                          color:
-                                                              Color(0xFF221540),
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  title: Text(
+                                                    landscaper,
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: 13,
+                                                      color: Color(0xFF221540),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 2,
-                                                  bottom: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Text(
-                                                      "HVAC: ",
+                                              Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: ListTile(
+                                                  leading: SizedBox(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    child: const Text(
+                                                      "HVAC:",
                                                       style: TextStyle(
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "Rubik Bold",
                                                         fontSize: 13,
                                                         color:
                                                             Color(0xFF221540),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              2.77),
-                                                      child: Text(
-                                                        hvac,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 12,
-                                                          color:
-                                                              Color(0xFF221540),
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  title: Text(
+                                                    hvac,
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: 13,
+                                                      color: Color(0xFF221540),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 2,
-                                                  bottom: 5,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Technician: ",
+                                              Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: ListTile(
+                                                  leading: SizedBox(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.3,
+                                                    child: const Text(
+                                                      "Technician:",
                                                       style: TextStyle(
-                                                        fontFamily: 'Rubik',
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            "Rubik Bold",
                                                         fontSize: 13,
                                                         color:
                                                             Color(0xFF221540),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              3.46),
-                                                      child: Text(
-                                                        technician,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Rubik',
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 12,
-                                                          color:
-                                                              Color(0xFF221540),
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  title: Text(
+                                                    technician,
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Karla Regular',
+                                                      fontSize: 13,
+                                                      color: Color(0xFF221540),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
                                             ],

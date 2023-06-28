@@ -489,7 +489,7 @@ class _ResponsiblePartyProjectUpdatesPageState
                                                         child: ClipRRect(
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(15),
+                                                                  .circular(13),
                                                           child: provider
                                                                       .image ==
                                                                   null
