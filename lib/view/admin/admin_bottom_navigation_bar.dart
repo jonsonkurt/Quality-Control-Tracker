@@ -291,6 +291,12 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     ),
                                                   ),
                                                 ),
+                                                SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.02),
                                                 Container(
                                                   child: noticeState == false
                                                       ? Text(
@@ -571,16 +577,10 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                       0.1,
                                                 ),
                                                 SizedBox(
-                                                  // height: MediaQuery.of(context)
-                                                  //         .size
-                                                  //         .height *
-                                                  //     .095,
+                                                  width: double.infinity,
                                                   child: TextfieldDatePicker(
                                                     textfieldDatePickerWidth:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            2,
+                                                        double.infinity,
                                                     textAlignVertical:
                                                         TextAlignVertical
                                                             .bottom,
@@ -626,7 +626,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                              .fromLTRB(
+                                                                  .fromLTRB(
                                                               12, 4, 4, 18),
                                                       border:
                                                           OutlineInputBorder(
@@ -648,7 +648,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                       filled: true,
                                                       fillColor: Colors.white,
                                                       hintText: 'Select Date',
-                                                      labelStyle: TextStyle(
+                                                      hintStyle: TextStyle(
                                                         fontFamily:
                                                             'Karla Regular',
                                                         fontSize: MediaQuery.of(
@@ -916,7 +916,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
+                                                                      .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -974,7 +974,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
+                                                                      .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -1031,7 +1031,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
+                                                                      .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -1096,7 +1096,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
+                                                                      .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -1153,7 +1153,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
+                                                                      .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
