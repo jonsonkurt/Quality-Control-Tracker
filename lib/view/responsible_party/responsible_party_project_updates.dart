@@ -533,6 +533,8 @@ class _ResponsiblePartyProjectUpdatesPageState
                                               onPressed: () async {
                                                 if (formKey.currentState!
                                                     .validate()) {
+                                                  Navigator.of(context).pop();
+                                                  Navigator.pop(context);
                                                   String rpNotes =
                                                       rpNotesController.text;
                                                   await provider.updloadImage(
@@ -582,8 +584,6 @@ class _ResponsiblePartyProjectUpdatesPageState
                                                           provider.imgURL,
                                                     });
                                                   }
-                                                  Navigator.of(context).pop();
-                                                  Navigator.pop(context);
                                                 }
                                               },
                                               child: Padding(
