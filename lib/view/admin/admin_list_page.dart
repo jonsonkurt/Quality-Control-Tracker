@@ -256,7 +256,28 @@ class _AdminListPageState extends State<AdminListPage> {
                               });
                         }
                       }
-                      return Text("helkko");
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/images/empty.png'),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.03,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).size.height * 0.2),
+                            child: Text(
+                              "No current inspector",
+                              style: TextStyle(
+                                  fontFamily: "Karla Regular",
+                                  fontSize: MediaQuery.of(context).size.height *
+                                      0.02),
+                            ),
+                          ),
+                        ],
+                      );
                     }),
               ),
             ],
