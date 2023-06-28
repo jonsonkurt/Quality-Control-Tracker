@@ -859,12 +859,13 @@ class _InspectorProjectUpdatesPageState
 
                                                       reworkDeadlineController
                                                           .clear();
+
                                                       // ignore: use_build_context_synchronously
                                                       Navigator.of(context)
                                                           .pop();
-                                                      // TODO: Add wait time
-                                                      // ignore: use_build_context_synchronously
-                                                      Navigator.pop(context);
+                                                      scheduleMicrotask(() {
+                                                        Navigator.pop(context);
+                                                      });
                                                     }
                                                   },
                                                   child: Padding(

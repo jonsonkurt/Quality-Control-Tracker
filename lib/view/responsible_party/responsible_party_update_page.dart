@@ -263,7 +263,10 @@ class _ResponsiblePartyUpdatePageState
 
                           _rpTitleController.text = "";
                           _rpNotesController.text = "";
-                          Navigator.of(context).pop();
+
+                          scheduleMicrotask(() {
+                            Navigator.of(context).pop();
+                          });
                         }
                       },
 
