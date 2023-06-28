@@ -60,6 +60,8 @@ class _InspectorListPageState extends State<InspectorListPage> {
         return 'Landscaping';
       case 'hvac':
         return 'HVAC';
+      case 'technician':
+        return 'Technician';
       default:
         return 'Unknown';
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:quality_control_tracker/notification_controller.dart';
 import 'package:quality_control_tracker/view/admin/admin_bottom_navigation_bar.dart';
 import 'package:quality_control_tracker/welcome_page.dart';
@@ -11,6 +12,11 @@ import 'loading_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Permission.notification.isDenied.then((value) {
+    if (value) {
+      Permission.notification.request();
+    }
+  });
   runApp(const MyApp());
 }
 
