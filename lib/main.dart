@@ -5,16 +5,22 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:quality_control_tracker/notification_controller.dart';
 import 'package:quality_control_tracker/view/admin/admin_bottom_navigation_bar.dart';
 import 'package:quality_control_tracker/welcome_page.dart';
-import 'firebase_options.dart';
+// import 'firebase_options.dart';
 import 'package:flutter/services.dart';
 
 import 'loading_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp();
   await FirebaseAppCheck.instance
       .activate(androidProvider: AndroidProvider.debug);
+
+  await Permission.notification.isDenied.then((value) {
+    if (value) {
+      Permission.notification.request();
+    }
+  });
   runApp(const MyApp());
 }
 
