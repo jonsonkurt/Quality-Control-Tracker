@@ -219,6 +219,12 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
                   return ListView.builder(
                     itemCount: value.length,
                     itemBuilder: (context, index) {
+                      Event event = value[index];
+                      String title = event.projectUpdatesTitle;
+                      String rpRole = event.rpRole;
+                      String rpName = event.rpName;
+                      String notes = event.inspectorNotes;
+
                       return Container(
                         margin: const EdgeInsets.symmetric(
                           horizontal: 12.0,
@@ -229,9 +235,8 @@ class _ProjectSummaryPageState extends State<ProjectSummaryPage> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         child: ListTile(
-                          onTap: () => print('${value[index]}'),
                           title: Text(
-                            '${value[index]}',
+                            "Title: $title\nRole: ${rpRole == "projectManager" ? "Project Manager" : rpRole[0].toUpperCase() + rpRole.substring(1)}\nBy: $rpName\nNotes: $notes",
                             style: TextStyle(
                               fontFamily: 'Karla Regular',
                               fontSize:
