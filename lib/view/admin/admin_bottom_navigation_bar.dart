@@ -36,7 +36,6 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
 
   bool showSelectedLabels = false;
   bool showUnselectedLabels = false;
-  final String projectID = randomAlphaNumeric(8);
 
   Color selectedColor = const Color(0xFF221540);
   Color unselectedColor = const Color(0xFF221540);
@@ -207,6 +206,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                 create: (_) => ProfileController(),
                                 child: Consumer<ProfileController>(
                                   builder: (context, provider, child) {
+                                    String projectID = randomAlphaNumeric(8);
                                     return SingleChildScrollView(
                                       physics: const BouncingScrollPhysics(),
                                       child: SafeArea(
@@ -628,7 +628,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                              .fromLTRB(
+                                                                  .fromLTRB(
                                                               12, 4, 4, 18),
                                                       border:
                                                           OutlineInputBorder(
@@ -722,7 +722,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
 
                                                       await ref
                                                           .child(projectID)
-                                                          .update({
+                                                          .set({
                                                         "HVAC": "-",
                                                         "HVACQuery": "-",
                                                         "carpenter": "-",
@@ -925,7 +925,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
+                                                                      .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -983,7 +983,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
+                                                                      .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -1040,7 +1040,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
+                                                                      .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -1105,7 +1105,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
+                                                                      .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -1162,7 +1162,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
+                                                                      .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
