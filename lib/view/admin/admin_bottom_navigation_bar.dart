@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:provider/provider.dart';
 import 'package:quality_control_tracker/view/admin/project_image_controller.dart';
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
+
 import 'admin_home_page.dart';
 import 'admin_list_page.dart';
 import 'dart:async';
@@ -56,22 +58,84 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
   bool noticeState = false;
 
   var logger = Logger();
+  late PageController _pageController;
+  late ValueNotifier<double> valueNotifier;
+  bool _isLoading = false;
+  bool _isDialogVisible = false;
+  double _progressValue = 0;
+
+  void _startLoading() {
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Simulate a time-consuming task
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
 
   final List<Widget> _pages = [
     const AdminHomePage(),
     const AdminListPage(),
   ];
+  // EDIT THE LOADING FUNCTION HERE!!!
+  void _showProgressDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Timer.periodic(const Duration(milliseconds: 3500), (timer) {
+          valueNotifier.value += 1;
 
-  late PageController _pageController;
+          if (valueNotifier.value >= 100) {
+            timer.cancel();
+            Navigator.of(context).pop();
+          }
+        });
+        return Dialog(
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Loading'),
+                const SizedBox(height: 20.0),
+                SimpleCircularProgressBar(
+                  maxValue: 100,
+                  animationDuration: 3,
+                  valueNotifier: valueNotifier,
+                  mergeMode: true,
+                  onGetText: (double value) {
+                    return Text(
+                      '${value.toInt()}%',
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
     super.initState();
+    valueNotifier = ValueNotifier(0.0);
     _pageController = PageController(initialPage: _selectedItemPosition);
   }
 
   @override
   void dispose() {
+    valueNotifier.dispose();
     _projectNameController.dispose();
     _projectLocationController.dispose();
     _inspectorController.dispose();
@@ -564,7 +628,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                                  .fromLTRB(
+                                                              .fromLTRB(
                                                               12, 4, 4, 18),
                                                       border:
                                                           OutlineInputBorder(
@@ -721,8 +785,10 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                       // Perform the desired action when the button is pressed
                                                       // ignore: use_build_context_synchronously
                                                       Navigator.pop(context);
-                                                    } else {
-                                                      noticeState = true;
+                                                      valueNotifier.value =
+                                                          100.0;
+                                                      _showProgressDialog(
+                                                          context);
                                                     }
                                                   },
                                                   child: Padding(
@@ -859,7 +925,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                      .fromLTRB(
+                                                                  .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -917,7 +983,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                      .fromLTRB(
+                                                                  .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -974,7 +1040,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                      .fromLTRB(
+                                                                  .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -1039,7 +1105,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                      .fromLTRB(
+                                                                  .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -1096,7 +1162,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                      .fromLTRB(
+                                                                  .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
