@@ -229,7 +229,9 @@ class _ResponsiblePartyUpdatePageState
                               .instance
                               .ref()
                               .child('projectUpdates/$projectUpdatesID');
-
+                          scheduleMicrotask(() {
+                            Navigator.of(context).pop();
+                          });
                           final updateData = {
                             "projectID": widget.projectIDQuery,
                             "projectUpdatesID": projectUpdatesID,
@@ -263,10 +265,6 @@ class _ResponsiblePartyUpdatePageState
 
                           _rpTitleController.text = "";
                           _rpNotesController.text = "";
-
-                          scheduleMicrotask(() {
-                            Navigator.of(context).pop();
-                          });
                         }
                       },
 
