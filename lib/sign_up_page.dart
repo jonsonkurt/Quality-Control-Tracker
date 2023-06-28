@@ -533,7 +533,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             suffixIcon: IconButton(
                               color: const Color(0xFF221540),
-                              icon: Icon(_isPasswordVisible
+                              icon: Icon(_isconPasswordVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off),
                               onPressed: () {
