@@ -336,49 +336,71 @@ class _ResponsiblePartyDashboardPageState
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.all(10),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                    child: projectImage ==
-                                                            "None"
-                                                        ? Image.asset(
-                                                            'assets/images/no-image.png',
-                                                            fit: BoxFit.cover,
-                                                            width: 100,
-                                                            height: 100,
-                                                          )
-                                                        : Image(
-                                                            width: 100,
-                                                            height: 100,
-                                                            fit: BoxFit.cover,
-                                                            image: NetworkImage(
-                                                                projectImage),
-                                                            loadingBuilder:
-                                                                (context, child,
-                                                                    loadingProgress) {
-                                                              if (loadingProgress ==
-                                                                  null) {
-                                                                return child;
-                                                              }
-                                                              return const CircularProgressIndicator();
-                                                            },
-                                                            errorBuilder:
-                                                                (context,
-                                                                    object,
-                                                                    stack) {
-                                                              return const Icon(
-                                                                Icons
-                                                                    .error_outline,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        35,
-                                                                        35,
-                                                                        35),
-                                                              );
-                                                            },
-                                                          ),
+                                                  child: SizedBox(
+                                                    height:
+                                                        mediaQuery.size.height *
+                                                            0.13,
+                                                    width:
+                                                        mediaQuery.size.height *
+                                                            0.13,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      child: projectImage ==
+                                                              "None"
+                                                          ? Image.asset(
+                                                              'assets/images/no-image.png',
+                                                              fit: BoxFit.cover,
+                                                              width: 100,
+                                                              height: 100,
+                                                            )
+                                                          : Image(
+                                                              width: 100,
+                                                              height: 100,
+                                                              fit: BoxFit.cover,
+                                                              image: NetworkImage(
+                                                                  projectImage),
+                                                              loadingBuilder:
+                                                                  (context,
+                                                                      child,
+                                                                      loadingProgress) {
+                                                                if (loadingProgress ==
+                                                                    null) {
+                                                                  return child;
+                                                                }
+                                                                return Transform
+                                                                    .scale(
+                                                                  scale: 0.4,
+                                                                  child:
+                                                                      CircularProgressIndicator(
+                                                                    value: loadingProgress.expectedTotalBytes !=
+                                                                            null
+                                                                        ? loadingProgress.cumulativeBytesLoaded /
+                                                                            loadingProgress.expectedTotalBytes!
+                                                                        : null,
+                                                                    strokeWidth:
+                                                                        4.0,
+                                                                  ),
+                                                                );
+                                                              },
+                                                              errorBuilder:
+                                                                  (context,
+                                                                      object,
+                                                                      stack) {
+                                                                return const Icon(
+                                                                  Icons
+                                                                      .error_outline,
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          35,
+                                                                          35,
+                                                                          35),
+                                                                );
+                                                              },
+                                                            ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -491,7 +513,26 @@ class _ResponsiblePartyDashboardPageState
                             });
                       }
                     }
-                    return const Center(child: Text("No Available Data"));
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/images/empty.png'),
+                        SizedBox(
+                          height: mediaQuery.size.height * 0.03,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: mediaQuery.size.height * 0.2),
+                          child: Text(
+                            "No current projects",
+                            style: TextStyle(
+                                fontFamily: "Karla Regular",
+                                fontSize: mediaQuery.size.height * 0.02),
+                          ),
+                        ),
+                      ],
+                    );
                   }),
             ),
           ],

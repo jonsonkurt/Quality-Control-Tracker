@@ -878,7 +878,7 @@ class _ResponsiblePartyUpdatePageState
                                                                     loadingProgress
                                                                         .expectedTotalBytes!
                                                                 : null,
-                                                            strokeWidth: 2.0,
+                                                            strokeWidth: 4.0,
                                                           ));
                                                     },
                                                     errorBuilder: (context,
