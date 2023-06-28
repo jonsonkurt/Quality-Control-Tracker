@@ -343,25 +343,30 @@ class _AdminHomePageState extends State<AdminHomePage> {
                         );
                       }
                     }
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset('assets/images/empty.png'),
-                        SizedBox(
-                          height: mediaQuery.size.height * 0.03,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              bottom: mediaQuery.size.height * 0.2),
-                          child: Text(
-                            "No current projects",
-                            style: TextStyle(
-                                fontFamily: "Karla Regular",
-                                fontSize: mediaQuery.size.height * 0.02),
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: mediaQuery.size.height * 0.15,
                           ),
-                        ),
-                      ],
+                          Image.asset('assets/images/empty.png'),
+                          SizedBox(
+                            height: mediaQuery.size.height * 0.03,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                bottom: mediaQuery.size.height * 0.2),
+                            child: Text(
+                              "No current projects",
+                              style: TextStyle(
+                                  fontFamily: "Karla Regular",
+                                  fontSize: mediaQuery.size.height * 0.02),
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   }),
             ),

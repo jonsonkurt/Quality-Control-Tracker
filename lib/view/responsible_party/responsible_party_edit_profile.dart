@@ -236,6 +236,7 @@ class _ResponsiblePartyEditProfile extends State<ResponsiblePartyEditProfile> {
                                     cursorColor: const Color(0xFF221540),
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
+                                      prefixIcon: const Icon(Icons.person),
                                       hintText: 'First Name',
                                       labelStyle: const TextStyle(
                                         fontFamily: "Karla Regular",
@@ -271,6 +272,7 @@ class _ResponsiblePartyEditProfile extends State<ResponsiblePartyEditProfile> {
                                     cursorColor: const Color(0xFF221540),
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
+                                      prefixIcon: const Icon(Icons.person),
                                       hintText: 'Last Name',
                                       labelStyle: const TextStyle(
                                         fontFamily: "Karla Regular",
@@ -306,6 +308,7 @@ class _ResponsiblePartyEditProfile extends State<ResponsiblePartyEditProfile> {
                                     cursorColor: const Color(0xFF221540),
                                     style: const TextStyle(color: Colors.black),
                                     decoration: InputDecoration(
+                                      prefixIcon: const Icon(Icons.call),
                                       hintText: 'Mobile Number',
                                       labelStyle: const TextStyle(
                                         fontFamily: "Karla Regular",
@@ -339,9 +342,9 @@ class _ResponsiblePartyEditProfile extends State<ResponsiblePartyEditProfile> {
                               ),
                             ),
                           ),
+                          SizedBox(height: mediaQuery.size.height * 0.03),
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(164, 50),
                                 backgroundColor: const Color(0xFF221540),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
@@ -372,23 +375,17 @@ class _ResponsiblePartyEditProfile extends State<ResponsiblePartyEditProfile> {
                                   );
                                 }
                               },
-                              child: const Text('Confirm')),
-                          const SizedBox(height: 10),
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(164, 50),
-                                backgroundColor: const Color(0xFF221540),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      30), // Adjust the radius as needed
+                              child: Padding(
+                                padding: EdgeInsets.all(
+                                    mediaQuery.size.height * 0.017),
+                                child: Text(
+                                  'Confirm',
+                                  style: TextStyle(
+                                    fontFamily: 'Rubik Regular',
+                                    fontSize: mediaQuery.size.height * 0.02,
+                                  ),
                                 ),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(
-                                  context,
-                                );
-                              },
-                              child: const Text('Cancel')),
+                              )),
                         ]);
                   } else {
                     return const Center(
