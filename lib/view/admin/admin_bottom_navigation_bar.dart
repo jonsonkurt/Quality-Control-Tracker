@@ -63,19 +63,6 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
   bool _isDialogVisible = false;
   double _progressValue = 0;
 
-  void _startLoading() {
-    setState(() {
-      _isLoading = true;
-    });
-
-    // Simulate a time-consuming task
-    Future.delayed(const Duration(seconds: 3), () {
-      setState(() {
-        _isLoading = false;
-      });
-    });
-  }
-
   final List<Widget> _pages = [
     const AdminHomePage(),
     const AdminListPage(),
@@ -639,7 +626,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                     decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets
-                                                                  .fromLTRB(
+                                                              .fromLTRB(
                                                               12, 4, 4, 18),
                                                       border:
                                                           OutlineInputBorder(
@@ -936,7 +923,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                      .fromLTRB(
+                                                                  .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -994,7 +981,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                      .fromLTRB(
+                                                                  .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -1051,7 +1038,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                      .fromLTRB(
+                                                                  .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -1116,7 +1103,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                      .fromLTRB(
+                                                                  .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
@@ -1173,7 +1160,7 @@ class _AdminBottomNavigationState extends State<AdminBottomNavigation> {
                                                             InputDecoration(
                                                           contentPadding:
                                                               const EdgeInsets
-                                                                      .fromLTRB(
+                                                                  .fromLTRB(
                                                                   12, 4, 4, 0),
                                                           border: OutlineInputBorder(
                                                               borderRadius:
