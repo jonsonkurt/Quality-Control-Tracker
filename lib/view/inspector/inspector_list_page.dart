@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:quality_control_tracker/view/inspector/inspector_project_updates.dart';
+
+import 'inspector_project_updates_completed.dart';
+import 'inspector_project_updates_rework.dart';
 
 class InspectorListPage extends StatefulWidget {
   final String projectIDQuery;
@@ -22,16 +24,14 @@ class InspectorListPage extends StatefulWidget {
 
 class _InspectorListPageState extends State<InspectorListPage> {
   String? inspectorID = FirebaseAuth.instance.currentUser?.uid;
-  StreamSubscription<DatabaseEvent>? emptyPendingSubscription;
+  StreamSubscription<DatabaseEvent>? emptyPendingSubscription,
+      emptyReworkSubscription,
+      emptyCompletedSubscription;
   var logger = Logger();
   bool isEmptyPending = true;
+  bool isEmptyRework = true;
+  bool isEmptyCompleted = true;
   String? searchQuery = "";
-
-  void _handleSearch(String value) {
-    setState(() {
-      searchQuery = value;
-    });
-  }
 
   DatabaseReference ref =
       FirebaseDatabase.instance.ref().child('projectUpdates/');
@@ -89,6 +89,14 @@ class _InspectorListPageState extends State<InspectorListPage> {
         .orderByChild("inspectorProjectRemarks")
         .startAt("$inspectorID-${widget.projectIDQuery}-PENDING-")
         .endAt("$inspectorID-${widget.projectIDQuery}-PENDING-\uf8ff");
+    Query emptyReworkQuery = emptyPendingRef
+        .orderByChild("inspectorProjectRemarks")
+        .startAt("$inspectorID-${widget.projectIDQuery}-REWORK-")
+        .endAt("$inspectorID-${widget.projectIDQuery}-REWORK-\uf8ff");
+    Query emptyCompletedQuery = emptyPendingRef
+        .orderByChild("inspectorProjectRemarks")
+        .startAt("$inspectorID-${widget.projectIDQuery}-COMPLETED-")
+        .endAt("$inspectorID-${widget.projectIDQuery}-COMPLETED-\uf8ff");
 
     emptyPendingSubscription = emptyPendingQuery.onValue.listen((event) {
       try {
@@ -97,6 +105,36 @@ class _InspectorListPageState extends State<InspectorListPage> {
             String check = event.snapshot.value.toString();
             if (check != "null") {
               isEmptyPending = false;
+            }
+          });
+        }
+      } catch (error, stackTrace) {
+        logger.d('Error occurred: $error');
+        logger.d('Stack trace: $stackTrace');
+      }
+    });
+    emptyReworkSubscription = emptyReworkQuery.onValue.listen((event) {
+      try {
+        if (mounted) {
+          setState(() {
+            String check = event.snapshot.value.toString();
+            if (check != "null") {
+              isEmptyRework = false;
+            }
+          });
+        }
+      } catch (error, stackTrace) {
+        logger.d('Error occurred: $error');
+        logger.d('Stack trace: $stackTrace');
+      }
+    });
+    emptyCompletedSubscription = emptyCompletedQuery.onValue.listen((event) {
+      try {
+        if (mounted) {
+          setState(() {
+            String check = event.snapshot.value.toString();
+            if (check != "null") {
+              isEmptyCompleted = false;
             }
           });
         }
@@ -136,7 +174,7 @@ class _InspectorListPageState extends State<InspectorListPage> {
             padding: EdgeInsets.fromLTRB(0, mediaQuery.size.height * 0.035,
                 mediaQuery.size.width * 0.06, 0),
             child: Text(
-              'For Inspection',
+              'Updates',
               style: TextStyle(
                 fontFamily: 'Rubik Bold',
                 fontSize: mediaQuery.size.height * 0.04,
@@ -146,100 +184,332 @@ class _InspectorListPageState extends State<InspectorListPage> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: SearchBox(onSearch: _handleSearch),
-          ),
-          Expanded(
-            child: Container(
-              height: 580,
-              padding: const EdgeInsets.only(top: 10),
-              child: Builder(
-                builder: (BuildContext context) {
+      //   body: Column(
+      //     children: [
+      //       Expanded(
+      //         child: Container(
+      //           height: 580,
+      //           padding: const EdgeInsets.only(top: 10),
+      //           child: Builder(
+      //             builder: (BuildContext context) {
+      //               if (isEmptyPending) {
+      //                 return const Center(child: Text("No Available Data"));
+      //               } else {
+      //                 return FirebaseAnimatedList(
+      //                   padding: const EdgeInsets.only(bottom: 80),
+      //                   query: ref
+      //                       .orderByChild("inspectorProjectRemarks")
+      //                       .startAt(
+      //                           "$inspectorID-${widget.projectIDQuery}-PENDING-")
+      //                       .endAt(
+      //                           "$inspectorID-${widget.projectIDQuery}-PENDING-\uf8ff"),
+      //                   itemBuilder: (context, snapshot, animation, index) {
+      //                     String projectUpdatesID =
+      //                         snapshot.child("projectUpdatesID").value.toString();
+      //                     String rpName =
+      //                         snapshot.child("rpName").value.toString();
+      //                     String rpRole =
+      //                         snapshot.child("rpRole").value.toString();
+      //                     String jobTitle = convertJobTitle(rpRole);
+
+      //                     String rpSubmissionDateLengthString =
+      //                         snapshot.child("rpSubmissionDate").value.toString();
+      //                     int rpSubmissionDateLengthInt =
+      //                         rpSubmissionDateLengthString.split(":").length - 1;
+      //                     String rpSubmissionDate = snapshot
+      //                         .child(
+      //                             "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
+      //                         .value
+      //                         .toString();
+
+      //                     String projectUpdatesTitle = snapshot
+      //                         .child("projectUpdatesTitle")
+      //                         .value
+      //                         .toString();
+
+      //                     String projectUpdatesPhotoURL = snapshot
+      //                         .child("projectUpdatesPhotoURL")
+      //                         .value
+      //                         .toString();
+
+      //                     DateTime dateTime =
+      //                         DateFormat("MM-dd-yyyy").parse(rpSubmissionDate);
+      //                     String formattedDate =
+      //                         DateFormat("MMMM d, yyyy").format(dateTime);
+
+      //                     if (searchQuery != null &&
+      //                         searchQuery!.isNotEmpty &&
+      //                         !projectUpdatesTitle
+      //                             .toLowerCase()
+      //                             .contains(searchQuery!.toLowerCase())) {
+      //                       return Container();
+      //                     }
+
+      //                     return GestureDetector(
+      //                       onTap: () {
+      //                         Navigator.push(
+      //                           context,
+      //                           MaterialPageRoute(
+      //                               builder: (context) =>
+      //                                   InspectorProjectUpdatesPage(
+      //                                     projectUpdatesID: projectUpdatesID,
+      //                                   )),
+      //                         );
+      //                       },
+      //                       child: Padding(
+      //                         padding: EdgeInsets.fromLTRB(
+      //                           mediaQuery.size.width * 0.02,
+      //                           mediaQuery.size.height * 0.001,
+      //                           mediaQuery.size.width * 0.02,
+      //                           mediaQuery.size.height * 0.001,
+      //                         ),
+      //                         child: Card(
+      //                           shape: RoundedRectangleBorder(
+      //                               borderRadius: BorderRadius.circular(20)),
+      //                           child: Row(
+      //                             children: [
+      //                               Padding(
+      //                                 padding: const EdgeInsets.all(10.0),
+      //                                 child: Hero(
+      //                                   tag: projectUpdatesID,
+      //                                   child: ClipRRect(
+      //                                     borderRadius: BorderRadius.circular(15),
+      //                                     child: projectUpdatesPhotoURL == "None"
+      //                                         ? Image.asset(
+      //                                             'assets/images/no-image.png',
+      //                                             fit: BoxFit.cover,
+      //                                             width: 100,
+      //                                             height: 100,
+      //                                           )
+      //                                         : Image(
+      //                                             width: 100,
+      //                                             height: 100,
+      //                                             fit: BoxFit.cover,
+      //                                             image: NetworkImage(
+      //                                                 projectUpdatesPhotoURL),
+      //                                             loadingBuilder: (context, child,
+      //                                                 loadingProgress) {
+      //                                               if (loadingProgress == null) {
+      //                                                 return child;
+      //                                               }
+      //                                               return const CircularProgressIndicator();
+      //                                             },
+      //                                             errorBuilder:
+      //                                                 (context, object, stack) {
+      //                                               return const Icon(
+      //                                                 Icons.error_outline,
+      //                                                 color: Color.fromARGB(
+      //                                                     255, 35, 35, 35),
+      //                                               );
+      //                                             },
+      //                                           ),
+      //                                   ),
+      //                                 ),
+      //                               ),
+      //                               Expanded(
+      //                                 child: Column(
+      //                                   crossAxisAlignment:
+      //                                       CrossAxisAlignment.start,
+      //                                   children: [
+      //                                     Padding(
+      //                                       padding: EdgeInsets.only(
+      //                                           right:
+      //                                               mediaQuery.size.width * 0.05),
+      //                                       child: Text(
+      //                                         jobTitle,
+      //                                         maxLines: 1,
+      //                                         overflow: TextOverflow.fade,
+      //                                         softWrap: false,
+      //                                         style: TextStyle(
+      //                                           fontFamily: 'Rubik Bold',
+      //                                           fontSize:
+      //                                               mediaQuery.size.height * 0.02,
+      //                                           color: const Color(0xff221540),
+      //                                         ),
+      //                                       ),
+      //                                     ),
+      //                                     SizedBox(
+      //                                         height:
+      //                                             mediaQuery.size.height * 0.002),
+      //                                     Padding(
+      //                                       padding: EdgeInsets.only(
+      //                                           right:
+      //                                               mediaQuery.size.width * 0.05),
+      //                                       child: Text(
+      //                                         projectUpdatesTitle,
+      //                                         maxLines: 1,
+      //                                         overflow: TextOverflow.fade,
+      //                                         softWrap: false,
+      //                                         style: TextStyle(
+      //                                           fontFamily: 'Karla Regular',
+      //                                           fontSize: mediaQuery.size.height *
+      //                                               0.017,
+      //                                           color: const Color(0xff221540),
+      //                                         ),
+      //                                       ),
+      //                                     ),
+      //                                     SizedBox(
+      //                                         height:
+      //                                             mediaQuery.size.height * 0.002),
+      //                                     Text(
+      //                                       "Accomplished by: $rpName",
+      //                                       maxLines: 1,
+      //                                       overflow: TextOverflow.fade,
+      //                                       softWrap: false,
+      //                                       style: TextStyle(
+      //                                         fontFamily: 'Karla Regular',
+      //                                         fontSize:
+      //                                             mediaQuery.size.height * 0.017,
+      //                                         color: const Color(0xff221540),
+      //                                       ),
+      //                                     ),
+      //                                     SizedBox(
+      //                                         height:
+      //                                             mediaQuery.size.height * 0.002),
+      //                                     Text(
+      //                                       formattedDate,
+      //                                       maxLines: 1,
+      //                                       overflow: TextOverflow.fade,
+      //                                       softWrap: false,
+      //                                       style: TextStyle(
+      //                                         fontFamily: 'Karla Regular',
+      //                                         fontSize:
+      //                                             mediaQuery.size.height * 0.017,
+      //                                         color: const Color(0xff221540),
+      //                                       ),
+      //                                     ),
+      //                                   ],
+      //                                 ),
+      //                               )
+      //                             ],
+      //                           ),
+      //                         ),
+      //                       ),
+      //                     );
+      //                   },
+      //                 );
+      //               }
+      //             },
+      //           ),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Container(
+            height: mediaQuery.size.height * 0.7,
+            width: mediaQuery.size.width,
+            padding: const EdgeInsets.only(top: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.01,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: mediaQuery.size.width * 0.01),
+                  child: Text(
+                    "For Inspection",
+                    style: TextStyle(
+                      fontFamily: 'Rubik Bold',
+                      fontSize: MediaQuery.of(context).size.height * 0.025,
+                      color: const Color(0xff221540),
+                    ),
+                  ),
+                ),
+                Builder(builder: (BuildContext context) {
                   if (isEmptyPending) {
-                    return const Center(child: Text("No Available Data"));
+                    // TODO: Edit this empty view for "For Inspection"
+                    return SizedBox(
+                        height: mediaQuery.size.height * 0.19,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "No Available Data",
+                                style: TextStyle(
+                                  fontFamily: 'Karla Regular',
+                                  fontSize: mediaQuery.size.height * 0.02,
+                                  color: const Color(0xff221540),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ));
                   } else {
-                    return FirebaseAnimatedList(
-                      padding: const EdgeInsets.only(bottom: 80),
-                      query: ref
-                          .orderByChild("inspectorProjectRemarks")
-                          .startAt(
-                              "$inspectorID-${widget.projectIDQuery}-PENDING-")
-                          .endAt(
-                              "$inspectorID-${widget.projectIDQuery}-PENDING-\uf8ff"),
-                      itemBuilder: (context, snapshot, animation, index) {
-                        String projectUpdatesID =
-                            snapshot.child("projectUpdatesID").value.toString();
-                        String rpName =
-                            snapshot.child("rpName").value.toString();
-                        String rpRole =
-                            snapshot.child("rpRole").value.toString();
-                        String jobTitle = convertJobTitle(rpRole);
+                    return Flexible(
+                      child: FirebaseAnimatedList(
+                        key: const Key('firebase_animated_list_key'),
+                        scrollDirection: Axis.horizontal,
+                        query: ref
+                            .orderByChild("inspectorProjectRemarks")
+                            .startAt(
+                                "$inspectorID-${widget.projectIDQuery}-PENDING-")
+                            .endAt(
+                                "$inspectorID-${widget.projectIDQuery}-PENDING-\uf8ff"),
+                        itemBuilder: (context, snapshot, animation, index) {
+                          String projectUpdatesID = snapshot
+                              .child("projectUpdatesID")
+                              .value
+                              .toString();
 
-                        String rpSubmissionDateLengthString =
-                            snapshot.child("rpSubmissionDate").value.toString();
-                        int rpSubmissionDateLengthInt =
-                            rpSubmissionDateLengthString.split(":").length - 1;
-                        String rpSubmissionDate = snapshot
-                            .child(
-                                "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
-                            .value
-                            .toString();
+                          String rpSubmissionDateLengthString = snapshot
+                              .child("rpSubmissionDate")
+                              .value
+                              .toString();
+                          int rpSubmissionDateLengthInt =
+                              rpSubmissionDateLengthString.split(":").length -
+                                  1;
+                          String rpSubmissionDate = snapshot
+                              .child(
+                                  "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
+                              .value
+                              .toString();
 
-                        String projectUpdatesTitle = snapshot
-                            .child("projectUpdatesTitle")
-                            .value
-                            .toString();
+                          // String projectUpdatesTitle = snapshot
+                          //     .child("projectUpdatesTitle")
+                          //     .value
+                          //     .toString();
 
-                        String projectUpdatesPhotoURL = snapshot
-                            .child("projectUpdatesPhotoURL")
-                            .value
-                            .toString();
+                          String? projectUpdatesPhotoURL = snapshot
+                              .child("projectUpdatesPhotoURL")
+                              .value
+                              .toString();
 
-                        DateTime dateTime =
-                            DateFormat("MM-dd-yyyy").parse(rpSubmissionDate);
-                        String formattedDate =
-                            DateFormat("MMMM d, yyyy").format(dateTime);
+                          String rpRole =
+                              snapshot.child("rpRole").value.toString();
+                          String jobTitle = convertJobTitle(rpRole);
 
-                        if (searchQuery != null &&
-                            searchQuery!.isNotEmpty &&
-                            !projectUpdatesTitle
-                                .toLowerCase()
-                                .contains(searchQuery!.toLowerCase())) {
-                          return Container();
-                        }
-
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      InspectorProjectUpdatesPage(
-                                        projectUpdatesID: projectUpdatesID,
-                                      )),
-                            );
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(
-                              mediaQuery.size.width * 0.02,
-                              mediaQuery.size.height * 0.001,
-                              mediaQuery.size.width * 0.02,
-                              mediaQuery.size.height * 0.001,
-                            ),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Hero(
-                                      tag: projectUpdatesID,
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        InspectorProjectUpdatesPage(
+                                          projectUpdatesID: projectUpdatesID,
+                                        )),
+                              );
+                            },
+                            child: SizedBox(
+                              height: mediaQuery.size.height * 0.11,
+                              width: mediaQuery.size.width * 0.36,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      height: mediaQuery.size.height * 0.11,
+                                      width: mediaQuery.size.width * 0.36,
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
+                                        borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20)),
                                         child: projectUpdatesPhotoURL == "None"
                                             ? Image.asset(
                                                 'assets/images/no-image.png',
@@ -248,8 +518,10 @@ class _InspectorListPageState extends State<InspectorListPage> {
                                                 height: 100,
                                               )
                                             : Image(
-                                                width: 100,
-                                                height: 100,
+                                                width:
+                                                    mediaQuery.size.width * 0.8,
+                                                height: mediaQuery.size.height *
+                                                    0.25,
                                                 fit: BoxFit.cover,
                                                 image: NetworkImage(
                                                     projectUpdatesPhotoURL),
@@ -258,7 +530,22 @@ class _InspectorListPageState extends State<InspectorListPage> {
                                                   if (loadingProgress == null) {
                                                     return child;
                                                   }
-                                                  return const CircularProgressIndicator();
+                                                  return Transform.scale(
+                                                    scaleX: 0.25,
+                                                    scaleY: 0.35,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: loadingProgress
+                                                                  .expectedTotalBytes !=
+                                                              null
+                                                          ? loadingProgress
+                                                                  .cumulativeBytesLoaded /
+                                                              loadingProgress
+                                                                  .expectedTotalBytes!
+                                                          : null,
+                                                      strokeWidth: 2.0,
+                                                    ),
+                                                  );
                                                 },
                                                 errorBuilder:
                                                     (context, object, stack) {
@@ -271,154 +558,504 @@ class _InspectorListPageState extends State<InspectorListPage> {
                                               ),
                                       ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              right:
-                                                  mediaQuery.size.width * 0.05),
-                                          child: Text(
-                                            jobTitle,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.fade,
-                                            softWrap: false,
-                                            style: TextStyle(
-                                              fontFamily: 'Rubik Bold',
-                                              fontSize:
-                                                  mediaQuery.size.height * 0.02,
-                                              color: const Color(0xff221540),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height:
-                                                mediaQuery.size.height * 0.002),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              right:
-                                                  mediaQuery.size.width * 0.05),
-                                          child: Text(
-                                            projectUpdatesTitle,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.fade,
-                                            softWrap: false,
-                                            style: TextStyle(
-                                              fontFamily: 'Karla Regular',
-                                              fontSize: mediaQuery.size.height *
-                                                  0.017,
-                                              color: const Color(0xff221540),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height:
-                                                mediaQuery.size.height * 0.002),
-                                        Text(
-                                          "Accomplished by: $rpName",
-                                          maxLines: 1,
-                                          overflow: TextOverflow.fade,
-                                          softWrap: false,
-                                          style: TextStyle(
-                                            fontFamily: 'Karla Regular',
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                      ),
+                                      child: Text(
+                                        // projectUpdatesTitle,
+                                        jobTitle,
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.fade,
+                                        style: TextStyle(
+                                            fontFamily: "Rubik Bold",
                                             fontSize:
-                                                mediaQuery.size.height * 0.017,
-                                            color: const Color(0xff221540),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height:
-                                                mediaQuery.size.height * 0.002),
-                                        Text(
-                                          formattedDate,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.fade,
-                                          softWrap: false,
-                                          style: TextStyle(
-                                            fontFamily: 'Karla Regular',
-                                            fontSize:
-                                                mediaQuery.size.height * 0.017,
-                                            color: const Color(0xff221540),
-                                          ),
-                                        ),
-                                      ],
+                                                mediaQuery.size.height * 0.018,
+                                            color: const Color(0xFF221540)),
+                                      ),
                                     ),
-                                  )
-                                ],
+                                    Text(
+                                      "Submitted on:",
+                                      style: TextStyle(
+                                          fontFamily: "Karla Regular",
+                                          fontSize:
+                                              mediaQuery.size.height * 0.015,
+                                          color: const Color(0xFF221540)),
+                                    ),
+                                    Text(
+                                      rpSubmissionDate,
+                                      style: TextStyle(
+                                          fontFamily: "Karla Regular",
+                                          fontSize:
+                                              mediaQuery.size.height * 0.015,
+                                          color: const Color(0xFF221540)),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     );
                   }
-                },
-              ),
+                }),
+                SizedBox(
+                  height: mediaQuery.size.height * 0.01,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: mediaQuery.size.width * 0.01),
+                  child: Text(
+                    "For Rework",
+                    style: TextStyle(
+                      fontFamily: 'Rubik Bold',
+                      fontSize: mediaQuery.size.height * 0.025,
+                      color: const Color(0xff221540),
+                    ),
+                  ),
+                ),
+                Builder(
+                  builder: (BuildContext context) {
+                    if (isEmptyRework) {
+                      // TODO: Edit this empty view for "For Rework"
+                      return SizedBox(
+                          height: mediaQuery.size.height * 0.19,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "No Available Data",
+                                  style: TextStyle(
+                                    fontFamily: 'Karla Regular',
+                                    fontSize: mediaQuery.size.height * 0.02,
+                                    color: const Color(0xff221540),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ));
+                    } else {
+                      return Flexible(
+                        child: FirebaseAnimatedList(
+                          scrollDirection: Axis.horizontal,
+                          query: ref
+                              .orderByChild("inspectorProjectRemarks")
+                              .startAt(
+                                  "$inspectorID-${widget.projectIDQuery}-REWORK-")
+                              .endAt(
+                                  "$inspectorID-${widget.projectIDQuery}-REWORK-\uf8ff"),
+                          itemBuilder: (context, snapshot, animation, index) {
+                            String projectUpdatesID = snapshot
+                                .child("projectUpdatesID")
+                                .value
+                                .toString();
+
+                            String inspectionDateLengthString = snapshot
+                                .child("inspectionDate")
+                                .value
+                                .toString();
+                            int inspectionDateLengthInt =
+                                inspectionDateLengthString.split(":").length -
+                                    1;
+                            String inspectionDate = snapshot
+                                .child(
+                                    "inspectionDate/inspectionDate$inspectionDateLengthInt")
+                                .value
+                                .toString();
+
+                            // String projectUpdatesTitle = snapshot
+                            //     .child("projectUpdatesTitle")
+                            //     .value
+                            //     .toString();
+
+                            String projectUpdatesPhotoURL = snapshot
+                                .child("projectUpdatesPhotoURL")
+                                .value
+                                .toString();
+
+                            String rpRole =
+                                snapshot.child("rpRole").value.toString();
+                            String jobTitle = convertJobTitle(rpRole);
+
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          InspectorProjectUpdatesReworkPage(
+                                            projectUpdatesID: projectUpdatesID,
+                                          )),
+                                );
+                              },
+                              child: SizedBox(
+                                height: mediaQuery.size.height * 0.11,
+                                width: mediaQuery.size.width * 0.36,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: mediaQuery.size.height * 0.11,
+                                        width: mediaQuery.size.width * 0.36,
+                                        child: Hero(
+                                          tag: projectUpdatesID,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(20),
+                                                    topRight:
+                                                        Radius.circular(20)),
+                                            child: projectUpdatesPhotoURL ==
+                                                    "None"
+                                                ? Image.asset(
+                                                    'assets/images/no-image.png',
+                                                    fit: BoxFit.cover,
+                                                    width: 100,
+                                                    height: 100,
+                                                  )
+                                                : Image(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.8,
+                                                    height:
+                                                        mediaQuery.size.height *
+                                                            0.25,
+                                                    fit: BoxFit.cover,
+                                                    image: NetworkImage(
+                                                        projectUpdatesPhotoURL),
+                                                    loadingBuilder: (context,
+                                                        child,
+                                                        loadingProgress) {
+                                                      if (loadingProgress ==
+                                                          null) {
+                                                        return child;
+                                                      }
+                                                      return Transform.scale(
+                                                          scaleX: 0.25,
+                                                          scaleY: 0.35,
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            value: loadingProgress
+                                                                        .expectedTotalBytes !=
+                                                                    null
+                                                                ? loadingProgress
+                                                                        .cumulativeBytesLoaded /
+                                                                    loadingProgress
+                                                                        .expectedTotalBytes!
+                                                                : null,
+                                                            strokeWidth: 2.0,
+                                                          ));
+                                                    },
+                                                    errorBuilder: (context,
+                                                        object, stack) {
+                                                      return const Icon(
+                                                        Icons.error_outline,
+                                                        color: Color.fromARGB(
+                                                            255, 35, 35, 35),
+                                                      );
+                                                    },
+                                                  ),
+                                          ),
+                                        ),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              right: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
+                                              left: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
+                                            ),
+                                            child: Text(
+                                              // projectUpdatesTitle,
+                                              jobTitle,
+                                              maxLines: 1,
+                                              softWrap: false,
+                                              overflow: TextOverflow.fade,
+                                              style: TextStyle(
+                                                  fontFamily: "Rubik Bold",
+                                                  fontSize:
+                                                      mediaQuery.size.height *
+                                                          0.018,
+                                                  color:
+                                                      const Color(0xFF221540)),
+                                            ),
+                                          ),
+                                          Text(
+                                            "Inspected on:",
+                                            style: TextStyle(
+                                                fontFamily: "Karla Regular",
+                                                fontSize:
+                                                    mediaQuery.size.height *
+                                                        0.015,
+                                                color: const Color(0xFF221540)),
+                                          ),
+                                          Text(
+                                            inspectionDate,
+                                            style: TextStyle(
+                                                fontFamily: "Karla Regular",
+                                                fontSize:
+                                                    mediaQuery.size.height *
+                                                        0.015,
+                                                color: const Color(0xFF221540)),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: mediaQuery.size.height * 0.01,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: mediaQuery.size.width * 0.01),
+                  child: Text(
+                    "Completed",
+                    style: TextStyle(
+                      fontFamily: 'Rubik Bold',
+                      fontSize: mediaQuery.size.height * 0.025,
+                      color: const Color(0xff221540),
+                    ),
+                  ),
+                ),
+                Builder(
+                  builder: (BuildContext context) {
+                    if (isEmptyCompleted) {
+                      // TODO: Edit this empty view for "Completed"
+                      return Flexible(
+                        child: SizedBox(
+                            height: mediaQuery.size.height * 0.19,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "No Available Data",
+                                    style: TextStyle(
+                                      fontFamily: 'Karla Regular',
+                                      fontSize: mediaQuery.size.height * 0.02,
+                                      color: const Color(0xff221540),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      );
+                    } else {
+                      return Flexible(
+                        child: FirebaseAnimatedList(
+                          scrollDirection: Axis.horizontal,
+                          query: ref
+                              .orderByChild("inspectorProjectRemarks")
+                              .startAt(
+                                  "$inspectorID-${widget.projectIDQuery}-COMPLETED-")
+                              .endAt(
+                                  "$inspectorID-${widget.projectIDQuery}-COMPLETED-\uf8ff"),
+                          itemBuilder: (context, snapshot, animation, index) {
+                            String projectUpdatesID = snapshot
+                                .child("projectUpdatesID")
+                                .value
+                                .toString();
+
+                            String rpSubmissionDateLengthString = snapshot
+                                .child("rpSubmissionDate")
+                                .value
+                                .toString();
+                            int rpSubmissionDateLengthInt =
+                                rpSubmissionDateLengthString.split(":").length -
+                                    1;
+                            String rpSubmissionDate = snapshot
+                                .child(
+                                    "rpSubmissionDate/rpSubmissionDate$rpSubmissionDateLengthInt")
+                                .value
+                                .toString();
+
+                            // String projectUpdatesTitle = snapshot
+                            //     .child("projectUpdatesTitle")
+                            //     .value
+                            //     .toString();
+
+                            String projectUpdatesPhotoURL = snapshot
+                                .child("projectUpdatesPhotoURL")
+                                .value
+                                .toString();
+
+                            String rpRole =
+                                snapshot.child("rpRole").value.toString();
+                            String jobTitle = convertJobTitle(rpRole);
+
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        InspectorProjectUpdatesCompletedPage(
+                                      projectUpdatesID: projectUpdatesID,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: SizedBox(
+                                height: mediaQuery.size.height * 0.11,
+                                width: mediaQuery.size.width * 0.36,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: mediaQuery.size.height * 0.11,
+                                        width: mediaQuery.size.width * 0.36,
+                                        child: Hero(
+                                          tag: projectUpdatesID,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(20),
+                                                    topRight:
+                                                        Radius.circular(20)),
+                                            child: projectUpdatesPhotoURL ==
+                                                    "None"
+                                                ? Image.asset(
+                                                    'assets/images/no-image.png',
+                                                    fit: BoxFit.cover,
+                                                    width: 100,
+                                                    height: 100,
+                                                  )
+                                                : Image(
+                                                    width:
+                                                        mediaQuery.size.width *
+                                                            0.8,
+                                                    height:
+                                                        mediaQuery.size.height *
+                                                            0.25,
+                                                    fit: BoxFit.cover,
+                                                    image: NetworkImage(
+                                                        projectUpdatesPhotoURL),
+                                                    loadingBuilder: (context,
+                                                        child,
+                                                        loadingProgress) {
+                                                      if (loadingProgress ==
+                                                          null) {
+                                                        return child;
+                                                      }
+                                                      return Transform.scale(
+                                                          scaleX: 0.25,
+                                                          scaleY: 0.35,
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            value: loadingProgress
+                                                                        .expectedTotalBytes !=
+                                                                    null
+                                                                ? loadingProgress
+                                                                        .cumulativeBytesLoaded /
+                                                                    loadingProgress
+                                                                        .expectedTotalBytes!
+                                                                : null,
+                                                            strokeWidth: 2.0,
+                                                          ));
+                                                    },
+                                                    errorBuilder: (context,
+                                                        object, stack) {
+                                                      return const Icon(
+                                                        Icons.error_outline,
+                                                        color: Color.fromARGB(
+                                                            255, 35, 35, 35),
+                                                      );
+                                                    },
+                                                  ),
+                                          ),
+                                        ),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              right: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
+                                              left: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
+                                            ),
+                                            child: Text(
+                                                // projectUpdatesTitle,
+                                                jobTitle,
+                                                maxLines: 1,
+                                                softWrap: false,
+                                                overflow: TextOverflow.fade,
+                                                style: TextStyle(
+                                                    fontFamily: "Rubik Bold",
+                                                    fontSize:
+                                                        mediaQuery.size.height *
+                                                            0.018,
+                                                    color: const Color(
+                                                        0xFF221540))),
+                                          ),
+                                          Text("Submitted on:",
+                                              style: TextStyle(
+                                                  fontFamily: "Karla Regular",
+                                                  fontSize:
+                                                      mediaQuery.size.height *
+                                                          0.015,
+                                                  color:
+                                                      const Color(0xFF221540))),
+                                          Text(rpSubmissionDate,
+                                              style: TextStyle(
+                                                  fontFamily: "Karla Regular",
+                                                  fontSize:
+                                                      mediaQuery.size.height *
+                                                          0.015,
+                                                  color:
+                                                      const Color(0xFF221540))),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class SearchBox extends StatefulWidget {
-  final ValueChanged<String> onSearch;
-
-  const SearchBox({required this.onSearch, Key? key}) : super(key: key);
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _SearchBoxState createState() => _SearchBoxState();
-}
-
-class _SearchBoxState extends State<SearchBox> {
-  final TextEditingController _searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height / 200,
-            left: MediaQuery.of(context).size.width / 250,
-            right: MediaQuery.of(context).size.width / 250),
-        child: Material(
-          borderRadius: BorderRadius.circular(20),
-          elevation: 5,
-          child: TextField(
-            controller: _searchController,
-            style: const TextStyle(
-              color: Colors.black,
-            ),
-            decoration: const InputDecoration(
-              contentPadding: EdgeInsets.symmetric(
-                vertical: 16,
-                horizontal: 24,
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Search',
-              hintStyle: TextStyle(fontFamily: "GothamRnd", color: Colors.grey),
-              prefixIcon: Icon(
-                Icons.search,
-                color: Color(0xFF221540),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                borderSide: BorderSide.none,
-              ),
-            ),
-            onChanged: widget.onSearch,
           ),
         ),
       ),

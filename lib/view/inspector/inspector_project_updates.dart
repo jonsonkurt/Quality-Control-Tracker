@@ -202,39 +202,34 @@ class _InspectorProjectUpdatesPageState
                         child: Material(
                           borderRadius: BorderRadius.circular(10),
                           elevation: 5,
-                          child: Hero(
-                            tag: projectID,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: projectUpdatesPicture == "None"
-                                  ? Image.asset(
-                                      'assets/images/no-image.png',
-                                      fit: BoxFit.cover,
-                                      width: mediaQuery.size.width * 0.8,
-                                      height: mediaQuery.size.height * 0.25,
-                                    )
-                                  : Image(
-                                      width: mediaQuery.size.width * 0.8,
-                                      height: mediaQuery.size.height * 0.25,
-                                      fit: BoxFit.cover,
-                                      image:
-                                          NetworkImage(projectUpdatesPicture),
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        }
-                                        return const CircularProgressIndicator();
-                                      },
-                                      errorBuilder: (context, object, stack) {
-                                        return const Icon(
-                                          Icons.error_outline,
-                                          color:
-                                              Color.fromARGB(255, 35, 35, 35),
-                                        );
-                                      },
-                                    ),
-                            ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: projectUpdatesPicture == "None"
+                                ? Image.asset(
+                                    'assets/images/no-image.png',
+                                    fit: BoxFit.cover,
+                                    width: mediaQuery.size.width * 0.8,
+                                    height: mediaQuery.size.height * 0.25,
+                                  )
+                                : Image(
+                                    width: mediaQuery.size.width * 0.8,
+                                    height: mediaQuery.size.height * 0.25,
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(projectUpdatesPicture),
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      }
+                                      return const CircularProgressIndicator();
+                                    },
+                                    errorBuilder: (context, object, stack) {
+                                      return const Icon(
+                                        Icons.error_outline,
+                                        color: Color.fromARGB(255, 35, 35, 35),
+                                      );
+                                    },
+                                  ),
                           ),
                         ),
                       ),
@@ -867,6 +862,7 @@ class _InspectorProjectUpdatesPageState
                                                       // ignore: use_build_context_synchronously
                                                       Navigator.of(context)
                                                           .pop();
+                                                      // TODO: Add wait time
                                                       // ignore: use_build_context_synchronously
                                                       Navigator.pop(context);
                                                     }
